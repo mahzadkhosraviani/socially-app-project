@@ -10,10 +10,10 @@ function App() {
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack />
-        <Routes>
-          <Route path="/" element={<SignIn />} />
+        {/* <Routes>
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-        </Routes>{" "}
+        </Routes> */}
       </div>
     </>
   );
