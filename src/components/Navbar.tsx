@@ -16,7 +16,7 @@ function Navbar() {
   // }, [dark]);
   return (
     <>
-      <div className="flex justify-between items-center my-3 mx-7 md:mx-40">
+      <div className="flex justify-between items-center my-3 mx-7 md:mx-30">
         <span className="text-xl md:text-2xl tracking-wide font-semibold font-mono">
           socially
         </span>
@@ -40,7 +40,7 @@ function Navbar() {
 </svg>
           </button>
 
-          <button className="text-md md:text-lg cursor-pointer flex gap-1 justify-center items-center ">
+          <button className="text-md md:text-md cursor-pointer flex gap-1 justify-center items-center ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -54,7 +54,7 @@ function Navbar() {
             Home
           </button>
 
-          <button className="cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-md md:text-lg">
+          <button className="cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-md md:text-md">
             Sign In
           </button>
         </div>
