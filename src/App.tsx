@@ -6,23 +6,26 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
 import PostCard from "./components/postCard";
+import RecommendedUsers from "./components/recommendedusers";
 // import Profile from "./components/profile";
-function App() {
-  return (
+
     // <Routes>
     // <Route path="/" element={<Profile />} />
     // </Routes>
 
+function App() {
+  return (
     <>
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack />
         <CreatePost />
         <PostCard />
+        <RecommendedUsers />
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-        </Routes>{" "}
+        </Routes>
       </div>
     </>
   );

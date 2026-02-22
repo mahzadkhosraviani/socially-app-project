@@ -1,0 +1,32 @@
+import FollowButton from "./followbutton";
+
+interface usercardprops {
+  id: string;
+  name: string;
+  followers: number;
+}
+
+const Usercard = (props: usercardprops) => {
+  return (
+    <div className="flex items-center justify-between p-3 rounded-lg">
+      <div className="flex items-center gap-3">
+        <img
+          src="../assets/profilephoto.svg"
+          alt="profile"
+          className="w-10 h-10 rounded-full"
+        />
+
+        <div className="flex flex-col">
+          <span className="font-semibold">{props.name}</span>
+          <span className="text-sm dark:text-white text-gray-500">
+            {props.followers} followers
+          </span>
+        </div>
+      </div>
+
+      <FollowButton />
+    </div>
+  );
+};
+
+export default Usercard;
