@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import RecommendedUsers from "./components/recommendedusers";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
+      <RecommendedUsers />
+    </div>
+  );
+=======
 import "./App.css";
 import Navbar from "./components/Navbar";
 import WelcomeBack from "./components/WelcomeBack";
@@ -27,6 +37,7 @@ function App() {
       </div>
     </>
   ); 
+>>>>>>> dev
 }
 
 export default App;
