@@ -4,6 +4,15 @@ import WelcomeBack from "./components/WelcomeBack";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import CreatePost from "./components/createPost";
+import PostCard from "./components/postCard";
+import RecommendedUsers from "./components/recommendedusers";
+// import Profile from "./components/profile";
+
+// <Routes>
+// <Route path="/" element={<Profile />} />
+// </Routes>
+
 function App() {
   return (
     <>
@@ -14,6 +23,9 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
         </Routes> */}
+        {/* <CreatePost />
+        <PostCard />
+        <RecommendedUsers /> */}
       </div>
     </>
   );
