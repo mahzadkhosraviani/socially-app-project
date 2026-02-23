@@ -69,7 +69,7 @@ function SignUp() {
              Already have an account? 
             </p>
             <Link
-              to="/"
+              to="/sign-in"
               className="text-[#A3A3A3]  text-[14px] underline underline-offset ml-0.5"
             
             >
