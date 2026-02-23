@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
 import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
+import EditProfile from "./components/EditProfile";
 // import Profile from "./components/profile";
 
 // <Routes>
@@ -16,6 +17,8 @@ import RecommendedUsers from "./components/recommendedusers";
 function App() {
   return (
     <>
+    
+   
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack />
