@@ -17,6 +17,7 @@ import EditProfile from "./components/EditProfile";
 function App() {
   return (
     <>
+    
    
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />

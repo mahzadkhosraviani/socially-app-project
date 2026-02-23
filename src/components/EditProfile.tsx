@@ -1,6 +1,6 @@
 function EditProfile() {
   return (
-    <div className="flex flex-col   min-h-screen justify-center items-center ">
+    <div className="flex flex-col   min-h-screen justify-center items-center px-4">
       <div className=" flex flex-col gap-3  bg-[#FFFFFF] dark:bg-[#0A0A0A] max-w-[500px] w-full px-5  text-[#171717] dark:text-[#FAFAFA] h-[580px] shadow-[0px_4px_6px_-4px_#0000001A] shadow-[0px_10px_15px_-3px_#0000001A] border border-[#E5E5E5] dark:border-[#262626] rounded-[8px]">
         <div className="flex flex-row justify-between">
           <p className="mb-6 mt-6 font-bold text-[18px]">Edit Profile</p>
