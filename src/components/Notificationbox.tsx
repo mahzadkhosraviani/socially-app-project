@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NotificationComment from "./Notificationcomment";
+import NotificationComment from "./NotificationComment";
 import NotificationLike from "./NotificationLike";
 import NotificationFollow from "./NotificationFollow";
 

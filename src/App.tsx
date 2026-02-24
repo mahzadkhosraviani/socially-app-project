@@ -8,26 +8,30 @@ import CreatePost from "./components/createPost";
 import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
+import EditProfile from "./components/EditProfile";
 // import Profile from "./components/profile";
 
-    // <Routes>
-    // <Route path="/" element={<Profile />} />
-    // </Routes>
+// <Routes>
+// <Route path="/" element={<Profile />} />
+// </Routes>
 
 function App() {
   return (
     <>
+    
+   
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack />
-        <CreatePost />
-        <PostCard />
-        <RecommendedUsers />
-        <Routes>
-          <Route path="/" element={<SignIn />} />
+        {/* <Routes>
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
         </Routes>
         <NotificationBox/>
+        </Routes> */}
+        {/* <CreatePost />
+        <PostCard />
+        <RecommendedUsers /> */}
       </div>
     </>
   );
