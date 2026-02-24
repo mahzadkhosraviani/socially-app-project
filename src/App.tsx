@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
 import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
+import { useState } from "react";
 // import Profile from "./components/profile";
 
 // <Routes>
