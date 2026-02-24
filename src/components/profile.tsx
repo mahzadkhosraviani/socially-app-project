@@ -50,7 +50,7 @@ function Profile() {
         <div className="flex flex-row gap-2" >
             <img src="src\assets\SVG (1).png" alt="website icon" className="w-4 h-4 mt-[12px]"/>
              <Link to="/" className="block mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400">
-               ....
+               .... 
              </Link>
         </div>
        
