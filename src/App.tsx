@@ -11,12 +11,31 @@ import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 // import Profile from "./components/profile";
 
+// import Delete from "./components/delete";
+// function App() {
+//   return (
+ 
+    
+     
+   // <Routes>
+     // <Route path="/" element={<Profile />} />
+    // </Routes>
+   
+  //     <Routes>
+  //     <Route path="/delete" element={<Delete />} />
+  //   </Routes>
+  // );
+  
+  
+
+
 // <Routes>
 // <Route path="/" element={<Profile />} />
 // </Routes>
 
 function App() {
   return (
+
     <>
     
    
