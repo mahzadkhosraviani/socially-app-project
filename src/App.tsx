@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import RecommendedUsers from "./components/recommendedusers";
+import ProfileContainer from "./components/ProfileContainer";
+=======
+>>>>>>> dev
 import "./App.css";
 import Navbar from "./components/Navbar";
 import WelcomeBack from "./components/WelcomeBack";
@@ -10,6 +15,13 @@ import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 // import Profile from "./components/profile";
+<<<<<<< HEAD
+function App() {
+  return (
+    // <Routes>
+    // <Route path="/" element={<Profile />} />
+    // </Routes>
+=======
 
 // import Delete from "./components/delete";
 // function App() {
@@ -27,6 +39,7 @@ import EditProfile from "./components/EditProfile";
   // );
   
   
+>>>>>>> dev
 
 
 // <Routes>
@@ -45,12 +58,30 @@ function App() {
         {/* <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+<<<<<<< HEAD
+        </Routes>{" "}
+        <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
+          <RecommendedUsers />
+        </div>
+        <ProfileContainer
+          name="amirali"
+          username="amirali"
+          avatar="/profilephoto.svg"
+          followings={3}
+          followers={3}
+          posts={0}
+          location="No location"
+          website=""
+          createdAt="7 days ago"
+        />
+=======
         </Routes>
         <NotificationBox/>
         </Routes> */}
         {/* <CreatePost />
         <PostCard />
         <RecommendedUsers /> */}
+>>>>>>> dev
       </div>
     </>
   );
