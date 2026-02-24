@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
 import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
+import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 // import Profile from "./components/profile";
 
@@ -25,6 +26,8 @@ function App() {
         {/* <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+        </Routes>
+        <NotificationBox/>
         </Routes> */}
         {/* <CreatePost />
         <PostCard />
