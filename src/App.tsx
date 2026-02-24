@@ -15,7 +15,7 @@ function App() {
 
     <>
       <div className="dark:bg-black w-screen h-screen">
-        {/* <Navbar />
+        <Navbar />
         <WelcomeBack />
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -23,7 +23,7 @@ function App() {
         </Routes>{" "}
         <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
           <RecommendedUsers />
-        </div> */}
+        </div>
         <ProfileContainer
           name="amirali"
           username="amirali"
