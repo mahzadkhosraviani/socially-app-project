@@ -1,4 +1,5 @@
 import FollowButton from "./followbutton";
+import porfilphoto from "../assets/profile photo.svg";
 
 interface usercardprops {
   id: string;
@@ -11,7 +12,7 @@ const Usercard = (props: usercardprops) => {
     <div className="flex items-center justify-between p-3 rounded-lg">
       <div className="flex items-center gap-3">
         <img
-          src="../assets/profilephoto.svg"
+          src={porfilphoto}
           alt="profile"
           className="w-10 h-10 rounded-full"
         />
