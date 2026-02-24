@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 // import Profile from "./components/profile";
+// import Delete from "./components/delete";
 function App() {
   return (
  
@@ -14,8 +15,12 @@ function App() {
      // <Route path="/" element={<Profile />} />
     // </Routes>
    
+  //     <Routes>
+  //     <Route path="/delete" element={<Delete />} />
+  //   </Routes>
+  // );
   
-
+  
     <>
       <div className="dark:bg-black w-screen h-screen">
         <Navbar />
