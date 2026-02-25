@@ -1,7 +1,9 @@
 
-import { Link } from "react-router-dom";
+import {useNavigate, Link } from "react-router-dom";
+
 
 function SignUp() {
+    const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-[#262626] w-full  px-4 py-10">
       <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838] h-130">
@@ -61,7 +63,7 @@ function SignUp() {
               type="submit"
               className="mt-7 text-center bg-white text-black w-full h-9 px-2 rounded-lg"
             >
-              Login
+             Create Account
             </button>
           </div>
           <div className="flex flex-row justify-center items-center mt-8">

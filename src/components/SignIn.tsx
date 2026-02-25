@@ -1,20 +1,24 @@
-import { Link } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 function SignIn() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen w-full bg-[#262626] flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838]">
-        
         {/* Left panel */}
         <div className="bg-[#191919] text-white">
           <div className="text-center flex flex-col gap-1.5 mt-7">
             <p className="text-[#FAFAFA] text-2xl font-bold">Welcome back</p>
-            <p className="text-[#A3A3A3] max-w-[700px]">Login to your Socially account</p>
+            <p className="text-[#A3A3A3] max-w-[700px]">
+              Login to your Socially account
+            </p>
           </div>
 
           <div className="mx-8">
             <div className="flex flex-col gap-2 mt-7">
-              <label htmlFor="email" className="text-left text-[14px] font-medium">
+              <label
+                htmlFor="email"
+                className="text-left text-[14px] font-medium"
+              >
                 Email
               </label>
               <input
@@ -26,7 +30,10 @@ function SignIn() {
             </div>
 
             <div className="flex flex-col gap-2 mt-6">
-              <label htmlFor="password" className="text-left text-[14px] font-medium">
+              <label
+                htmlFor="password"
+                className="text-left text-[14px] font-medium"
+              >
                 Password
               </label>
               <input
@@ -37,6 +44,7 @@ function SignIn() {
             </div>
 
             <button
+              onClick={() => navigate("/dashboard-home")}
               type="submit"
               className="mt-7 bg-white text-black w-full h-9 rounded-lg"
             >
@@ -55,7 +63,6 @@ function SignIn() {
           </div>
         </div>
 
-        
         <div className="hidden md:block bg-[#232323]" />
       </div>
 

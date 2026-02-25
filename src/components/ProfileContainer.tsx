@@ -27,16 +27,14 @@ const ProfileContainer = ({
   createdAt,
 }: ProfileContainerProps) => {
   return (
-    <div className="w-[500px] m-auto h-auto p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-xl shadow flex flex-col gap-4">
+    <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
       <PorfileCard name={name} username={username} avatar={avatar} />
-
-      <EditButton label="Edit Profile" />
-
       <PorfileStats
-        followings={followings}
-        followers={followers}
-        posts={posts}
+        followings={1}
+        followers={2}
+        posts={3}
       />
+      <EditButton label="Edit Profile" />
 
       <UserInfo location={location} website={website} createdAt={createdAt} />
     </div>

@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-import RecommendedUsers from "./components/recommendedusers";
+
 import ProfileContainer from "./components/ProfileContainer";
-=======
->>>>>>> dev
+
 import "./App.css";
 import Navbar from "./components/Navbar";
 import WelcomeBack from "./components/WelcomeBack";
@@ -14,14 +12,18 @@ import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
+import MainPage from "./pages/MainPage";
+
+import DashboardHome from "./pages/DashboardHome";
+import DashboardNotification from "./pages/DashboardNotification";
+import DashboardProfile from "./pages/DashboardProfile";
+
 // import Profile from "./components/profile";
-<<<<<<< HEAD
-function App() {
-  return (
+
     // <Routes>
     // <Route path="/" element={<Profile />} />
     // </Routes>
-=======
+
 
 // import Delete from "./components/delete";
 // function App() {
@@ -39,7 +41,7 @@ function App() {
   // );
   
   
->>>>>>> dev
+
 
 
 // <Routes>
@@ -52,18 +54,28 @@ function App() {
     <>
     
    
-      <div className="dark:bg-black w-screen h-screen">
+      {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
-        <WelcomeBack />
-        {/* <Routes>
+        <WelcomeBack /> */}
+        <Routes>
+          <Route path="/" element={<MainPage/>} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-<<<<<<< HEAD
-        </Routes>{" "}
+          <Route path="/dashboard-home" element={<DashboardHome />} />
+          <Route path="/dashboard-notification" element={<DashboardNotification />} />
+          <Route path="/dashboard-profile" element={<DashboardProfile />} />
+        </Routes>
+        {/* <CreatePost />
+        <PostCard />
+        <RecommendedUsers /> */}
+      {/* </div> */}
+
+
+        {/* </Routes>{" "}
         <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
           <RecommendedUsers />
-        </div>
-        <ProfileContainer
+        </div> */}
+        {/* <ProfileContainer
           name="amirali"
           username="amirali"
           avatar="/profilephoto.svg"
@@ -73,16 +85,10 @@ function App() {
           location="No location"
           website=""
           createdAt="7 days ago"
-        />
-=======
-        </Routes>
-        <NotificationBox/>
-        </Routes> */}
-        {/* <CreatePost />
-        <PostCard />
-        <RecommendedUsers /> */}
->>>>>>> dev
-      </div>
+        /> */}
+
+       
+
     </>
   );
 }
