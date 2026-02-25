@@ -30,7 +30,7 @@ export default function NotificationBox() {
     );
 
   return (
-    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-t-2xl overflow-hidden bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] min-h-screen sm:min-h-0 sm:h-auto">
+    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-t-2xl overflow-hidden bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] min-h-screen sm:min-h-0 sm:h-auto">
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-[#2a2a2a]">
         <h2 className="text-base font-semibold text-gray-900 dark:text-white">
           Notifications
