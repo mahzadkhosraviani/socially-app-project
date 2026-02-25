@@ -19,17 +19,17 @@ function App() {
     <>
     
    
-      <div className="dark:bg-black w-screen h-screen">
+      {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
-        <WelcomeBack />
-        {/* <Routes>
+        <WelcomeBack /> */}
+        <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-        </Routes> */}
+        </Routes>
         {/* <CreatePost />
         <PostCard />
         <RecommendedUsers /> */}
-      </div>
+      {/* </div> */}
     </>
   );
 }
