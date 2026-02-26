@@ -1,10 +1,70 @@
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/authContext";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { authService } from "../services/authService";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
+function Spinner() {
+  return (
+    <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+  );
+}
 function SignIn() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [err, setErr] = useState<string | null>(null);
+  // const [loading, setLoading] = useState<boolean>(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await authService.login(data);
+      navigate("/dashboard-home");
+    } catch (e: any) {
+      const msg = e?.response?.data?.message ?? "Invalid fields";
+      setToast(msg);
+
+      setTimeout(() => setToast(null), 3000);
+    }
+  };
   return (
     <div className="min-h-screen w-full bg-[#262626] flex flex-col items-center justify-center px-4 py-10">
+      {toast && (
+        <div className=" mt-4 mb-2 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300 flex items-center justify-between">
+          <span>{toast}</span>
+          <button
+            type="button"
+            onClick={() => setToast(null)}
+            className="ml-4 text-red-300 hover:text-red-200"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838]">
-        {/* Left panel */}
         <div className="bg-[#191919] text-white">
           <div className="text-center flex flex-col gap-1.5 mt-7">
             <p className="text-[#FAFAFA] text-2xl font-bold">Welcome back</p>
@@ -12,46 +72,61 @@ function SignIn() {
               Login to your Socially account
             </p>
           </div>
-
-          <div className="mx-8">
-            <div className="flex flex-col gap-2 mt-7">
-              <label
-                htmlFor="email"
-                className="text-left text-[14px] font-medium"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mx-8">
+              <div className="flex flex-col gap-2 mt-7">
+                <label
+                  htmlFor="email"
+                  className="text-left text-[14px] font-medium"
+                >
+                  Email
+                </label>
+                <input
+                  className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] placeholder:text-[14px] w-full"
+                  type="email"
+                  placeholder="m@example.com"
+                  {...register("email")}
+                />
+              </div>
+              {errors.email && (
+                <p className="mt-2 text-red-500 text-xs">
+                  {errors.email.message}
+                </p>
+              )}
+              <div className="flex flex-col gap-2 mt-6">
+                <label
+                  htmlFor="password"
+                  className="text-left text-[14px] font-medium"
+                >
+                  Password
+                </label>
+                <input
+                  className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] w-full"
+                  type="password"
+                  {...register("password")}
+                />
+              </div>
+              {errors.password && (
+                <p className="mt-2 text-red-500 text-xs">
+                  {errors.password.message}
+                </p>
+              )}
+              <button
+                type="submit"
+                 disabled={isSubmitting}
+                className="mt-7 bg-white text-black w-full h-9 rounded-lg"
               >
-                Email
-              </label>
-              <input
-                className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] placeholder:text-[14px] w-full"
-                type="text"
-                placeholder="m@example.com"
-                name="email"
-              />
+                {isSubmitting ? (
+                  <>
+                    <Spinner />
+                    <span>Logging in...</span>
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </button>
             </div>
-
-            <div className="flex flex-col gap-2 mt-6">
-              <label
-                htmlFor="password"
-                className="text-left text-[14px] font-medium"
-              >
-                Password
-              </label>
-              <input
-                className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] w-full"
-                type="password"
-                name="password"
-              />
-            </div>
-
-            <button
-              onClick={() => navigate("/dashboard-home")}
-              type="submit"
-              className="mt-7 bg-white text-black w-full h-9 rounded-lg"
-            >
-              Login
-            </button>
-          </div>
-
+          </form>
           <div className="flex justify-center items-center mt-8 mb-8">
             <p className="text-[#A3A3A3] text-[14px]">Don't have an account?</p>
             <Link
