@@ -1,6 +1,6 @@
 export default function PostCard() {
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4  w-200 mt-7  h-47">
+    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 md:w-160 mt-7  h-47">
       <div className="flex items-center gap-3 mb-3">
         <img
           src="https://i.pravatar.cc/150?img=12"
