@@ -1,5 +1,4 @@
 import ProfileContainer from "./components/ProfileContainer";
-
 import "./App.css";
 import Navbar from "./components/Navbar";
 import WelcomeBack from "./components/WelcomeBack";
@@ -12,6 +11,7 @@ import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 import MainPage from "./pages/MainPage";
+
 import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
@@ -46,6 +46,7 @@ function App() {
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
+
       <Toaster
         position="top-center"
         gutter={12}
@@ -53,6 +54,7 @@ function App() {
           top: 24,
         }}
       />
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/sign-in" element={<SignIn />} />
