@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function Navbar() {
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isSignedUp, setIsSignedUp] = useState(true);
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -32,9 +33,9 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between items-center py-3 ml-2 mr-2 md:mx-30">
-        <span className="dark:text-white text-xl md:text-2xl tracking-wide font-semibold font-mono">
-          socially
+      <div className="flex justify-between items-center py-3 pl-4 pr-10 dark:bg-[#0A0A0A]">
+        <span className="dark:text-white text-xl md:text-2xl tracking-wide font-semibold font-mono ">
+          Socially
         </span>
         <div className="flex gap-4 md:gap-8">
           <button
@@ -67,7 +68,7 @@ function Navbar() {
             )}
           </button>
 
-          <button className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center ">
+          <button  onClick={() => navigate("/dashboard-home")} className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -92,13 +93,13 @@ function Navbar() {
           </button>
 
           {!isSignedUp && (
-            <button className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base">
+            <button  onClick={() => navigate("/sign-in")} className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base">
               Sign In
             </button>
           )}
           {isSignedUp && (
             <>
-              <button className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
+              <button  onClick={() => navigate("/dashboard-notification")}  className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +114,7 @@ function Navbar() {
                 </span>
                 Notification
               </button>
-              <button className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
+              <button onClick={() => navigate("/dashboard-profile")}  className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

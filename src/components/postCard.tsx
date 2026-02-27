@@ -1,6 +1,6 @@
 export default function PostCard() {
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#1a1a1a] dark:border-[#2a2a2a] rounded-2xl p-4 w-full max-w-xl">
+    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 md:w-160 mt-7  h-47">
       <div className="flex items-center gap-3 mb-3">
         <img
           src="https://i.pravatar.cc/150?img=12"
@@ -21,7 +21,7 @@ export default function PostCard() {
         </div>
       </div>
       <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">image</p>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-5 mt-8 ml-3">
         <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
