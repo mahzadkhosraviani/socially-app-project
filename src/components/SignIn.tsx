@@ -12,7 +12,6 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-
 type LoginFormData = z.infer<typeof loginSchema>;
 
 function Spinner() {
@@ -43,8 +42,11 @@ function SignIn() {
       await authService.login(data);
       navigate("/dashboard-home");
     } catch (e: any) {
-      const msg = e?.response?.data?.message ?? "Invalid fields";
-      setToast(msg);
+      if (e.status === 500) {
+        setToast("Invalid email or password");
+      } else {
+        setToast("lolo");
+      }
 
       setTimeout(() => setToast(null), 3000);
     }
@@ -113,7 +115,7 @@ function SignIn() {
               )}
               <button
                 type="submit"
-                 disabled={isSubmitting}
+                disabled={isSubmitting}
                 className="mt-7 bg-white text-black w-full h-9 rounded-lg"
               >
                 {isSubmitting ? (

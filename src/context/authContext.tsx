@@ -17,12 +17,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     (async () => {
       try {
         const res = await authService.session();
-       
+
         setUser(res.data?.user ?? res.data ?? null);
       } catch {
         setUser(null);
@@ -34,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const res = await authService.login({ email, password });
-   
+
     setUser(res.data?.user ?? res.data ?? null);
   };
 
