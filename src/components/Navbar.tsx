@@ -33,7 +33,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between items-center py-3 pl-4 pr-10 dark:bg-[#0A0A0A]">
+      <div className="flex justify-between items-center py-4  dark:bg-[#0A0A0A] pr-13 pl-16">
         <span className="dark:text-white text-xl md:text-2xl tracking-wide font-semibold font-mono ">
           Socially
         </span>
@@ -68,7 +68,10 @@ function Navbar() {
             )}
           </button>
 
-          <button  onClick={() => navigate("/dashboard-home")} className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center ">
+          <button
+            onClick={() => navigate("/dashboard-home")}
+            className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center "
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -93,13 +96,19 @@ function Navbar() {
           </button>
 
           {!isSignedUp && (
-            <button  onClick={() => navigate("/sign-in")} className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base">
+            <button
+              onClick={() => navigate("/sign-in")}
+              className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
+            >
               Sign In
             </button>
           )}
           {isSignedUp && (
             <>
-              <button  onClick={() => navigate("/dashboard-notification")}  className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
+              <button
+                onClick={() => navigate("/dashboard-notification")}
+                className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
+              >
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +123,10 @@ function Navbar() {
                 </span>
                 Notification
               </button>
-              <button onClick={() => navigate("/dashboard-profile")}  className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1">
+              <button
+                onClick={() => navigate("/dashboard-profile")}
+                className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
+              >
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -128,6 +140,25 @@ function Navbar() {
                   </svg>
                 </span>
                 Profile
+              </button>
+              <button className="cursor-pointer dark:text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  fill="currentColor"
+                  className="bi bi-box-arrow-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                  />
+                </svg>
               </button>
             </>
           )}
