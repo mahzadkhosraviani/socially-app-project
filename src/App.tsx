@@ -6,11 +6,13 @@ import { Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
-import PostCard from "./components/PostCard";
+import PostCard from "./components/postCard";
 import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 import MainPage from "./pages/MainPage";
+
+import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
@@ -44,6 +46,15 @@ function App() {
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
+
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{
+          top: 24,
+        }}
+      />
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/sign-in" element={<SignIn />} />
