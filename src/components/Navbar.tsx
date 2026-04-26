@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(true);
+  const [isSignedUp, setIsSignedUp] = useState(
+    localStorage.getItem("isLoggedIn") === "true",
+  );
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -18,6 +20,12 @@ function Navbar() {
         setDarkMode(true);
       }
     }
+    const loginStatus = localStorage.getItem("isLoggedIn");
+    if (loginStatus === "true") {
+      setIsSignedUp(true);
+    } else {
+      setIsSignedUp(false);
+    }
   }, []);
   const handleToggle = () => {
     if (darkMode) {
@@ -30,7 +38,11 @@ function Navbar() {
       setDarkMode(true);
     }
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsSignedUp(false);
+    navigate("/");
+  };
   return (
     <>
       <div className="flex justify-between items-center py-4  dark:bg-[#0A0A0A] pr-13 pl-16">
@@ -141,7 +153,10 @@ function Navbar() {
                 </span>
                 Profile
               </button>
-              <button className="cursor-pointer dark:text-white">
+              <button
+                onClick={handleLogout}
+                className="cursor-pointer dark:text-white"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="21"
