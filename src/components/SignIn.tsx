@@ -72,10 +72,14 @@ function SignIn() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await authService.login(data);
+      localStorage.setItem("isLoggedIn", "true");
       navigate("/dashboard-home");
     } catch (e: any) {
-      showToast(e?.response?.data?.error);
-    }
+  console.log("Error object:", e);
+  console.log("e.response:", e.response);
+  console.log("e.response?.data:", e.response?.data);
+  showToast(e?.response?.data?.error || "Something went wrong");
+}
   };
   return (
     <div className="min-h-screen w-full bg-[#262626] flex flex-col items-center justify-center px-4 py-10">
