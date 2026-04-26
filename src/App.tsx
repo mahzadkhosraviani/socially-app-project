@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import CreatePost from "./components/createPost";
-import PostCard from "./components/postCard";
+import PostCard from "./components/PostCard";
 import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
