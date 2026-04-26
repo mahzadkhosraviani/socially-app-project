@@ -152,11 +152,7 @@ function SignUp() {
     ${isSubmitting ? "bg-[#717272] text-black cursor-not-allowed" : "bg-[#FAFAFA] text-black"}`}
                 >
                   {isSubmitting && <Spinner />}
-<<<<<<< HEAD
-                  <span>Login</span>
-=======
                   <span>Create Account</span>
->>>>>>> dev
                 </button>
               </div>
             </form>
