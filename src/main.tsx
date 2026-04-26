@@ -3,13 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/authContext";
-
+import { PostProvider } from "./context/PostContext";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <AuthProvider>
-      <App />
+      <PostProvider>
+        <App />
+      </PostProvider>
     </AuthProvider>
   </BrowserRouter>,
 );
-//
