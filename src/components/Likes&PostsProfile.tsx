@@ -1,26 +1,30 @@
-import { useState } from "react";
-
-function Likes_Posts_Profile() {
-  const [clicked,setClicked]=useState<string|null>(null);
-
+type props = {
+  activeTab: "posts" | "likes";
+  onChangeTab: (tab: "posts" | "likes") => void;
+};
+function Likes_Posts_Profile({ activeTab, onChangeTab }: props) {
   return (
-    <div  className="bg-[#262626] flex flex-row gap-5 py-2 w-240 justify-around rounded-lg p-1.5 mt-4">
-   <button
-        onClick={() => setClicked("posts")}
-        className={`cursor-pointer flex-1 p-1 border-none rounded-lg
-        ${clicked === "posts" 
-          ? "bg-white text-black dark:bg-white dark:text-black"
-          : "bg-black text-white dark:bg-[#181818] dark:text-white"
+    <div className="dark:bg-[#262626] bg-[#f4f3f3] flex flex-row gap-2  w-240 justify-around rounded-lg p-1 mt-4">
+      <button
+        onClick={() => onChangeTab("posts")}
+        className={` cursor-pointer flex-1 p-0.5 rounded-lg 
+        ${
+          activeTab === "posts"
+            ? "dark:border dark:border-[#6d6d6d] dark:bg-[#343434] text-black bg-white dark:text-white"
+            : "dark:bg-[#262626]/20  dark:text-[#8B8B8B]"
         }`}
       >
         posts
       </button>
-      <button onClick={() => setClicked("likes")}
-        className={`cursor-pointer flex-1 p-1 border-none rounded-lg
-        ${clicked==="likes"
-          ? "bg-white text-black dark:bg-white dark:text-black"
-          : "bg-black text-white dark:bg-[#181818] dark:text-white"
-        }`}>
+      <button
+        onClick={() => onChangeTab("likes")}
+        className={` cursor-pointer flex-1 p-0.5 rounded-lg
+        ${
+          activeTab === "likes"
+            ? "dark:border dark:border-[#6d6d6d] dark:bg-[#343434] text-black bg-white dark:text-white"
+            : " dark:bg-[#262626]/20 dark:text-[#8B8B8B]"
+        }`}
+      >
         {" "}
         likes
       </button>

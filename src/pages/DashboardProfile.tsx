@@ -3,6 +3,7 @@ import ProfileContainer from "../components/ProfileContainer";
 import Profile from "../components/profile";
 import RecommendedUsers from "../components/recommendedusers";
 import Likes_Posts_Profile from "../components/Likes&PostsProfile";
+import MainProfile from "../components/MainProfile";
 
 function DashboardProfile() {
   return (
@@ -13,7 +14,7 @@ function DashboardProfile() {
         <Profile />
         <div className="flex flex-col">
           <ProfileContainer name="nastaran" username="nastaranadib" />
-          <Likes_Posts_Profile />
+          <MainProfile />
         </div>
       </div>
     </div>
