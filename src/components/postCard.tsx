@@ -1,3 +1,5 @@
+import { usePost } from "../context/PostContext";
+import { useAuth } from "../context/authContext";
 import type { Post } from "../services/postService";
 
 type Props = {
@@ -16,11 +18,26 @@ const timeAgo = (dateString: string) => {
 };
 
 export default function PostCard({ post }: Props) {
+  const { toggleLike } = usePost();
+  const { user } = useAuth();
+
+  // Determine current user ID (adjust property name to match your user object)
+  const currentUserId = user?.id || user?.authorId;
+
+  // Check if current user has already liked this post by looking inside the `likes` array
+  const isLiked = post.likes.some(
+    (like) => like.authorId === currentUserId || like.userId === currentUserId
+  );
+
+  const handleLike = () => {
+    toggleLike(post.id);
+  };
+
   const { author, content, createdAt, _count } = post;
   const username = getUsernameFromEmail(author.email);
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 md:w-160 mt-7   h-47">
+    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-160 mt-7 h-40">
       <div className="flex items-center gap-3 mb-3">
         {author.image ? (
           <img
@@ -47,16 +64,24 @@ export default function PostCard({ post }: Props) {
           </span>
         </div>
       </div>
+
       <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
         {content}
       </p>
+
       <div className="flex items-center gap-5">
-        <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm">
+        {/* Like button – red when liked, gray when not */}
+        <button
+          onClick={handleLike}
+          className={`flex items-center gap-1.5 text-sm transition-colors cursor-pointer ${
+            isLiked ? "text-red-500" : "text-gray-400 dark:text-gray-500"
+          } hover:text-red-500`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-4 h-4"
             viewBox="0 0 24 24"
-            fill="none"
+            fill={isLiked ? "currentColor" : "none"}
             stroke="currentColor"
             strokeWidth={2}
             strokeLinecap="round"
@@ -65,7 +90,9 @@ export default function PostCard({ post }: Props) {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
           <span>{_count.likes}</span>
-        </div>
+        </button>
+
+        {/* Comments button */}
         <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
