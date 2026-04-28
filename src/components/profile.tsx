@@ -1,6 +1,26 @@
 import { Link } from "react-router-dom";
+import {useAuth} from "../context/authContext"
 
-function Profile() {
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string | null;
+  createdAt: string;   // تاریخ‌ها معمولاً به صورت ISO string میان
+  updatedAt: string;
+};
+
+
+
+
+function Profile({user}) {
+
+
+// const { user } = useAuth();
+
+
+console.log(user);
   return (
     <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A]">
 
@@ -13,12 +33,12 @@ function Profile() {
 
         {/* Name */}
         <h2 className="mt-4 text-xl font-semibold text-[#171717] dark:text-white">
-         parham esfahani
+       {user?.name}
         </h2>
 
         {/* Username */}
         <p className="text-[#737373] dark:text-[#A3A3A3]">
-          @parhames
+       {user?.email}
         </p>
 
         {/* Stats */}

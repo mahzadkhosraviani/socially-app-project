@@ -71,8 +71,8 @@ function SignIn() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await authService.login(data);
-      localStorage.setItem("isLoggedIn", "true");
+      await login(data.email, data.password);
+      // localStorage.setItem("isLoggedIn", "true");
       navigate("/dashboard-home");
     } catch (e: any) {
   console.log("Error object:", e);

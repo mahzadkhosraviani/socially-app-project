@@ -1,5 +1,5 @@
 import { usePost } from "../context/PostContext";
-import PostCard from "./PostCard";
+import PostCard from "./postCard";
 
 
 function PostSkeleton() {

@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
+import {ProtectedRoute} from "./components/ProtectedRoute"
 
 // import Profile from "./components/profile";
 
@@ -59,12 +60,14 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/dashboard-home" element={<DashboardHome />} />
-        <Route
-          path="/dashboard-notification"
-          element={<DashboardNotification />}
-        />
-        <Route path="/dashboard-profile" element={<DashboardProfile />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard-home" element={<DashboardHome />} />
+          <Route
+            path="/dashboard-notification"
+            element={<DashboardNotification />}
+          />
+          <Route path="/dashboard-profile" element={<DashboardProfile />} />
+        </Route>
       </Routes>
       {/* <CreatePost />
         <PostCard />
