@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import PostCard from "./postCard";
+import type { Post } from "../services/postService";
 
 function PostSkeleton() {
   return (
@@ -19,6 +21,7 @@ function PostSkeleton() {
 
 export default function PostFeed() {
   const { posts, loading, error, refetch } = usePost();
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   if (loading) {
     return (
@@ -55,10 +58,20 @@ export default function PostFeed() {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col gap-4 w-full">
+    {posts.map((post) => (
+      <PostCard key={post.id} post={post} />
+    ))}
+  </div>
+
+      {selectedPost && (
+        <CommentModal
+          post={selectedPost}
+          isOpen={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+        />
+      )}
+    </>
   );
 }
