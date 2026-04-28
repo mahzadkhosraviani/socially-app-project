@@ -31,4 +31,7 @@ export type Post = {
 
 export const postService = {
   getAllPosts: () => api.get<{ message: string; success: boolean; data: Post[] }>("/posts"),
+  
+  createPost: (content: string) => 
+    api.post<{ message: string; success: boolean; data: Post }>("/posts", { content }),
 };

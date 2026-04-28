@@ -1,6 +1,5 @@
 import { usePost } from "../context/PostContext";
-import PostCard from "./PostCard";
-
+import PostCard from "./postCard";
 
 function PostSkeleton() {
   return (
@@ -31,7 +30,6 @@ export default function PostFeed() {
     );
   }
 
-
   if (error) {
     return (
       <div className="w-full rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-6 text-center">
@@ -46,15 +44,15 @@ export default function PostFeed() {
     );
   }
 
-
   if (posts.length === 0) {
     return (
       <div className="w-full rounded-2xl border border-gray-200 dark:border-[#2a2a2a] px-4 py-10 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">No posts yet. Be the first to post!</p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm">
+          No posts yet. Be the first to post!
+        </p>
       </div>
     );
   }
-
 
   return (
     <div className="flex flex-col gap-4 w-full">
