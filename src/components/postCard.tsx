@@ -20,7 +20,7 @@ export default function PostCard({ post }: Props) {
   const username = getUsernameFromEmail(author.email);
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 md:w-160 mt-7   h-47">
+    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-160 mt-7 h-40">
       <div className="flex items-center gap-3 mb-3">
         {author.image ? (
           <img
