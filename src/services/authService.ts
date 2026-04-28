@@ -8,4 +8,9 @@ export const authService = {
   register: (data: RegisterPayload) => api.post("/authentication/register", data),
   logout: () => api.post("/authentication/logout"),
   session: () => api.get("/authentication/session"),
+  getUserPosts: (userId: string) =>
+    api.get(`/users/${userId}/posts`),
+
+  getUserLikes: (userId: string) =>
+    api.get(`/users/${userId}/likes`),
 };
