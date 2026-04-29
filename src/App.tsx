@@ -11,7 +11,7 @@ import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 import MainPage from "./pages/MainPage";
-
+import { useAuth } from "./context/authContext";
 import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
@@ -42,8 +42,14 @@ import {ProtectedRoute} from "./components/ProtectedRoute"
 // </Routes>
 
 function App() {
+    const { loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading session...</div>;
+  }
   return (
     <>
+    
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
