@@ -21,7 +21,7 @@ function DashboardProfile() {
         <div className="flex flex-col">
 
           <ProfileContainer user = {user} />
-          <MainProfile />
+          <MainProfile user={user} />
 
         </div>
       </div>
