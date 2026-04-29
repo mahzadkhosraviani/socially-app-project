@@ -1,11 +1,7 @@
 import porfilephoto from "../assets/profile photo.svg";
-interface PorfileCardProps {
-  name: string;
-  username: string;
-  avatar: string;
-}
 
-const PorfileCard = ({ name, username, avatar }: PorfileCardProps) => {
+
+ const PorfileCard = ({user}) => {
   return (
     <div className="flex flex-col items-center gap-4 mt-1.5">
       <img
@@ -15,8 +11,8 @@ const PorfileCard = ({ name, username, avatar }: PorfileCardProps) => {
       />
 
       <div className="flex flex-col text-center">
-        <span className="text-lg dark:text-white font-bold">{name}</span>
-        <span className="text-gray-500 dark:text-white">{username}</span>
+        <span className="text-lg dark:text-white font-bold">{user?.name}</span>
+        <span className="text-gray-500 dark:text-white">{user?.email}</span>
       </div>
     </div>
   );

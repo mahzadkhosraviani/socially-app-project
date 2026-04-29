@@ -1,5 +1,5 @@
 import Usercard from "./usercard";
-
+import type { RecommendedUser } from "../services/recommendService";
 interface User {
   id: string;
   name: string;
@@ -7,14 +7,22 @@ interface User {
 }
 
 interface UserListProps {
-  users: User[];
+  users: RecommendedUser[];
+  onToggleFollow: (id: string) => void;
 }
 
 const UserList = (props: UserListProps) => {
   return (
     <div className="flex flex-col dark:text-[#FAFAFA] gap-1">
       {props.users.map((u) => (
-        <Usercard key={u.id} id={u.id} name={u.name} followers={u.followers} />
+        <Usercard
+          key={u.id}
+          id={u.id}
+          name={u.name}
+          followers={u.followers}
+          isFollowing={u.isFollowing}
+          onToggleFollow={props.onToggleFollow}
+        />
       ))}
     </div>
   );

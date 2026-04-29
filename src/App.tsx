@@ -11,11 +11,12 @@ import RecommendedUsers from "./components/recommendedusers";
 import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 import MainPage from "./pages/MainPage";
-
+import { useAuth } from "./context/authContext";
 import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
+import {ProtectedRoute} from "./components/ProtectedRoute"
 
 // import Profile from "./components/profile";
 
@@ -41,8 +42,14 @@ import DashboardProfile from "./pages/DashboardProfile";
 // </Routes>
 
 function App() {
+    const { loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading session...</div>;
+  }
   return (
     <>
+    
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
@@ -59,12 +66,14 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/dashboard-home" element={<DashboardHome />} />
-        <Route
-          path="/dashboard-notification"
-          element={<DashboardNotification />}
-        />
-        <Route path="/dashboard-profile" element={<DashboardProfile />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard-home" element={<DashboardHome />} />
+          <Route
+            path="/dashboard-notification"
+            element={<DashboardNotification />}
+          />
+          <Route path="/dashboard-profile" element={<DashboardProfile />} />
+        </Route>
       </Routes>
       {/* <CreatePost />
         <PostCard />

@@ -2,7 +2,7 @@ import location from "../assets/location..svg";
 import link from "../assets/link.svg";
 import calender from "../assets/calender.svg";
 
-const UserInfo = () => {
+const UserInfo = ({user}) => {
   return (
     <div className="flex flex-col gap-2 text-sm  text-gray-600 dark:text-white mt-4.5">
       <div className="flex items-center gap-2">

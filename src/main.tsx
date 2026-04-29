@@ -6,11 +6,11 @@ import { AuthProvider } from "./context/authContext";
 import { PostProvider } from "./context/PostContext";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <AuthProvider>
-      <PostProvider>
+  <AuthProvider>
+    <PostProvider>
+      <BrowserRouter>
         <App />
-      </PostProvider>
-    </AuthProvider>
-  </BrowserRouter>,
+      </BrowserRouter>
+    </PostProvider>
+  </AuthProvider>
 );
