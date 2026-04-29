@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const res = await authService.session();
         setUser(res.data?.data.user ?? res.data ?? null);
-         console.log("SESSION USER =>", res.data.user);
+         console.log("SESSION USER =>", res.data?.data.user);
       } catch {
         setUser(null);
       } finally {
@@ -35,12 +35,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     const res = await authService.login({ email, password });
     console.log("SESSION", res.data);
+    console.log("SESSION", res.data?.user);
     setUser(res.data?.data.user ?? res.data ?? null);
   };
 
   const register = async (name: string, email: string, password: string) => {
     const res = await authService.register({ name, email, password });
     setUser(res.data?.data.user ?? res.data ?? null);
+    console.log("SESSION", res.data);
+    console.log("SESSION", res.data.data?.user);
   };
 
   const logout = async () => {

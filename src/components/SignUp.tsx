@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/authContext";
 
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
@@ -25,7 +26,8 @@ function Spinner() {
 }
 function SignUp() {
   const navigate = useNavigate();
- 
+ const { register: registerUser } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -66,9 +68,10 @@ function SignUp() {
   };
   const onSubmit = async (data: FormData) => {
     try {
-      await authService.register(data);
+      // await authService.register(data);
+      await registerUser(data.name, data.email, data.password);
       navigate("/dashboard-home");
-      
+
     } catch (e: any) {
       showToast(e?.response?.data?.error);
       console.log(e.response);
