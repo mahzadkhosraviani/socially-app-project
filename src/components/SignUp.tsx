@@ -25,7 +25,7 @@ function Spinner() {
 }
 function SignUp() {
   const navigate = useNavigate();
-
+ 
   const {
     register,
     handleSubmit,
@@ -68,8 +68,10 @@ function SignUp() {
     try {
       await authService.register(data);
       navigate("/dashboard-home");
+      
     } catch (e: any) {
       showToast(e?.response?.data?.error);
+      console.log(e.response);
     }
   };
 

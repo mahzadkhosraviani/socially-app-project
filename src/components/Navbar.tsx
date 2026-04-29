@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 function Navbar() {
+
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(
-    localStorage.getItem("isLoggedIn") === "true",
-  );
+  
+
+  // به جای state قبلی از useAuth استفاده کن
+
+  const { user, logout } = useAuth();
+  // const [isSignedUp, setIsSignedUp] = useState(
+  //   localStorage.getItem("isLoggedIn") === "true",
+  // );
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -20,12 +27,12 @@ function Navbar() {
         setDarkMode(true);
       }
     }
-    const loginStatus = localStorage.getItem("isLoggedIn");
-    if (loginStatus === "true") {
-      setIsSignedUp(true);
-    } else {
-      setIsSignedUp(false);
-    }
+    // const loginStatus = localStorage.getItem("isLoggedIn");
+    // if (loginStatus === "true") {
+    //   setIsSignedUp(true);
+    // } else {
+    //   setIsSignedUp(false);
+    // }
   }, []);
   const handleToggle = () => {
     if (darkMode) {
@@ -38,10 +45,10 @@ function Navbar() {
       setDarkMode(true);
     }
   };
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsSignedUp(false);
-    navigate("/");
+    // 🔥 مهم‌ترین بخش: تغییر رفتار خروج
+  const handleLogout = async () => {
+    await logout();        // از تابع logout داخل context استفاده کن
+    navigate("/");    // برو به صفحه لاگین یا هر صفحه‌ای که خواستی
   };
   return (
     <>
@@ -107,7 +114,7 @@ function Navbar() {
             Home
           </button>
 
-          {!isSignedUp && (
+          {!user && (
             <button
               onClick={() => navigate("/sign-in")}
               className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
@@ -115,7 +122,7 @@ function Navbar() {
               Sign In
             </button>
           )}
-          {isSignedUp && (
+          {user && (
             <>
               <button
                 onClick={() => navigate("/dashboard-notification")}

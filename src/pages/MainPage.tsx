@@ -1,7 +1,7 @@
 import { Fragment } from "react/jsx-runtime";
 import WelcomeBack from "../components/WelcomeBack";
 import Navbar from "../components/Navbar";
-import PostCard from "../components/PostCard";
+import PostCard from "../components/postCard";
 import PostFeed from "../components/PostFeed";
 
 function MainPage() {

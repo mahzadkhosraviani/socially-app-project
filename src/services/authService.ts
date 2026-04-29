@@ -13,4 +13,7 @@ export const authService = {
 
   getUserLikes: (userId: string) =>
     api.get(`/users/${userId}/likes`),
+
+    getUserById: (userId: string) =>
+    api.get(`/users/${userId}`),
 };

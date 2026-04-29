@@ -1,6 +1,7 @@
 import { usePost } from "../context/PostContext";
 import PostCard from "./postCard";
 
+
 function PostSkeleton() {
   return (
     <div className="bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] rounded-2xl p-4 w-full animate-pulse">
