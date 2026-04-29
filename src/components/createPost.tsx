@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usePost } from "../context/PostContext";
+import { useAuth } from "../context/authContext";
 import { postService } from "../services/postService";
 
 export default function CreatePost() {
@@ -7,17 +8,21 @@ export default function CreatePost() {
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { refetch } = usePost();
+  const { user } = useAuth();
 
   const handlePost = async () => {
     if (!content.trim()) return;
-
+    if (content.length < 5) {
+      setError("Post must be at least 5 characters");
+      return;
+    }
     setIsPosting(true);
     setError(null);
 
     try {
       await postService.createPost(content);
-      setContent(""); // clear input
-      await refetch(); // refresh the feed
+      setContent("");
+      await refetch();
     } catch (err: any) {
       const message =
         err?.response?.data?.message || err?.message || "Failed to create post";
@@ -28,11 +33,20 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200 h-47">
+    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-          S
-        </div>
+        {/* Avatar - dynamic from auth */}
+        {user?.image ? (
+          <img
+            src={user.image}
+            alt={user.name}
+            className="w-10 h-10 rounded-full object-cover shrink-0"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+            {user?.name?.[0]?.toUpperCase() || "U"}
+          </div>
+        )}
         <input
           type="text"
           placeholder="What's on your mind?"
@@ -49,8 +63,8 @@ export default function CreatePost() {
       <div className="flex justify-end">
         <button
           onClick={handlePost}
-          disabled={isPosting || !content.trim()}
-          className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isPosting || !content.trim() || content.length < 5}
+          className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isPosting ? (
             "Posting..."

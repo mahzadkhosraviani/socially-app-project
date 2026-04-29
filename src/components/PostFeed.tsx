@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import PostCard from "./postCard";
-import type { Post } from "../services/postService";
+import Toast from "./Toast";
 
 
 function PostSkeleton() {
@@ -22,7 +22,11 @@ function PostSkeleton() {
 
 export default function PostFeed() {
   const { posts, loading, error, refetch } = usePost();
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type });
+  };
 
   if (loading) {
     return (
@@ -61,16 +65,16 @@ export default function PostFeed() {
   return (
     <>
       <div className="flex flex-col gap-4 w-full">
-    {posts.map((post) => (
-      <PostCard key={post.id} post={post} />
-    ))}
-  </div>
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} onShowToast={showToast} />
+        ))}
+      </div>
 
-      {selectedPost && (
-        <CommentModal
-          post={selectedPost}
-          isOpen={!!selectedPost}
-          onClose={() => setSelectedPost(null)}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </>

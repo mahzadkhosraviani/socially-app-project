@@ -2,13 +2,12 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
-import Toast from "./Toast";   // 👈 import Toast
 
 type Props = {
   post: Post;
+  onShowToast: (message: string, type: "success" | "error") => void;
 };
 
-// Helper functions (same as before)
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
 
 const timeAgo = (dateString: string) => {
@@ -19,22 +18,43 @@ const timeAgo = (dateString: string) => {
   return `${Math.floor(diff / 86400)} days ago`;
 };
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post ,onShowToast }: Props) {
   const { toggleLike, addComment, deletePost } = usePost();
   const { user } = useAuth();
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [isLiking, setIsLiking] = useState(false);
+  
 
   const currentUserId = user?.id || user?.authorId;
-  const isAuthor = post.authorId === currentUserId;   // 👈 check if logged-in user owns the post
+  const isAuthor = post.authorId === currentUserId;
+  const isLoggedIn = !!user;
 
   const isLiked = post.likes.some(
     (like) => like.authorId === currentUserId || like.userId === currentUserId
   );
 
-  const handleLike = () => toggleLike(post.id);
+  const handleLike = async () => {
+    if (!isLoggedIn) {
+      setToast({ message: "You must be logged in to like", type: "error" });
+      return;
+    }
+    if (isAuthor) {
+      setToast({ message: "You can't like your own post!", type: "error" });
+      return;
+    }
+    if (isLiking) return;
+    setIsLiking(true);
+    try {
+      await toggleLike(post.id);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
   const toggleComments = () => setShowComments(!showComments);
 
   const handleAddComment = async () => {
@@ -53,9 +73,9 @@ export default function PostCard({ post }: Props) {
   const handleDelete = async () => {
     try {
       await deletePost(post.id);
-      setToast({ message: "Post deleted successfully", type: "success" });
+      onShowToast("Post deleted successfully", "success");  
     } catch (err) {
-      setToast({ message: "An error occurred", type: "error" });
+      onShowToast("An error occurred", "error");
     }
   };
 
@@ -65,7 +85,7 @@ export default function PostCard({ post }: Props) {
   return (
     <>
       <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-168 mt-7 relative">
-        {/* Delete button - only for author */}
+        {/* Delete button */}
         {isAuthor && (
           <button
             onClick={handleDelete}
@@ -87,7 +107,7 @@ export default function PostCard({ post }: Props) {
           </button>
         )}
 
-        {/* Post header (same) */}
+        {/* Header */}
         <div className="flex items-center gap-3 mb-3">
           {author.image ? (
             <img
@@ -114,29 +134,34 @@ export default function PostCard({ post }: Props) {
           </div>
         </div>
 
-        {/* Post content */}
+        {/* Content */}
         <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
           {content}
         </p>
 
-        {/* Action buttons (unchanged) */}
-        <div className="flex items-center gap-5 dark:border-[#262626] pb-3">
+        {/* Action buttons */}
+        <div className="flex items-center gap-5 pb-3">
           <button
             onClick={handleLike}
+            disabled={isLiking}
             className={`flex items-center gap-1.5 text-sm transition-colors cursor-pointer ${
               isLiked ? "text-red-500" : "text-gray-400 dark:text-gray-500"
-            } hover:text-red-500`}
+            } hover:text-red-500 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill={isLiked ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
+            {isLiking ? (
+              <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill={isLiked ? "currentColor" : "none"}
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            )}
             <span>{_count.likes}</span>
           </button>
 
@@ -158,10 +183,10 @@ export default function PostCard({ post }: Props) {
           </button>
         </div>
 
-        {/* Inline comments section (unchanged) */}
+        {/* Comments section */}
         {showComments && (
           <div className="border-t border-gray-200 dark:border-[#262626]">
-            <div className="mt-4 max-h-64 overflow-y-auto space-y-3 mb-2">
+            <div className="mt-4 max-h-64 overflow-y-auto space-y-3 mb-4">
               {comments.length === 0 ? (
                 <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-2">
                   No comments yet. Be the first!
@@ -202,49 +227,44 @@ export default function PostCard({ post }: Props) {
               )}
             </div>
 
-            <div className="flex items-start gap-2 pt-6 dark:border-[#262626]">
-              {user?.image ? (
-                <img
-                  src={user.image}
-                  alt={user?.name}
-                  className="w-7 h-7 rounded-full object-cover shrink-0"
-                />
-              ) : (
-                <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
-                  {user?.name?.[0]?.toUpperCase() || "U"}
-                </div>
-              )}
-              <div className="flex-1">
-                <textarea
-                  value={commentContent}
-                  onChange={(e) => setCommentContent(e.target.value)}
-                  placeholder="Write a comment..."
-                  rows={1}
-                  className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#0A0A0A] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
-                />
-                <div className="flex justify-end mt-2 mb-4">
-                  <button
-                    onClick={handleAddComment}
-                    disabled={isSubmitting || !commentContent.trim()}
-                    className="px-4 py-2 bg-white text-black text-xs font-medium rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                  >
-                    {isSubmitting ? "Posting..." : "Comment"}
-                  </button>
+            {/* Comment input – only for logged in users */}
+            {isLoggedIn && (
+              <div className="flex items-start gap-2 pt-6">
+                {user?.image ? (
+                  <img
+                    src={user.image}
+                    alt={user?.name}
+                    className="w-7 h-7 rounded-full object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                    {user?.name?.[0]?.toUpperCase() || "U"}
+                  </div>
+                )}
+                <div className="flex-1">
+                  <textarea
+                    value={commentContent}
+                    onChange={(e) => setCommentContent(e.target.value)}
+                    placeholder="Write a comment..."
+                    rows={1}
+                    className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#0A0A0A] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
+                  />
+                  <div className="flex justify-end mt-2 mb-4">
+                    <button
+                      onClick={handleAddComment}
+                      disabled={isSubmitting || !commentContent.trim()}
+                      className="px-4 py-2 bg-white text-black dark:bg-[#0A0A0A] dark:text-white border border-gray-200 dark:border-[#262626] text-xs font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    >
+                      {isSubmitting ? "Posting..." : "Comment"}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Toast notification */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
     </>
   );
 }
