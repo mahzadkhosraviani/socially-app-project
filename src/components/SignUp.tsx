@@ -5,11 +5,16 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { getErrorMessage } from "../utils/getErrorMessage";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long")
+    .max(15, "Password must be at last 15 characters long"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -20,7 +25,6 @@ function Spinner() {
 }
 function SignUp() {
   const navigate = useNavigate();
-  const [toast, setToast] = useState<string | null>(null);
 
   const {
     register,
@@ -29,36 +33,50 @@ function SignUp() {
     setError,
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
+  const showToast = (message: string) => {
+    toast.custom(
+      (t) => (
+        <div
+          className={`${
+            t.visible ? "animate-custom-enter" : "animate-custom-leave"
+          } transition ease-in-out`}
+        >
+          <div className="rounded-lg pr-30 py-4  bg-[#191919] border border-[#383838] font-bold text-xs text-[#FAFAFA] text-left">
+            <div className="flex flex-row items-center">
+              <button
+                type="button"
+                onClick={() => toast.dismiss(t.id)}
+                className="ml-2 mr-2"
+                aria-label="Close"
+              >
+                <img
+                  src="/src/assets/closebtn-removebg-preview.png"
+                  alt="close btn"
+                  className="w-4 h-4"
+                />
+              </button>
+
+              <span>{message}</span>
+            </div>
+          </div>
+        </div>
+      ),
+      { duration: 3000 },
+    );
+  };
   const onSubmit = async (data: FormData) => {
     try {
       await authService.register(data);
       navigate("/dashboard-home");
     } catch (e: any) {
-      const msg = e?.response?.data?.message ?? "Invalid fields";
-      setToast(msg);
-
-      setTimeout(() => setToast(null), 3000);
-    
+      showToast(e?.response?.data?.error);
     }
   };
 
   return (
     <>
       <div className="flex flex-col justify-center items-center min-h-screen bg-[#262626] w-full  px-4 py-10">
-        {toast && (
-          <div className=" mt-4 mb-2 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300 flex items-center justify-between">
-            <span>{toast}</span>
-            <button
-              type="button"
-              onClick={() => setToast(null)}
-              className="ml-4 text-red-300 hover:text-red-200"
-              aria-label="Close"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-        <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838] transition-all duration-300">
+        <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838] transition-all duration-300 mt-4">
           <div className=" rounded-l-xl bg-[#191919] text-white">
             <div className="text-center text-white flex flex-col gap-1.5 mt-7">
               <p className="text-[#FAFAFA] text-2xl font-bold">
@@ -130,16 +148,11 @@ function SignUp() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-7 text-center bg-white text-black w-full h-9 px-2 rounded-lg"
+                  className={`mt-7 w-full h-9 rounded-lg flex items-center justify-center gap-2
+    ${isSubmitting ? "bg-[#717272] text-black cursor-not-allowed" : "bg-[#FAFAFA] text-black"}`}
                 >
-                   {isSubmitting ? (
-                  <>
-                    <Spinner />
-                    <span>Creating Account...</span>
-                  </>
-                ) : (
-                  "Create Account"
-                )}
+                  {isSubmitting && <Spinner />}
+                  <span>Create Account</span>
                 </button>
               </div>
             </form>

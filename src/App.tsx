@@ -1,6 +1,4 @@
-
 import ProfileContainer from "./components/ProfileContainer";
-
 import "./App.css";
 import Navbar from "./components/Navbar";
 import WelcomeBack from "./components/WelcomeBack";
@@ -14,35 +12,29 @@ import NotificationBox from "./components/Notificationbox";
 import EditProfile from "./components/EditProfile";
 import MainPage from "./pages/MainPage";
 
+import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
 
 // import Profile from "./components/profile";
 
-    // <Routes>
-    // <Route path="/" element={<Profile />} />
-    // </Routes>
-
+// <Routes>
+// <Route path="/" element={<Profile />} />
+// </Routes>
 
 // import Delete from "./components/delete";
 // function App() {
 //   return (
- 
-    
-     
-   // <Routes>
-     // <Route path="/" element={<Profile />} />
-    // </Routes>
-   
-  //     <Routes>
-  //     <Route path="/delete" element={<Delete />} />
-  //   </Routes>
-  // );
-  
-  
 
+// <Routes>
+// <Route path="/" element={<Profile />} />
+// </Routes>
 
+//     <Routes>
+//     <Route path="/delete" element={<Delete />} />
+//   </Routes>
+// );
 
 // <Routes>
 // <Route path="/" element={<Profile />} />
@@ -50,32 +42,40 @@ import DashboardProfile from "./pages/DashboardProfile";
 
 function App() {
   return (
-
     <>
-    
-   
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
-        <Routes>
-          <Route path="/" element={<MainPage/>} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/dashboard-home" element={<DashboardHome />} />
-          <Route path="/dashboard-notification" element={<DashboardNotification />} />
-          <Route path="/dashboard-profile" element={<DashboardProfile />} />
-        </Routes>
-        {/* <CreatePost />
+
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{
+          top: 24,
+        }}
+      />
+
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/dashboard-home" element={<DashboardHome />} />
+        <Route
+          path="/dashboard-notification"
+          element={<DashboardNotification />}
+        />
+        <Route path="/dashboard-profile" element={<DashboardProfile />} />
+      </Routes>
+      {/* <CreatePost />
         <PostCard />
         <RecommendedUsers /> */}
       {/* </div> */}
 
-
-        {/* </Routes>{" "}
+      {/* </Routes>{" "}
         <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
           <RecommendedUsers />
         </div> */}
-        {/* <ProfileContainer
+      {/* <ProfileContainer
           name="amirali"
           username="amirali"
           avatar="/profilephoto.svg"
@@ -86,9 +86,6 @@ function App() {
           website=""
           createdAt="7 days ago"
         /> */}
-
-       
-
     </>
   );
 }
