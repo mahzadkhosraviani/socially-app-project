@@ -5,6 +5,8 @@ interface usercardprops {
   id: string;
   name: string;
   followers: number;
+  isFollowing: boolean;
+  onToggleFollow: (id: string) => void;
 }
 
 const Usercard = (props: usercardprops) => {
@@ -25,7 +27,10 @@ const Usercard = (props: usercardprops) => {
         </div>
       </div>
 
-      <FollowButton />
+      <FollowButton
+        isFollowing={props.isFollowing}
+        onClick={() => props.onToggleFollow(props.id)}
+      />
     </div>
   );
 };
