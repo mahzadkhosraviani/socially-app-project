@@ -10,6 +10,9 @@ import { useAuth } from "../context/authContext";
 function DashboardHome() {
 const {user} = useAuth()
 console.log(user)
+
+
+
   return (
     <>
       <Navbar />

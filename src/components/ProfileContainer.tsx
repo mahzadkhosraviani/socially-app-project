@@ -17,8 +17,11 @@ interface ProfileContainerProps {
 
 const ProfileContainer = ({user}) => {
   return (
+
     <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
       <PorfileCard user = {user}/>
+
+
       <PorfileStats
         followings={1}
         followers={2}
