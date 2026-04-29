@@ -31,12 +31,14 @@ function Profile({ user }) {
     if (user.id) fetchData();
   }, [user.id]);
   console.log(user);
+  const username = user.email.split("@")[0];
+  const avatar = user.name.split("")[0]
   return (
     <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A]">
       <div className="w-100 h-101 bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
         {/* Avatar */}
         <div className="w-20 h-20 mx-auto rounded-full bg-green-600 flex items-center justify-center text-white text-3xl font-bold">
-          P
+          {avatar}
         </div>
 
         {/* Name */}
@@ -45,7 +47,7 @@ function Profile({ user }) {
         </h2>
 
         {/* Username */}
-        <p className="text-[#737373] dark:text-[#A3A3A3]">{user?.email}</p>
+        <p className="text-[#737373] dark:text-[#A3A3A3]">{username}</p>
 
         {/* Stats */}
         <div className="flex justify-between mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#262626]">
