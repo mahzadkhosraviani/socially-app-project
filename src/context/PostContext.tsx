@@ -9,6 +9,7 @@ type PostContextType = {
   refetch: () => Promise<void>;
   toggleLike: (postId: string) => void;
   addComment: (postId: string, content: string) => Promise<void>;
+  deletePost: (postId: string) => Promise<void>;   
 };
 
 const PostContext = createContext<PostContextType | null>(null);
@@ -81,7 +82,6 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
     const postIndex = posts.findIndex(p => p.id === postId);
     if (postIndex === -1) return;
 
-    // Create optimistic comment object
     const optimisticComment: Comment = {
       id: `temp-${Date.now()}`,
       content: content,
@@ -93,7 +93,6 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
       },
     };
 
-    // Save current state for rollback
     const originalPosts = [...posts];
     const currentPost = posts[postIndex];
     const updatedComments = [optimisticComment, ...(currentPost.comments || [])];
@@ -111,11 +110,28 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
     try {
       await postService.addComment(postId, content);
-      // Optionally, you could refetch to get the real comment ID, but not required
     } catch (err) {
-      // Rollback on error
       setPosts(originalPosts);
       console.error("Failed to add comment", err);
+    }
+  };
+
+  // 👇 New deletePost function
+  const deletePost = async (postId: string) => {
+    const postIndex = posts.findIndex(p => p.id === postId);
+    if (postIndex === -1) return;
+
+    const originalPosts = [...posts];
+    const updatedPosts = posts.filter(p => p.id !== postId);
+    setPosts(updatedPosts);
+
+    try {
+      await postService.deletePost(postId);
+      // Success – do nothing else
+    } catch (err) {
+      setPosts(originalPosts);
+      console.error("Failed to delete post", err);
+      throw err; // re-throw for toast handling in component
     }
   };
 
@@ -125,7 +141,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PostContext.Provider
-      value={{ posts, loading, error, refetch: fetchPosts, toggleLike, addComment }}
+      value={{ posts, loading, error, refetch: fetchPosts, toggleLike, addComment, deletePost }}
     >
       {children}
     </PostContext.Provider>
