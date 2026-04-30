@@ -1,5 +1,6 @@
 import FollowButton from "./followbutton";
 import porfilphoto from "../assets/profile photo.svg";
+import { Link } from "react-router-dom";
 
 interface usercardprops {
   id: string;
@@ -12,21 +13,22 @@ interface usercardprops {
 const Usercard = (props: usercardprops) => {
   return (
     <div className="flex items-center justify-between p-3 rounded-lg">
-      <div className="flex items-center gap-3">
-        <img
-          src={porfilphoto}
-          alt="profile"
-          className="w-10 h-10 rounded-full"
-        />
+      <Link to={`/dashboard-profile/${props.name}`} state={{ id: props.id }}>
+        <div className="flex items-center gap-3">
+          <img
+            src={porfilphoto}
+            alt="profile"
+            className="w-10 h-10 rounded-full"
+          />
 
-        <div className="flex flex-col">
-          <span className="font-semibold">{props.name}</span>
-          <span className="text-sm dark:text-white text-gray-500">
-            {props.followers} followers
-          </span>
+          <div className="flex flex-col">
+            <span className="font-semibold">{props.name}</span>
+            <span className="text-sm dark:text-white text-gray-500">
+              {props.followers} followers
+            </span>
+          </div>
         </div>
-      </div>
-
+      </Link>
       <FollowButton
         isFollowing={props.isFollowing}
         onClick={() => props.onToggleFollow(props.id)}
@@ -36,4 +38,3 @@ const Usercard = (props: usercardprops) => {
 };
 
 export default Usercard;
- 

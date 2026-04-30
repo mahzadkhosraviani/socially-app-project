@@ -72,6 +72,7 @@ function App() {
             path="/dashboard-notification"
             element={<DashboardNotification />}
           />
+          <Route path="/dashboard-profile/:username" element={<DashboardProfile />} />
           <Route path="/dashboard-profile" element={<DashboardProfile />} />
         </Route>
       </Routes>
