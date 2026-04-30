@@ -9,13 +9,13 @@ import PostFeed from "../components/PostFeed";
 import { useAuth } from "../context/authContext";
 function DashboardHome() {
 const {user} = useAuth()
-console.log(user)
+
   return (
     <>
 
       <Navbar />
       <div className="flex flex-row pt-5 gap-7.5 dark:bg-[#0A0A0A]">
-        <Profile user={user} />
+        <Profile />
         <div className="flex flex-col gap-4 w-full max-w-2xl mx-auto">
           <CreatePost />
           <PostFeed />

@@ -16,4 +16,6 @@ export const authService = {
 
     getUserById: (userId: string) =>
     api.get(`/users/${userId}`),
+
+    getUser :()=>api.get(`/users`)
 };

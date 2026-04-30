@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
+import LocationIcon from "../assets/SVG.png";
+import WebsiteIcon from "../assets/SVG (1).png";
+
 export type User = {
   id: string;
   name: string;
@@ -12,24 +15,26 @@ export type User = {
   updatedAt: string;
 };
 
-function Profile({ user }) {
-  const [userInfo, setUserInfo] = useState(null);
+function Profile() {
+
 
   // const { user } = useAuth();
+
+  const { user } = useAuth();
+  const [userInfoNew, setUserInfoNew] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await authService.getUserById(user.id!);
-        console.log("API user:", res.data.data);
-        setUserInfo(res.data.data);
+        const res = await authService.getUserById(user.id);
+        setUserInfoNew(res.data.data);
       } catch (err) {
-        console.error("Failed to fetch user", err);
+        console.error(err);
       }
     };
 
-    if (user.id) fetchData();
-  }, [user.id]);
+    if (user?.id) fetchData();
+  }, [user?.id]);
   console.log(user);
   const username = user.email.split("@")[0];
   const avatar = user.name.split("")[0]
@@ -53,7 +58,7 @@ function Profile({ user }) {
         <div className="flex justify-between mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#262626]">
           <div>
             <p className="font-bold text[#171717] dark:text-white">
-              {userInfo?._count?.followings}
+              {userInfoNew?._count?.followings}
             </p>
             <span className="text-xs text-[#737373] dark:text-[#A3A3A3]">
               Followings
@@ -61,7 +66,7 @@ function Profile({ user }) {
           </div>
           <div>
             <p className="font-bold text-[#171717] dark:text-white">
-              {userInfo?._count?.followers}
+              {userInfoNew?._count?.followers}
             </p>
             <span className="text-xs text-[#737373] dark:text-[#A3A3A3]">
               Followers
@@ -73,20 +78,20 @@ function Profile({ user }) {
         {/* Location */}
         <div className="flex flex-row gap-2">
           <img
-            src="src\assets\SVG.png"
+            src={LocationIcon}
             alt="loction icon"
             className="w-4 h-4 mt-[18px]"
           />
           <p className="mt-4 text-sm text-[#737373] dark:text-[#A3A3A3]">
-            {!userInfo?.location && "no location"}
-            {userInfo?.location}
+            {!userInfoNew?.location && "no location"}
+            {userInfoNew?.location}
           </p>
         </div>
 
         {/* Website */}
         <div className="flex flex-row gap-2">
           <img
-            src="src\assets\SVG (1).png"
+            src={WebsiteIcon}
             alt="website icon"
             className="w-4 h-4 mt-[12px]"
           />
@@ -94,8 +99,8 @@ function Profile({ user }) {
             to="/"
             className="block mt-2 text-sm text-[#737373] hover:underline dark:text-[#A3A3A3]"
           >
-            {!userInfo?.website && "no website"}
-            {userInfo?.website}
+            {!userInfoNew?.website && "no website"}
+            {userInfoNew?.website}
           </Link>
         </div>
       </div>

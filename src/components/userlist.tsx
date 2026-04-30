@@ -1,5 +1,7 @@
 import Usercard from "./usercard";
 import type { RecommendedUser } from "../services/recommendService";
+import { Link } from "react-router-dom";
+
 interface User {
   id: string;
   name: string;
@@ -13,18 +15,23 @@ interface UserListProps {
 
 const UserList = (props: UserListProps) => {
   return (
-    <div className="flex flex-col dark:text-[#FAFAFA] gap-1">
-      {props.users.map((u) => (
-        <Usercard
-          key={u.id}
-          id={u.id}
-          name={u.name}
-          followers={u.followers}
-          isFollowing={u.isFollowing}
-          onToggleFollow={props.onToggleFollow}
-        />
-      ))}
-    </div>
+  
+      <div className="flex flex-col dark:text-[#FAFAFA] gap-1">
+        {props.users.map((u) => (
+         
+            <Usercard
+            key={u.id}
+            id={u.id}
+            name={u.name}
+            followers={u.followers}
+            isFollowing={u.isFollowing}
+            onToggleFollow={props.onToggleFollow}
+          />
+        
+          
+        ))}
+      </div>
+  
   );
 };
 
