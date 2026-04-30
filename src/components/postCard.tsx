@@ -2,10 +2,12 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
+import Toast from "./Toast";
+import { useToastQueue } from "../hooks/usetoastQueue";
 
 type Props = {
   post: Post;
-  onShowToast: (message: string, type: "success" | "error") => void;
+  onShowToast: (message: string, type: "success" | "error") => void; // for delete
 };
 
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
@@ -18,38 +20,42 @@ const timeAgo = (dateString: string) => {
   return `${Math.floor(diff / 86400)} days ago`;
 };
 
-export default function PostCard({ post ,onShowToast }: Props) {
+export default function PostCard({ post, onShowToast }: Props) {
   const { toggleLike, addComment, deletePost } = usePost();
   const { user } = useAuth();
+  const { currentToast, closeToast, showToast } = useToastQueue();
+
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  
 
   const currentUserId = user?.id || user?.authorId;
   const isAuthor = post.authorId === currentUserId;
   const isLoggedIn = !!user;
 
   const isLiked = post.likes.some(
-    (like) => like.authorId === currentUserId || like.userId === currentUserId
+    (like) => like.authorId === currentUserId || like.userId === currentUserId,
   );
 
   const handleLike = async () => {
     if (!isLoggedIn) {
-      setToast({ message: "You must be logged in to like", type: "error" });
+      showToast("You must be logged in to like", "error");
       return;
     }
     if (isAuthor) {
-      setToast({ message: "You can't like your own post!", type: "error" });
+      showToast("You can't like your own post!", "error");
       return;
     }
     if (isLiking) return;
     setIsLiking(true);
     try {
       await toggleLike(post.id);
+      // Show success toast based on the action
+      const action = isLiked ? "Unliked" : "Liked";
+      showToast(`${action} post`, "success");
     } catch (err) {
-      console.error(err);
+      showToast("Failed to update like", "error");
     } finally {
       setIsLiking(false);
     }
@@ -63,8 +69,9 @@ export default function PostCard({ post ,onShowToast }: Props) {
     try {
       await addComment(post.id, commentContent);
       setCommentContent("");
+      showToast("Comment posted successfully", "success");
     } catch (err) {
-      console.error("Failed to add comment", err);
+      showToast("Failed to post comment", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -73,7 +80,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
   const handleDelete = async () => {
     try {
       await deletePost(post.id);
-      onShowToast("Post deleted successfully", "success");  
+      onShowToast("Post deleted successfully", "success");
     } catch (err) {
       onShowToast("An error occurred", "error");
     }
@@ -85,7 +92,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
   return (
     <>
       <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-168 mt-7 relative">
-        {/* Delete button */}
+        {/* Delete button - only for author */}
         {isAuthor && (
           <button
             onClick={handleDelete}
@@ -167,7 +174,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
 
           <button
             onClick={toggleComments}
-            className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm hover:text-blue-400 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm hover:text-emerald-500 transition-colors cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +193,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
         {/* Comments section */}
         {showComments && (
           <div className="border-t border-gray-200 dark:border-[#262626]">
-            <div className="mt-4 max-h-64 overflow-y-auto space-y-3 mb-4">
+            <div className="mt-4 max-h-64 overflow-y-auto space-y-3 mb-2">
               {comments.length === 0 ? (
                 <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-2">
                   No comments yet. Be the first!
@@ -213,7 +220,9 @@ export default function PostCard({ post ,onShowToast }: Props) {
                         <span className="text-gray-400 dark:text-gray-500 text-xs">
                           @{getUsernameFromEmail(comment.author.email)}
                         </span>
-                        <span className="text-gray-300 dark:text-gray-600 text-xs">•</span>
+                        <span className="text-gray-300 dark:text-gray-600 text-xs">
+                          •
+                        </span>
                         <span className="text-gray-400 dark:text-gray-500 text-xs">
                           {timeAgo(comment.createdAt)}
                         </span>
@@ -227,7 +236,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
               )}
             </div>
 
-            {/* Comment input – only for logged in users */}
+            {/* Comment input - only for logged in users */}
             {isLoggedIn && (
               <div className="flex items-start gap-2 pt-6">
                 {user?.image ? (
@@ -253,7 +262,7 @@ export default function PostCard({ post ,onShowToast }: Props) {
                     <button
                       onClick={handleAddComment}
                       disabled={isSubmitting || !commentContent.trim()}
-                      className="px-4 py-2 bg-white text-black dark:bg-[#0A0A0A] dark:text-white border border-gray-200 dark:border-[#262626] text-xs font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      className="px-4 py-2 bg-black text-white dark:bg-white dark:text-black border border-gray-200 dark:border-[#262626] text-xs font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                       {isSubmitting ? "Posting..." : "Comment"}
                     </button>
@@ -265,6 +274,14 @@ export default function PostCard({ post ,onShowToast }: Props) {
         )}
       </div>
 
+      {/* Toast for like/comment actions */}
+      {currentToast && (
+        <Toast
+          message={currentToast.message}
+          type={currentToast.type}
+          onClose={closeToast}
+        />
+      )}
     </>
   );
 }

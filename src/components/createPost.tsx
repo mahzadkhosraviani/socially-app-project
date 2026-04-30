@@ -64,7 +64,7 @@ export default function CreatePost() {
         <button
           onClick={handlePost}
           disabled={isPosting || !content.trim() || content.length < 5}
-          className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white  dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-black/80 dark:hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isPosting ? (
             "Posting..."

@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import PostCard from "./postCard";
 import Toast from "./Toast";
-
+import { useToastQueue } from "../hooks/usetoastQueue";
 
 function PostSkeleton() {
   return (
@@ -22,11 +21,7 @@ function PostSkeleton() {
 
 export default function PostFeed() {
   const { posts, loading, error, refetch } = usePost();
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
-  const showToast = (message: string, type: "success" | "error") => {
-    setToast({ message, type });
-  };
+  const { currentToast, closeToast, showToast } = useToastQueue();
 
   if (loading) {
     return (
@@ -70,11 +65,11 @@ export default function PostFeed() {
         ))}
       </div>
 
-      {toast && (
+      {currentToast && (
         <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
+          message={currentToast.message}
+          type={currentToast.type}
+          onClose={closeToast}
         />
       )}
     </>

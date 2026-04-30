@@ -27,7 +27,7 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   author: Author;
-  likes: Like[]; // 👈 use the array to check liked status
+  likes: Like[]; 
   comments: Comment[];
   _count: {
     likes: number;
