@@ -11,7 +11,7 @@ export type User = {
   email: string;
   emailVerified: boolean;
   image: string | null;
-  createdAt: string; // تاریخ‌ها معمولاً به صورت ISO string میان
+  createdAt: string; 
   updatedAt: string;
 };
 

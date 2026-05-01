@@ -1,15 +1,29 @@
+import { useNavigate } from "react-router-dom";
+
 type Props = {
-  isUnread?: boolean;
+  data: any;
+};
+const timeAgo = (dateString: string) => {
+  const diff = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+
+  if (diff < 60) return `${diff}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+
+  return `${Math.floor(diff / 86400)} days ago`;
 };
 
-export default function NotificationLike({ isUnread = false }: Props) {
+export default function NotificationLike({ data }: Props) {
+  const isUnread = !data.read;
+  const navigate = useNavigate();
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-4 border-b border-gray-100 dark:border-[#2a2a2a] ${isUnread ? "bg-white dark:bg-[#1a1a1a]" : "bg-gray-50 dark:bg-[#111111]"}`}
+      className={`flex items-start gap-3 px-4 py-4  ${isUnread ? " bg-gray-100 dark:bg-[#1a1a1a]" : "bg-white dark:bg-[#0A0A0A]"}`}
     >
       <div className="w-10 h-10 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-sm shrink-0">
-        A
+        {data.creator.name[0]}
       </div>
+
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <svg
@@ -24,15 +38,29 @@ export default function NotificationLike({ isUnread = false }: Props) {
           >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
-          <span className="text-sm text-gray-800 dark:text-gray-200">
-            <span className="font-semibold">Ali Mousavi</span> liked your post
+          <span
+            onClick={() => {
+              navigate(`/dashboard-profile/${data.creator.name}`, {
+                state: { id: data.creator.id },
+              });
+            }}
+            className="text-sm text-gray-800 dark:text-gray-200"
+          >
+            <span className=" font-bold text-base">{data.creator.name}</span>
+            <span className="text-[#838282]"> liked your post.</span>
           </span>
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mb-1 ml-6">
-          test post
-        </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 ml-6">
-          3 minutes ago
+        <div className="flex flex-col mt-3">
+          <div
+            className={`${isUnread ? "mb-2 pl-3" : "bg-gray-100 ml-1  dark:bg-[#2a2a2a] rounded-md pl-3 py-2 mb-3 inline-block"}`}
+          >
+            <p className="text-sm text-black dark:text-white  mb-1 ">
+              {data.post.content}
+            </p>
+          </div>
+        </div>
+        <p className="text-xs text-gray-400 dark:text-gray-500 ml-1">
+          {timeAgo(data.createdAt)}
         </p>
       </div>
       {isUnread && (
