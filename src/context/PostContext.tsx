@@ -1,13 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { postService, type Post } from "../services/postService";
-import { useAuth } from "./authContext"; // 👈 import auth
+import { postService, type Post, type Comment } from "../services/postService";
+import { useAuth } from "./authContext";
 
 type PostContextType = {
   posts: Post[];
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
-  toggleLike: (postId: string) => void; // no async needed for UI
+  toggleLike: (postId: string) => void;
+  addComment: (postId: string, content: string) => Promise<void>;
+  deletePost: (postId: string) => Promise<void>;   
 };
 
 const PostContext = createContext<PostContextType | null>(null);
@@ -16,8 +18,12 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth(); // get current user
-  const currentUserId = user?.id || user?.authorId; // adjust based on your user object
+  const { user } = useAuth();
+
+  const currentUserId = user?.id || user?.authorId;
+  const currentUserName = user?.name || "Anonymous";
+  const currentUserEmail = user?.email || "";
+  const currentUserImage = user?.image || null;
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -34,29 +40,24 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleLike = (postId: string) => {
-    // Find post index
     const postIndex = posts.findIndex(p => p.id === postId);
     if (postIndex === -1) return;
 
     const post = posts[postIndex];
-    // Determine if already liked by checking likes array
     const isLiked = post.likes.some(
       like => like.authorId === currentUserId || like.userId === currentUserId
     );
 
-    // Create optimistic updated post
     const updatedPosts = [...posts];
     let newLikesArray = [...post.likes];
     let newLikeCount = post._count.likes;
 
     if (isLiked) {
-      // Unlike: remove current user from likes array
       newLikesArray = newLikesArray.filter(
         like => like.authorId !== currentUserId && like.userId !== currentUserId
       );
       newLikeCount = post._count.likes - 1;
     } else {
-      // Like: add a temporary like object (optimistic)
       const optimisticLike = { authorId: currentUserId, userId: currentUserId };
       newLikesArray = [optimisticLike, ...newLikesArray];
       newLikeCount = post._count.likes + 1;
@@ -69,12 +70,69 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
     };
     setPosts(updatedPosts);
 
-    // Make API call in background
     postService.likePost(postId).catch(() => {
-      // Rollback on error
-      setPosts(posts); // revert to original posts state
+      setPosts(posts);
       console.error("Like/unlike failed");
     });
+  };
+
+  const addComment = async (postId: string, content: string) => {
+    if (!content.trim()) return;
+
+    const postIndex = posts.findIndex(p => p.id === postId);
+    if (postIndex === -1) return;
+
+    const optimisticComment: Comment = {
+      id: `temp-${Date.now()}`,
+      content: content,
+      createdAt: new Date().toISOString(),
+      author: {
+        name: currentUserName,
+        email: currentUserEmail,
+        image: currentUserImage,
+      },
+    };
+
+    const originalPosts = [...posts];
+    const currentPost = posts[postIndex];
+    const updatedComments = [optimisticComment, ...(currentPost.comments || [])];
+
+    const updatedPosts = [...posts];
+    updatedPosts[postIndex] = {
+      ...currentPost,
+      comments: updatedComments,
+      _count: {
+        ...currentPost._count,
+        comments: currentPost._count.comments + 1,
+      },
+    };
+    setPosts(updatedPosts);
+
+    try {
+      await postService.addComment(postId, content);
+    } catch (err) {
+      setPosts(originalPosts);
+      console.error("Failed to add comment", err);
+    }
+  };
+
+  // 👇 New deletePost function
+  const deletePost = async (postId: string) => {
+    const postIndex = posts.findIndex(p => p.id === postId);
+    if (postIndex === -1) return;
+
+    const originalPosts = [...posts];
+    const updatedPosts = posts.filter(p => p.id !== postId);
+    setPosts(updatedPosts);
+
+    try {
+      await postService.deletePost(postId);
+      // Success – do nothing else
+    } catch (err) {
+      setPosts(originalPosts);
+      console.error("Failed to delete post", err);
+      throw err; // re-throw for toast handling in component
+    }
   };
 
   useEffect(() => {
@@ -83,7 +141,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PostContext.Provider
-      value={{ posts, loading, error, refetch: fetchPosts, toggleLike }}
+      value={{ posts, loading, error, refetch: fetchPosts, toggleLike, addComment, deletePost }}
     >
       {children}
     </PostContext.Provider>

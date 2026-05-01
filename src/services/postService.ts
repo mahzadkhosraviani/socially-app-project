@@ -27,7 +27,7 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   author: Author;
-  likes: Like[];   // 👈 use the array to check liked status
+  likes: Like[]; 
   comments: Comment[];
   _count: {
     likes: number;
@@ -36,11 +36,14 @@ export type Post = {
 };
 
 export const postService = {
-  getAllPosts: () => api.get<{ message: string; success: boolean; data: Post[] }>("/posts"),
-  
-  createPost: (content: string) => 
-    api.post<{ message: string; success: boolean; data: Post }>("/posts", { content }),
-   
-  likePost: (postId: string) => 
-    api.patch(`/posts/${postId}`),   
+  getAllPosts: () =>
+    api.get<{ message: string; success: boolean; data: Post[] }>("/posts"),
+  createPost: (content: string) =>
+    api.post<{ message: string; success: boolean; data: Post }>("/posts", {
+      content,
+    }),
+  likePost: (postId: string) => api.patch(`/posts/${postId}`),
+  addComment: (postId: string, content: string) =>
+    api.post(`/posts/${postId}/comment`, { content }),
+  deletePost: (postId: string) => api.delete(`/posts/${postId}`), 
 };
