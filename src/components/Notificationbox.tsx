@@ -1,72 +1,80 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotificationComment from "./NotificationComment";
 import NotificationLike from "./NotificationLike";
 import NotificationFollow from "./NotificationFollow";
 
+import { authService } from "../services/authService";
+
 type Notification = {
   id: number;
-  type: "comment" | "like" | "follow";
-  isUnread: boolean;
+  type: "COMMENT" | "LIKE" | "FOLLOW";
+  postId: string;
+  creatorId: string;
+  read: boolean;
 };
 
-const initialNotifications: Notification[] = [
-  { id: 1, type: "comment", isUnread: true },
-  { id: 2, type: "like", isUnread: true },
-  { id: 3, type: "comment", isUnread: false },
-  { id: 4, type: "follow", isUnread: false },
-];
-
 export default function NotificationBox() {
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const unreadCount = notifications.filter((n) => n.isUnread).length;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await authService.getNotifications();
+        console.log(res.data);
+        setNotifications(res.data.data);
+      } catch (error) {
+        console.error("failed to load notification:", error);
+      }
+    };
+    fetchData();
+  }, []);
+  const markAllRead = async () => {
+    try {
+      const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
 
-  const markAllRead = () =>
-    setNotifications((prev) => prev.map((n) => ({ ...n, isUnread: false })));
+      await authService.markAllNotificationsAsRead(unreadIds);
 
-  const markRead = (id: number) =>
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, isUnread: false } : n)),
-    );
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-t-2xl overflow-hidden bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] min-h-screen sm:min-h-0 sm:h-auto">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-[#2a2a2a]">
+    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-2xl  bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] max-h-[500px] overflow-y-auto">
+      <div className=" sticky top-0 z-10 bg-white dark:bg-black flex items-center justify-between px-4 py-5  ">
         <h2 className="text-base font-semibold text-gray-900 dark:text-white">
           Notifications
         </h2>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            {unreadCount} unread
+          </span>
           {unreadCount > 0 && (
-            <button
-              onClick={markAllRead}
-              className="text-xs text-blue-500 hover:text-blue-400 transition-colors"
-            >
-              {unreadCount} unread
-            </button>
-          )}
-          {unreadCount === 0 && (
-            <span className="text-xs text-gray-400 dark:text-gray-500">
-              All read
-            </span>
+            <>
+              <button
+                onClick={markAllRead}
+                className="text-xs px-3 py-1 text-black  dark:text-white hover:bg-[#262626] hover:rounded-lg hover:transition-colors"
+              >
+                Mark as read
+              </button>
+            </>
           )}
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 ">
         {notifications.map((n) => (
           <div
             key={n.id}
-            onClick={() => markRead(n.id)}
-            className="cursor-pointer"
+            className="overflow-hidden cursor-pointer mt-1 mx-3 mb-5 rounded-xl  "
           >
-            {n.type === "comment" && (
-              <NotificationComment isUnread={n.isUnread} />
-            )}
-            {n.type === "like" && <NotificationLike isUnread={n.isUnread} />}
-            {n.type === "follow" && (
-              <NotificationFollow isUnread={n.isUnread} />
-            )}
+            {n.type === "COMMENT" && <NotificationComment data={n} />}
+            {n.type === "LIKE" && <NotificationLike data={n} />}
+            {n.type === "FOLLOW" && <NotificationFollow data={n} />}
           </div>
         ))}
       </div>

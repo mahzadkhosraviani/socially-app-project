@@ -41,15 +41,15 @@ const ProfileContent = ({ userId, activeTab }: Props) => {
       ) : items.length === 0 ? (
         <div className="text-md">
           {activeTab === "posts" ? (
-            <div className="flex flex-col p-2 px-3 gap-2 bg-black text-left text-white dark:bg-white rounded-lg font-semibold ">
-              <p className="dark:text-black text-white">There is no post.</p>
+            <div className="mt-4 flex flex-col p-2 px-3 gap-2 bg-black text-left text-white dark:bg-white rounded-lg font-semibold ">
+              <p className="text-bold dark:text-black text-white">There is no post.</p>
               <p className=" text-white text-sm dark:text-[#373636]">
                 This user has not posted anything.
               </p>
             </div>
           ) : (
             <div className="flex flex-col p-2 px-3 gap-2 bg-black text-left text-white dark:bg-white rounded-lg font-semibold  ">
-              <p className="dark:text-black text-white">There is no like.</p>
+              <p className="text-bold dark:text-black text-white">There is no like.</p>
               <p className=" text-white text-sm dark:text-[#373636]">
                 This user has not liked any post.
               </p>

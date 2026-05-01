@@ -1,14 +1,28 @@
+import { useNavigate } from "react-router-dom";
+
 type Props = {
-  isUnread?: boolean;
+  data: any;
 };
 
-export default function NotificationFollow({ isUnread = false }: Props) {
+const timeAgo = (dateString: string) => {
+  const diff = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+
+  if (diff < 60) return `${diff}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+
+  return `${Math.floor(diff / 86400)} days ago`;
+};
+
+export default function NotificationFollow({ data }: Props) {
+  const isUnread = !data.read;
+  const navigate = useNavigate();
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-4 border-b border-gray-100 dark:border-[#2a2a2a] ${isUnread ? "bg-white dark:bg-[#1a1a1a]" : "bg-gray-50 dark:bg-[#111111]"}`}
+      className={`flex items-start gap-3 px-5 py-5 ${isUnread ? "bg-gray-100 dark:bg-[#1a1a1a]" : "bg-white dark:bg-[#0A0A0A]"}`}
     >
       <div className="w-10 h-10 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-sm shrink-0">
-        A
+        {data.creator.name[0]}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
@@ -27,12 +41,20 @@ export default function NotificationFollow({ isUnread = false }: Props) {
             <line x1="19" y1="8" x2="19" y2="14" />
             <line x1="22" y1="11" x2="16" y2="11" />
           </svg>
-          <span className="text-sm text-gray-800 dark:text-gray-200">
-            <span className="font-semibold">Ali Mousavi</span> followed you
+          <span
+            onClick={() => {
+              navigate(`/dashboard-profile/${data.creator.name}`, {
+                state: { id: data.creator.id },
+              });
+            }}
+            className="text-sm text-gray-800 dark:text-gray-200"
+          >
+            <span className="font-bold text-base">{data.creator.name}</span>{" "}
+            <span className="text-[#838282]">started following you.</span>
           </span>
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500 ml-6">
-          3 minutes ago
+        <p className="text-xs text-gray-400 dark:text-gray-500 ml-1 mt-3">
+          {timeAgo(data.createdAt)}
         </p>
       </div>
       {isUnread && (
