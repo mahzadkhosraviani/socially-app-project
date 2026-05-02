@@ -13,17 +13,22 @@ const RecommendedUsers = () => {
   }, []);
 
   const toggleFollow = async (id: string) => {
-    await recommendService.toggleFollow(id);
+    try {
+      await recommendService.toggleFollow(id);
 
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === id ? { ...u, isFollowing: !u.isFollowing } : u,
-      ),
-    );
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === id ? { ...u, isFollowing: !u.isFollowing } : u,
+        ),
+      );
+    } catch (err) {
+      console.error("Follow error:", err);
+    }
   };
+
   return (
-    <div className="p-4    dark:bg-[#0A0A0A] dark:border dark:border-[#262626] rounded-2xl shadow hidden md:block  md:h-72 md:w-100 mr-3">
-      <h2 className="text-lg dark:text-[#FAFAFA] font-bold mb-4 ml-3 ">
+    <div className="p-4 dark:bg-[#0A0A0A] dark:border dark:border-[#262626] rounded-2xl shadow hidden md:block md:h-72 md:w-100 mr-3">
+      <h2 className="text-lg dark:text-[#FAFAFA] font-bold mb-4 ml-3">
         Recommended Users
       </h2>
       <UserList users={users} onToggleFollow={toggleFollow} />
