@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import setAvatarColors from "../utils/setAvatarColors";
 
 type Props = {
   data: any;
@@ -21,7 +22,7 @@ export default function NotificationFollow({ data }: Props) {
     <div
       className={`flex items-start gap-3 px-5 py-5 ${isUnread ? "bg-gray-100 dark:bg-[#1a1a1a]" : "bg-white dark:bg-[#0A0A0A]"}`}
     >
-      <div className="w-10 h-10 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-sm shrink-0">
+      <div className={`w-10 h-10 rounded-full ${setAvatarColors(data.creator.name)}  flex items-center justify-center text-white font-bold text-sm shrink-0`}>
         {data.creator.name[0]}
       </div>
       <div className="flex-1 min-w-0">
