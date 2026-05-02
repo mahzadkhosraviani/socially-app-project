@@ -4,6 +4,7 @@ import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
 import Toast from "./Toast";
 import { useToastQueue } from "../hooks/usetoastQueue";
+import setAvatarColors from "../utils/setAvatarColors";
 
 type Props = {
   post: Post;
@@ -91,7 +92,7 @@ export default function PostCard({ post, onShowToast }: Props) {
 
   return (
     <>
-      <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-168 mt-7 relative">
+      <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-full mt-7 relative">
         {/* Delete button - only for author */}
         {isAuthor && (
           <button
@@ -123,7 +124,9 @@ export default function PostCard({ post, onShowToast }: Props) {
               className="w-11 h-11 rounded-full object-cover shrink-0"
             />
           ) : (
-            <div className="w-11 h-11 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-sm shrink-0">
+            <div
+              className={`w-11 h-11 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(author.name)}`}
+            >
               {author.name[0].toUpperCase()}
             </div>
           )}
@@ -208,7 +211,9 @@ export default function PostCard({ post, onShowToast }: Props) {
                         className="w-7 h-7 rounded-full object-cover shrink-0"
                       />
                     ) : (
-                      <div className="w-7 h-7 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-xs shrink-0">
+                      <div
+                        className={`w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0 ${setAvatarColors(comment.author.name)}`}
+                      >
                         {comment.author.name[0].toUpperCase()}
                       </div>
                     )}
@@ -246,7 +251,9 @@ export default function PostCard({ post, onShowToast }: Props) {
                     className="w-7 h-7 rounded-full object-cover shrink-0"
                   />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                  <div
+                    className={`w-7 h-7 rounded-full  flex items-center justify-center text-white font-bold text-xs shrink-0 ${setAvatarColors(user.name)}`}
+                  >
                     {user?.name?.[0]?.toUpperCase() || "U"}
                   </div>
                 )}

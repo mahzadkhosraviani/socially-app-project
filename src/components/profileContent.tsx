@@ -48,7 +48,7 @@ const ProfileContent = ({ userId, activeTab }: Props) => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col p-2 px-3 gap-2 bg-black text-left text-white dark:bg-white rounded-lg font-semibold  ">
+            <div className="mt-4 flex flex-col p-2 px-3 gap-2 bg-black text-left text-white dark:bg-white rounded-lg font-semibold  ">
               <p className="text-bold dark:text-black text-white">There is no like.</p>
               <p className=" text-white text-sm dark:text-[#373636]">
                 This user has not liked any post.

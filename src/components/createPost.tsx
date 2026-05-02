@@ -2,6 +2,7 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import { postService } from "../services/postService";
+import setAvatarColors from "../utils/setAvatarColors";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
@@ -43,7 +44,7 @@ export default function CreatePost() {
             className="w-10 h-10 rounded-full object-cover shrink-0"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+          <div className={`w-10 h-10 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(user.name)}`}>
             {user?.name?.[0]?.toUpperCase() || "U"}
           </div>
         )}
