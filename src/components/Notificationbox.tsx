@@ -43,8 +43,8 @@ export default function NotificationBox() {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-2xl  bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] max-h-[500px] overflow-y-auto">
-      <div className=" sticky top-0 z-10 bg-white dark:bg-black flex items-center justify-between px-4 py-5  ">
+    <div className="bg-flex flex-col w-full max-w-4xl mx-auto rounded-2xl  bg-white dark:bg-[#171717] border border-gray-200 dark:border-[#2a2a2a] max-h-[500px] overflow-y-auto">
+      <div className=" sticky top-0 z-10 bg-white dark:bg-[#171717] flex items-center justify-between px-4 py-5  ">
         <h2 className="text-base font-semibold text-gray-900 dark:text-white">
           Notifications
         </h2>

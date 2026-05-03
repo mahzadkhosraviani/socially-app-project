@@ -18,7 +18,7 @@ export default function NotificationComment({ data }: Props) {
   const navigate = useNavigate();
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-4 ${isUnread ? " bg-gray-100  dark:bg-[#1a1a1a]" : "bg-white dark:bg-[#0A0A0A]"}`}
+      className={`flex items-start gap-3 px-4 py-4 ${isUnread ? " bg-gray-100  dark:bg-[#252525]" : "bg-white dark:bg-[#171717]"}`}
     >
       <div
         className={`w-10 h-10 rounded-full ${setAvatarColors(data.creator.name)} flex items-center justify-center text-white font-bold text-sm shrink-0`}

@@ -34,7 +34,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
+    <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
       <div className="flex items-start gap-3">
         {/* Avatar - dynamic from auth */}
         {user?.image ? (

@@ -92,7 +92,7 @@ export default function PostCard({ post, onShowToast }: Props) {
 
   return (
     <>
-      <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-full mt-7 relative">
+      <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 w-full mt-7 relative">
         {/* Delete button - only for author */}
         {isAuthor && (
           <button
@@ -263,7 +263,7 @@ export default function PostCard({ post, onShowToast }: Props) {
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder="Write a comment..."
                     rows={1}
-                    className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#0A0A0A] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
+                    className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#2e2e2e] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
                   />
                   <div className="flex justify-end mt-2 mb-4">
                     <button
