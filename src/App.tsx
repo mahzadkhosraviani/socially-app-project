@@ -16,7 +16,7 @@ import { Toaster } from "react-hot-toast";
 import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
-import {ProtectedRoute} from "./components/ProtectedRoute"
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen";
 
 // import Profile from "./components/profile";
@@ -43,14 +43,13 @@ import LoadingScreen from "./components/LoadingScreen";
 // </Routes>
 
 function App() {
-    const { loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
     return <LoadingScreen text="Loading session..." />;
   }
   return (
     <>
-    
       {/* <div className="dark:bg-black w-screen h-screen">
         <Navbar />
         <WelcomeBack /> */}
@@ -58,8 +57,13 @@ function App() {
       <Toaster
         position="top-center"
         gutter={12}
-        containerStyle={{
-          top: 24,
+        containerStyle={{ top: 24 }}
+        toastOptions={{
+          style: {
+            background: "black",
+            color: "white",
+            border: "1px solid #333",
+          },
         }}
       />
 
@@ -73,7 +77,10 @@ function App() {
             path="/dashboard-notification"
             element={<DashboardNotification />}
           />
-          <Route path="/dashboard-profile/:username" element={<DashboardProfile />} />
+          <Route
+            path="/dashboard-profile/:username"
+            element={<DashboardProfile />}
+          />
           <Route path="/dashboard-profile" element={<DashboardProfile />} />
         </Route>
       </Routes>
