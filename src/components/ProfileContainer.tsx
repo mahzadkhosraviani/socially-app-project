@@ -5,33 +5,38 @@ import UserInfo from "./UserInfo";
 import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
 
-interface ProfileContainerProps {
-  name: string;
-  username: string;
-  avatar: string;
-  followings: number;
-  followers: number;
-  posts: number;
-  location?: string;
-  website?: string;
-  createdAt: string;
-}
-
 const ProfileContainer = ({ user }: { user: any }) => {
-  const [userInfoNew, setUserInfoNew] = useState(null);
-
-  const following = user?._count?.followings ?? userInfoNew?._count?.followings;
-
-  const followers = user?._count?.followers ?? userInfoNew?._count?.followers;
-
+  const [userInfoNew, setUserInfoNew] = useState<any>(null);
+  const [postsCount, setPostsCount] = useState<number>(0);
   const [mainUser, setMainUser] = useState(false);
   const [isReady, setIsReady] = useState(false);
+
+  const following = user?._count?.followings ?? userInfoNew?._count?.followings;
+  const followers = user?._count?.followers ?? userInfoNew?._count?.followers;
+
+  // Fetch posts count using the existing authService method
+  const fetchPostsCount = async (userId: string) => {
+    try {
+      const response = await authService.getUserPosts(userId);
+      // The response structure: { data: { data: Post[] } }
+      const postsArray = response.data.data;
+      setPostsCount(postsArray.length);
+    } catch (err) {
+      console.error("Failed to fetch posts count:", err);
+      setPostsCount(0);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await authService.getUserById(user.id);
-        setUserInfoNew(res.data.data);
+        // Fetch full user data if counts are missing (for the main user's own profile)
+        if (!following && !followers) {
+          const res = await authService.getUserById(user.id);
+          setUserInfoNew(res.data.data);
+        }
+        // Always fetch the post count
+        await fetchPostsCount(user.id);
       } catch (err) {
         console.error(err);
       } finally {
@@ -44,7 +49,7 @@ const ProfileContainer = ({ user }: { user: any }) => {
       fetchData();
     } else {
       setMainUser(false);
-      setIsReady(true);
+      fetchPostsCount(user.id).finally(() => setIsReady(true));
     }
   }, [user?.id]);
 
@@ -61,12 +66,13 @@ const ProfileContainer = ({ user }: { user: any }) => {
   return (
     <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
       <PorfileCard user={user} />
-
-      <PorfileStats followings={following} followers={followers} posts={3} />
-
+      <PorfileStats
+        followings={following}
+        followers={followers}
+        posts={postsCount}
+      />
       {!mainUser && <EditButton label="Follow" />}
       {mainUser && <EditButton label="Edit Profile" />}
-
       <UserInfo user={user} />
     </div>
   );
