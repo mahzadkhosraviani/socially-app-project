@@ -17,6 +17,7 @@ import DashboardHome from "./pages/DashboardHome";
 import DashboardNotification from "./pages/DashboardNotification";
 import DashboardProfile from "./pages/DashboardProfile";
 import {ProtectedRoute} from "./components/ProtectedRoute"
+import LoadingScreen from "./components/LoadingScreen";
 
 // import Profile from "./components/profile";
 
@@ -45,7 +46,7 @@ function App() {
     const { loading } = useAuth();
 
   if (loading) {
-    return <div>Loading session...</div>;
+    return <LoadingScreen text="Loading session..." />;
   }
   return (
     <>
