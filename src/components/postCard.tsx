@@ -92,7 +92,7 @@ export default function PostCard({ post, onShowToast }: Props) {
 
   return (
     <>
-      <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 w-full mt-7 relative">
+      <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-240 mt-7 relative">
         {/* Delete button - only for author */}
         {isAuthor && (
           <button

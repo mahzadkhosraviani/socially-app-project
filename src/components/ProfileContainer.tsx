@@ -50,7 +50,7 @@ const ProfileContainer = ({ user }: { user: any }) => {
 
   if (!isReady) {
     return (
-      <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-[#171717] dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
+      <div className=" w-full max-w-[550px] h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
         <div className="h-6 w-40 bg-gray-300 dark:bg-[#333] animate-pulse rounded"></div>
         <div className="h-4 w-24 bg-gray-300 dark:bg-[#333] animate-pulse rounded"></div>
         <div className="h-10 w-28 bg-gray-300 dark:bg-[#333] animate-pulse rounded"></div>
@@ -59,7 +59,7 @@ const ProfileContainer = ({ user }: { user: any }) => {
   }
 
   return (
-    <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-[#171717] dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
+    <div className="w-full max-w-[550px] mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
       <PorfileCard user={user} />
 
       <PorfileStats followings={following} followers={followers} posts={3} />

@@ -41,8 +41,8 @@ function Navbar() {
   };
   return (
     <>
-      <div className="flex justify-between items-center py-5 px-4  dark:bg-[#0A0A0A] md:pr-13 md:pl-14">
-        <span className="dark:text-white text-xl md:text-2xl tracking-wide font-semibold font-mono ">
+      <div className=" flex justify-between items-center py-5 px-4  bg-white/60 dark:bg-black/20 md:pr-13 md:pl-20  border-b-[#e3e3e3] border dark:border-b-[#1c1c1c]  ">
+        <span className="dark:text-white text-xl md:text-xl tracking-wide font-semibold font-mono ">
           Socially
         </span>
 
@@ -316,7 +316,7 @@ function Navbar() {
         </div>
       </>
 
-      <hr className="text-[#e5e5e5] dark:text-[#262626]" />
+     
     </>
   );
 }

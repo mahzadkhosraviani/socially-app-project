@@ -8,16 +8,17 @@ import ProfileContainer from "../components/ProfileContainer";
 import PostFeed from "../components/PostFeed";
 import { useAuth } from "../context/authContext";
 import Layout from "../components/layout";
+import LayoutHome from "../components/layout";
 function DashboardHome() {
 const {user} = useAuth()
 
   return (
     <>
 
-     <Layout>
+     <LayoutHome>
       <CreatePost />
       <PostFeed />
-    </Layout>
+    </LayoutHome>
     </>
   );
 }
