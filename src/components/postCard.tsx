@@ -4,6 +4,9 @@ import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
 import Toast from "./Toast";
 import { useToastQueue } from "../hooks/usetoastQueue";
+import { Link } from "react-router-dom";
+
+
 
 type Props = {
   post: Post;
@@ -21,6 +24,7 @@ const timeAgo = (dateString: string) => {
 };
 
 export default function PostCard({ post, onShowToast }: Props) {
+
   const { toggleLike, addComment, deletePost } = usePost();
   const { user } = useAuth();
   const { currentToast, closeToast, showToast } = useToastQueue();
@@ -89,6 +93,8 @@ export default function PostCard({ post, onShowToast }: Props) {
   const { author, content, createdAt, _count, comments } = post;
   const username = getUsernameFromEmail(author.email);
 
+  console.log("posttttt",post.id)
+  console.log("vvvvv",currentUserId)
   return (
     <>
       <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 w-168 mt-7 relative">
@@ -128,12 +134,18 @@ export default function PostCard({ post, onShowToast }: Props) {
             </div>
           )}
           <div className="flex flex-wrap items-center gap-x-2">
+            <Link
+              to={`/dashboard-profile/${username}`}
+              state={{ id: username}}
+              className="flex items-center gap-x-2"
+            >
             <span className="text-gray-900 dark:text-white font-semibold text-sm">
               {author.name}
             </span>
             <span className="text-gray-400 dark:text-gray-500 text-xs">
               @{username}
             </span>
+            </Link>
             <span className="text-gray-300 dark:text-gray-600 text-xs">•</span>
             <span className="text-gray-400 dark:text-gray-500 text-xs">
               {timeAgo(createdAt)}
@@ -145,7 +157,6 @@ export default function PostCard({ post, onShowToast }: Props) {
         <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
           {content}
         </p>
-
         {/* Action buttons */}
         <div className="flex items-center gap-5 pb-3">
           <button

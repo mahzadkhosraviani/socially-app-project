@@ -4,6 +4,7 @@ import EditButton from "./EditButton";
 import UserInfo from "./UserInfo";
 import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
+import { useAuth } from "../context/authContext";
 
 interface ProfileContainerProps {
   name: string;
@@ -16,13 +17,19 @@ interface ProfileContainerProps {
   website?: string;
   createdAt: string;
 }
+interface ProfileContainerProps {
+  user: any;
+  onEditClick: () => void; // ✅ این اضافه شد
+}
 
-const ProfileContainer = ({ user }: { user: any }) => {
+const ProfileContainer = ({ user1, onEditClick }) => {
+  const { user } = useAuth();
   const [userInfoNew, setUserInfoNew] = useState(null);
 
-  const following = user?._count?.followings ?? userInfoNew?._count?.followings;
+  const following =
+    user1?._count?.followings ?? userInfoNew?._count?.followings;
 
-  const followers = user?._count?.followers ?? userInfoNew?._count?.followers;
+  const followers = user1?._count?.followers ?? userInfoNew?._count?.followers;
 
   const [mainUser, setMainUser] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -30,7 +37,7 @@ const ProfileContainer = ({ user }: { user: any }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await authService.getUserById(user.id);
+        const res = await authService.getUserById(user1.id);
         setUserInfoNew(res.data.data);
       } catch (err) {
         console.error(err);
@@ -39,15 +46,28 @@ const ProfileContainer = ({ user }: { user: any }) => {
       }
     };
 
-    if (!following && !followers) {
+    if (user1.id === user.id) {
       setMainUser(true);
       fetchData();
     } else {
+      fetchData();
       setMainUser(false);
       setIsReady(true);
     }
-  }, [user?.id]);
+  }, [user1?.id]);
+  console.log("main:", user);
+  //   const fetchUser = async () => {
+  //   try {
+  //     const res = await authService.getUserById(user.id);
+  //     setUserInfoNew(res.data.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
+  // useEffect(() => {
+  //   if (user?.id) fetchUser();
+  // }, [user?.id]);
   if (!isReady) {
     return (
       <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
@@ -59,15 +79,16 @@ const ProfileContainer = ({ user }: { user: any }) => {
   }
 
   return (
-    <div className="w-[550px] mx-auto h-110 p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
-      <PorfileCard user={user} />
+    <div className="w-[550px] mx-auto h-auto p-4 bg-white dark:bg-black dark:border-[#262626] dark:border rounded-2xl shadow flex flex-col gap-4 mb-7">
+      <PorfileCard user={user1} />
 
       <PorfileStats followings={following} followers={followers} posts={3} />
 
       {!mainUser && <EditButton label="Follow" />}
-      {mainUser && <EditButton label="Edit Profile" />}
+      {mainUser && <EditButton label="Edit Profile" onClick={onEditClick} />}
 
-      <UserInfo user={user} />
+      {/* <UserInfo user={user} /> */}
+      <UserInfo user1={user1} />
     </div>
   );
 };

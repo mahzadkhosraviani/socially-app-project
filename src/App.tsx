@@ -74,6 +74,7 @@ function App() {
           />
           <Route path="/dashboard-profile/:username" element={<DashboardProfile />} />
           <Route path="/dashboard-profile" element={<DashboardProfile />} />
+         
         </Route>
       </Routes>
       {/* <CreatePost />

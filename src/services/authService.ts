@@ -15,7 +15,9 @@ export const authService = {
 
   getUserById: (userId: string) => api.get(`/users/${userId}`),
 
-  getUser: () => api.get(`/users`),
+  getUser: (username) => api.get(`/users/${username}/profile`),
   getNotifications: () => api.get("/notifications"),
   markAllNotificationsAsRead: (ids:number[]) => api.patch("/notifications",{ids}),
+
+
 };

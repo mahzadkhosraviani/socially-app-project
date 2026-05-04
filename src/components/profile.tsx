@@ -11,13 +11,11 @@ export type User = {
   email: string;
   emailVerified: boolean;
   image: string | null;
-  createdAt: string; 
+  createdAt: string;
   updatedAt: string;
 };
 
 function Profile() {
-
-
   // const { user } = useAuth();
 
   const { user } = useAuth();
@@ -35,12 +33,13 @@ function Profile() {
 
     if (user?.id) fetchData();
   }, [user?.id]);
-  console.log(user);
+  
+  console.log("balaye:", user);
   const username = user.email.split("@")[0];
-  const avatar = user.name.split("")[0]
+  const avatar = user.name.split("")[0];
   return (
-    <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A]">
-      <div className="w-100 h-101 bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+    <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A] ">
+      <div className="w-100 h-auto bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
         {/* Avatar */}
         <div className="w-20 h-20 mx-auto rounded-full bg-green-600 flex items-center justify-center text-white text-3xl font-bold">
           {avatar}
@@ -53,7 +52,9 @@ function Profile() {
 
         {/* Username */}
         <p className="text-[#737373] dark:text-[#A3A3A3]">{username}</p>
-
+        <p className="mt-2 text-sm text-[#737373] dark:text-[#A3A3A3]">
+         {user?.bio}
+        </p>
         {/* Stats */}
         <div className="flex justify-between mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#262626]">
           <div>
@@ -89,19 +90,16 @@ function Profile() {
         </div>
 
         {/* Website */}
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 ">
           <img
             src={WebsiteIcon}
             alt="website icon"
             className="w-4 h-4 mt-[12px]"
           />
-          <Link
-            to="/"
-            className="block mt-2 text-sm text-[#737373] hover:underline dark:text-[#A3A3A3]"
-          >
+          <p className="text-[#737373] dark:text-[#A3A3A3] text-sm mt-2 mb-4">
             {!userInfoNew?.website && "no website"}
             {userInfoNew?.website}
-          </Link>
+          </p>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ function PostSkeleton() {
         <div className="flex flex-col gap-2">
           <div className="w-24 h-3 rounded bg-gray-200 dark:bg-[#2a2a2a]" />
           <div className="w-36 h-3 rounded bg-gray-200 dark:bg-[#2a2a2a]" />
+        
         </div>
       </div>
       <div className="w-full h-3 rounded bg-gray-200 dark:bg-[#2a2a2a] mb-2" />

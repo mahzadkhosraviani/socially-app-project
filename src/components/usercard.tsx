@@ -1,6 +1,8 @@
 import FollowButton from "./followbutton";
 import porfilphoto from "../assets/profile photo.svg";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { authService } from "../services/authService";
 
 interface usercardprops {
   id: string;
@@ -11,9 +13,24 @@ interface usercardprops {
 }
 
 const Usercard = (props: usercardprops) => {
+ 
+    const [userInfo,SetUserInfo] = useState(null)
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await authService.getUserById(props.id);
+          SetUserInfo(res.data.data)
+        } catch (err) {
+          console.error(err);
+        }
+      };
+  
+       fetchData();
+    }, []);
+     const username = userInfo?.email.split("@")[0]
   return (
     <div className="flex items-center justify-between p-3 rounded-lg">
-      <Link to={`/dashboard-profile/${props.name}`} state={{ id: props.id }}>
+      <Link to={`/dashboard-profile/${username}`} state={{ id:username }}>
         <div className="flex items-center gap-3">
           <img
             src={porfilphoto}
