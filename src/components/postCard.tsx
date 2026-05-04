@@ -2,18 +2,9 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
-<<<<<<< HEAD
-import Toast from "./Toast";
-import { useToastQueue } from "../hooks/usetoastQueue";
 import setAvatarColors from "../utils/setAvatarColors";
 
-type Props = {
-  post: Post;
-  onShowToast: (message: string, type: "success" | "error") => void; // for delete
-};
-=======
 import toast from "react-hot-toast";
->>>>>>> dev
 
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
 
