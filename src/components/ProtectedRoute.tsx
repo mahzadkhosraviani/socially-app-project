@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import LoadingScreen from "./LoadingScreen";
 
 export const ProtectedRoute = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div style={{ padding: 4 }}> please wait a moment ...</div>;
+    return <LoadingScreen text="Checking authentication..." />;
   }
 
   if (!user) {
