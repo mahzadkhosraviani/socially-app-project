@@ -13,3 +13,7 @@ function setAvatarColors(name: string) {
 }
 
 export default setAvatarColors;
+
+
+// fun (ID) => id Unique
+// list colors: id: color : 123: red, 2342: 

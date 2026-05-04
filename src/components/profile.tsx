@@ -40,7 +40,7 @@ function Profile() {
   const username = user.email.split("@")[0];
   const avatar = user.name.split("")[0]
   return (
-    <div className="min-h-screen bg-white pl-25 dark:bg-[#0A0A0A]">
+    <div className="min-h-screen bg-white pl-30 dark:bg-[#0A0A0A]">
       <div className="w-73 h-100 bg-white dark:bg-[#171717] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
         {/* Avatar */}
         <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${setAvatarColors(user.name)} text-white text-3xl font-bold`}>

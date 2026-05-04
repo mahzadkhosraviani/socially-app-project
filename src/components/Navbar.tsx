@@ -50,7 +50,7 @@ function Navbar() {
         <div className="flex gap-4 md:gap-8">
           <button
             onClick={handleToggle}
-            className="flex justify-center items-center dark:border-[#262626] w-10 h-8 dark:border cursor-pointer py-1 px-2 md:py-2 rounded-md text-md md:text-xl shadow-lg border border-[#E5E5E5]"
+            className="flex justify-center items-center dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 dark:border-[#262626] w-10 h-8 dark:border cursor-pointer py-1 px-2 md:py-2 rounded-md text-md md:text-xl shadow-lg border border-[#E5E5E5]"
           >
             {!darkMode && (
               <svg
@@ -79,7 +79,7 @@ function Navbar() {
           </button>
           <button
             onClick={() => setMenuOpen(true)}
-            className="md:hidden lg:hidden dark:text-black dark:bg-white text-white bg-black flex justify-center items-center w-10 h-8 cursor-pointer py-1 px-2 md:py-2 rounded-md text-md md:text-xl shadow-lg"
+            className="md:hidden dark:hover:bg-[#cccaca] hover:bg-[#2d2d2d]  transition duration-300 lg:hidden dark:text-black dark:bg-white text-white bg-black flex justify-center items-center w-10 h-8 cursor-pointer py-1 px-2 md:py-2 rounded-md text-md md:text-xl shadow-lg"
           >
             {" "}
             <svg
@@ -99,7 +99,7 @@ function Navbar() {
 
           <button
             onClick={() => navigate(user ? "/dashboard-home" : "/")}
-            className="hidden dark:text-white text-sm md:text-base hover:bg-[#171717] transition duration-300   rounded-lg cursor-pointer md:flex gap-1 justify-center items-center "
+            className="hidden dark:text-white text-sm md:text-base dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-1 px-2   rounded-lg cursor-pointer md:flex gap-1 justify-center items-center "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +127,7 @@ function Navbar() {
           {!user && (
             <button
               onClick={() => navigate("/sign-in")}
-              className="hidden md:block dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
+              className="hidden md:block dark:hover:bg-[#cccaca] hover:bg-[#2d2d2d]  transition duration-300  dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-3  rounded-md text-sm md:text-base"
             >
               Sign In
             </button>
@@ -136,7 +136,7 @@ function Navbar() {
             <>
               <button
                 onClick={() => navigate("/dashboard-notification")}
-                className="hidden  dark:text-white text-sm md:text-base cursor-pointer md:flex justify-center items-center gap-1"
+                className="hidden  dark:text-white text-sm md:text-base dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-1 px-2 rounded-lg    cursor-pointer md:flex justify-center items-center gap-1"
               >
                 <span>
                   <svg
@@ -154,7 +154,7 @@ function Navbar() {
               </button>
               <button
                 onClick={() => navigate("/dashboard-profile")}
-                className="hidden dark:text-white text-sm md:text-base cursor-pointer md:flex justify-center items-center gap-1"
+                className="hidden dark:text-white text-sm md:text-base rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-1 px-2  cursor-pointer md:flex justify-center items-center gap-1"
               >
                 <span>
                   <svg
@@ -172,7 +172,7 @@ function Navbar() {
               </button>
               <button
                 onClick={handleLogout}
-                className="hidden md:block cursor-pointer dark:text-white"
+                className="hidden rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-1 px-2   md:block cursor-pointer dark:text-white"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +220,7 @@ function Navbar() {
           </div>
           <button
             onClick={() => navigate(user ? "/dashboard-home" : "/")}
-            className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center "
+            className="dark:text-white rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-2 px-4 text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +247,7 @@ function Navbar() {
           {!user && (
             <button
               onClick={() => navigate("/sign-in")}
-              className="dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
+              className="dark:text-black hover:bg-[#cccaca]  transition duration-300  dark:bg-white cursor-pointer bg-black text-white py-2 px-4 md:py-2 md:px-4 rounded-md text-sm md:text-base"
             >
               Sign In
             </button>
@@ -256,7 +256,7 @@ function Navbar() {
             <>
               <button
                 onClick={() => navigate("/dashboard-notification")}
-                className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
+                className="dark:text-white rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-2 px-4 text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
               >
                 <span>
                   <svg
@@ -274,7 +274,7 @@ function Navbar() {
               </button>
               <button
                 onClick={() => navigate("/dashboard-profile")}
-                className="dark:text-white text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
+                className="dark:text-white rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-2 px-4 text-sm md:text-base cursor-pointer flex justify-center items-center gap-1"
               >
                 <span>
                   <svg
@@ -292,7 +292,7 @@ function Navbar() {
               </button>
               <button
                 onClick={handleLogout}
-                className="cursor-pointer dark:text-white self-center"
+                className="cursor-pointer rounded-lg  dark:hover:bg-[#171717] hover:bg-[#f4f2f2] transition duration-300 py-2 px-4 dark:text-white self-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

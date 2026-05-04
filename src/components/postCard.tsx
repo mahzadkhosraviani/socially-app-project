@@ -89,7 +89,7 @@ export default function PostCard({ post }: { post: Post }) {
   const username = getUsernameFromEmail(author.email);
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-280  mt-7 relative">
+    <div className="bg-white border border-gray-200 shadow-lg dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-235  mt-7 relative">
       {isAuthor && (
         <button
           onClick={handleDelete}
@@ -186,7 +186,7 @@ export default function PostCard({ post }: { post: Post }) {
       </div>
 
       {showComments && (
-        <div className="border-t border-gray-200 dark:border-[#262626]">
+        <div className="border-t  border-gray-200 dark:border-[#262626]">
           <div className="mt-4 max-h-64 overflow-y-auto space-y-3 mb-2">
             {comments.length === 0 ? (
               <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-2">
@@ -249,7 +249,7 @@ export default function PostCard({ post }: { post: Post }) {
                   onChange={(e) => setCommentContent(e.target.value)}
                   placeholder="Write a comment..."
                   rows={1}
-                  className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#252525] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
+                  className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white shadow-lg dark:bg-[#252525] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
                 />
                 <div className="flex justify-end mt-2 mb-4">
                   <button
