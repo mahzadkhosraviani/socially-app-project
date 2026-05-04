@@ -99,7 +99,7 @@ function Navbar() {
 
           <button
             onClick={() => navigate(user ? "/dashboard-home" : "/")}
-            className="hidden dark:text-white text-sm md:text-base  cursor-pointer md:flex gap-1 justify-center items-center "
+            className="hidden dark:text-white text-sm md:text-base hover:bg-[#171717] transition duration-300   rounded-lg cursor-pointer md:flex gap-1 justify-center items-center "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

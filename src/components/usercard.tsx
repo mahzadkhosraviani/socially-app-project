@@ -29,7 +29,7 @@ const Usercard = (props: usercardprops) => {
           <div className="flex flex-col">
             <span className="font-semibold">{props.name}</span>
 
-            <span className="text-sm dark:text-white text-gray-500">
+            <span className="text-sm text-gray-400">
               {props._count.followers} followers
             </span>
           </div>

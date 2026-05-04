@@ -55,7 +55,7 @@ export default function PostFeed() {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

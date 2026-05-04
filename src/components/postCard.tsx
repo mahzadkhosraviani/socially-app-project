@@ -89,7 +89,7 @@ export default function PostCard({ post }: { post: Post }) {
   const username = getUsernameFromEmail(author.email);
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-260 mt-7 relative">
+    <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-280  mt-7 relative">
       {isAuthor && (
         <button
           onClick={handleDelete}
