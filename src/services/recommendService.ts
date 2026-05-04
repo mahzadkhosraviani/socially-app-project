@@ -3,7 +3,9 @@ import api from "../lib/axios";
 export type RecommendedUser = {
   id: string;
   name: string;
-  followers: number;
+  _count: {
+    followers: number;
+  };
   isFollowing: boolean;
 };
 

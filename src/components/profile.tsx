@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
 import LocationIcon from "../assets/SVG.png";
 import WebsiteIcon from "../assets/SVG (1).png";
+import setAvatarColors from "../utils/setAvatarColors";
 
 export type User = {
   id: string;
@@ -39,10 +40,10 @@ function Profile() {
   const username = user.email.split("@")[0];
   const avatar = user.name.split("")[0]
   return (
-    <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A]">
-      <div className="w-100 h-101 bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+    <div className="min-h-screen bg-white pl-30 dark:bg-[#0A0A0A]">
+      <div className="w-73 h-100 bg-white dark:bg-[#171717] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
         {/* Avatar */}
-        <div className="w-20 h-20 mx-auto rounded-full bg-green-600 flex items-center justify-center text-white text-3xl font-bold">
+        <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${setAvatarColors(user.name)} text-white text-3xl font-bold`}>
           {avatar}
         </div>
 

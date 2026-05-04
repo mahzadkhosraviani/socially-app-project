@@ -2,6 +2,7 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import { postService } from "../services/postService";
+import setAvatarColors from "../utils/setAvatarColors";
 import toast from "react-hot-toast";
 
 export default function CreatePost() {
@@ -36,7 +37,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
+    <div className="bg-white border border-gray-200 shadow-lg dark:bg-[#171717] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
       <div className="flex items-start gap-3">
         {user?.image ? (
           <img
@@ -45,7 +46,7 @@ export default function CreatePost() {
             className="w-10 h-10 rounded-full object-cover shrink-0"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+          <div className={`w-10 h-10 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(user.name)}`}>
             {user?.name?.[0]?.toUpperCase() || "U"}
           </div>
         )}

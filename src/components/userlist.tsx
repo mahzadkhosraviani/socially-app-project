@@ -15,10 +15,23 @@ interface UserListProps {
 
 const UserList = (props: UserListProps) => {
   return (
-  
-      <div className="flex flex-col dark:text-[#FAFAFA] gap-1">
-        {props.users.map((u) => (
-         
+    <div className="flex flex-col dark:text-[#FAFAFA] gap-1">
+      {props.users.map((u) => {
+        console.log("set",u);
+        return (
+          <Usercard
+            key={u.id}
+            id={u.id}
+            name={u.name}
+            _count={u._count}
+            isFollowing={u.isFollowing}
+            onToggleFollow={props.onToggleFollow}
+          />
+        );
+      })}
+      {/* {props.users.map((u) => (
+    
+          
             <Usercard
             key={u.id}
             id={u.id}
@@ -27,11 +40,10 @@ const UserList = (props: UserListProps) => {
             isFollowing={u.isFollowing}
             onToggleFollow={props.onToggleFollow}
           />
-        
+       
           
-        ))}
-      </div>
-  
+        ))} */}
+    </div>
   );
 };
 
