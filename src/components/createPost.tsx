@@ -2,11 +2,8 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import { postService } from "../services/postService";
-<<<<<<< HEAD
 import setAvatarColors from "../utils/setAvatarColors";
-=======
 import toast from "react-hot-toast";
->>>>>>> dev
 
 export default function CreatePost() {
   const [content, setContent] = useState("");

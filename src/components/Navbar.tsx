@@ -6,10 +6,11 @@ function Navbar() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { user, logout } = useAuth();
+  const { user, logout,loading } = useAuth();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
+ 
     if (savedTheme === "dark") {
       setDarkMode(true);
       document.documentElement.classList.add("dark");
@@ -97,7 +98,7 @@ function Navbar() {
           </button>
 
           <button
-            onClick={() => navigate("/dashboard-home")}
+            onClick={() => navigate(user ? "/dashboard-home" : "/")}
             className="hidden dark:text-white text-sm md:text-base  cursor-pointer md:flex gap-1 justify-center items-center "
           >
             <svg
@@ -126,7 +127,7 @@ function Navbar() {
           {!user && (
             <button
               onClick={() => navigate("/sign-in")}
-              className="hidden dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
+              className="hidden md:block dark:text-black dark:bg-white cursor-pointer bg-black text-white py-1 px-2 md:py-2 md:px-4 rounded-md text-sm md:text-base"
             >
               Sign In
             </button>
@@ -135,7 +136,7 @@ function Navbar() {
             <>
               <button
                 onClick={() => navigate("/dashboard-notification")}
-                className="hidden dark:text-white text-sm md:text-base cursor-pointer md:flex justify-center items-center gap-1"
+                className="hidden  dark:text-white text-sm md:text-base cursor-pointer md:flex justify-center items-center gap-1"
               >
                 <span>
                   <svg
@@ -218,7 +219,7 @@ function Navbar() {
             </button>
           </div>
           <button
-            onClick={() => navigate("/dashboard-home")}
+            onClick={() => navigate(user ? "/dashboard-home" : "/")}
             className="dark:text-white text-sm md:text-base  cursor-pointer flex gap-1 justify-center items-center "
           >
             <svg

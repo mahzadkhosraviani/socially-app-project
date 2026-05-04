@@ -89,7 +89,7 @@ export default function PostCard({ post }: { post: Post }) {
   const username = getUsernameFromEmail(author.email);
 
   return (
-    <div className="bg-white border border-gray-200 dark:bg-[#0A0A0A] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-240 mt-7 relative">
+    <div className="bg-white border border-gray-200 dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-260 mt-7 relative">
       {isAuthor && (
         <button
           onClick={handleDelete}
@@ -202,7 +202,7 @@ export default function PostCard({ post }: { post: Post }) {
                       className="w-7 h-7 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-7 h-7 rounded-full bg-[#6b4f3a] flex items-center justify-center text-white font-bold text-xs shrink-0">
+                    <div className={`w-7 h-7 rounded-full ${setAvatarColors(comment.author.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}>
                       {comment.author.name[0].toUpperCase()}
                     </div>
                   )}
@@ -239,7 +239,7 @@ export default function PostCard({ post }: { post: Post }) {
                   className="w-7 h-7 rounded-full object-cover shrink-0"
                 />
               ) : (
-                <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                <div className={`w-7 h-7 rounded-full ${setAvatarColors(user.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}>
                   {user?.name?.[0]?.toUpperCase() || "U"}
                 </div>
               )}
@@ -249,7 +249,7 @@ export default function PostCard({ post }: { post: Post }) {
                   onChange={(e) => setCommentContent(e.target.value)}
                   placeholder="Write a comment..."
                   rows={1}
-                  className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#0A0A0A] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
+                  className="w-full px-2 py-4 border border-gray-200 dark:border-[#262626] rounded-lg bg-white dark:bg-[#252525] dark:text-white text-xs resize-none focus:outline-none focus:border focus:border-gray-200"
                 />
                 <div className="flex justify-end mt-2 mb-4">
                   <button
