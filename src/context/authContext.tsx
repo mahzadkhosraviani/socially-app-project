@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../services/authService";
 
-type User = any;  
+type User = any;
 
 type AuthContextType = {
   user: User | null;
@@ -21,8 +21,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       try {
         const res = await authService.session();
+        console.log("RAW SESSION RESPONSE =>", res.data);
         setUser(res.data?.data.user ?? res.data ?? null);
-         console.log("SESSION USER =>", res.data?.data.user);
+        console.log("SESSION USER =>", res.data?.data.user);
       } catch {
         setUser(null);
       } finally {
@@ -30,7 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })();
   }, []);
-
 
   const login = async (email: string, password: string) => {
     const res = await authService.login({ email, password });
@@ -47,11 +47,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await authService.logout();
-    setUser(null);
-    localStorage.removeItem("token");
+    try {
+      await authService.logout();
+    } finally {
+      setUser(null);
+      localStorage.removeItem("token");
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+      });
+    }
   };
-
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}

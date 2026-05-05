@@ -36,12 +36,12 @@ export default function PostCard({ post }: { post: Post }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const currentUserId = user?.id || user?.authorId;
-  const isAuthor = post.authorId === currentUserId;
+  const isAuthor = !!currentUserId && post.authorId === currentUserId;
   const isLoggedIn = !!user;
 
-  const isLiked = post.likes.some(
-    (like) => like.authorId === currentUserId || like.userId === currentUserId,
-  );
+  const isLiked = !!currentUserId && post.likes.some(
+  (like) => like.authorId === currentUserId || like.userId === currentUserId,
+);
 
   const handleLike = async () => {
     if (!isLoggedIn) {
@@ -246,7 +246,7 @@ export default function PostCard({ post }: { post: Post }) {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           )} */}
-          <span>{_count.likes}</span>
+          
         </button>
 
         <button
