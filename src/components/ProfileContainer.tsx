@@ -6,18 +6,17 @@ import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
 import { useAuth } from "../context/authContext";
 
-
-interface ProfileContainerProps {
-  name: string;
-  username: string;
-  avatar: string;
-  followings: number;
-  followers: number;
-  posts: number;
-  location?: string;
-  website?: string;
-  createdAt: string;
-}
+// interface ProfileContainerProps {
+//   name: string;
+//   username: string;
+//   avatar: string;
+//   followings: number;
+//   followers: number;
+//   posts: number;
+//   location?: string;
+//   website?: string;
+//   createdAt: string;
+// }
 interface ProfileContainerProps {
   user: any;
   onEditClick: () => void; // ✅ این اضافه شد
@@ -27,19 +26,14 @@ const ProfileContainer = ({ user1, onEditClick }) => {
   const { user } = useAuth();
   const [userInfoNew, setUserInfoNew] = useState(null);
   const [postsCount, setPostsCount] = useState<number>(0);
-  const following =
-    user1?._count?.followings ?? userInfoNew?._count?.followings;
+  const following =user1?._count?.followings ?? userInfoNew?._count?.followings;
 
   const followers = user1?._count?.followers ?? userInfoNew?._count?.followers;
 
-
-// const ProfileContainer = ({ user }: { user: any }) => {
-
+  // const ProfileContainer = ({ user }: { user: any }) => {
 
   const [mainUser, setMainUser] = useState(false);
   const [isReady, setIsReady] = useState(false);
-
-
 
   // Fetch posts count using the existing authService method
   const fetchPostsCount = async (userId: string) => {
@@ -57,7 +51,6 @@ const ProfileContainer = ({ user1, onEditClick }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const res = await authService.getUserById(user1.id);
         setUserInfoNew(res.data.data);
 
@@ -67,8 +60,7 @@ const ProfileContainer = ({ user1, onEditClick }) => {
         //   setUserInfoNew(res.data.data);
         // }
         // Always fetch the post count
-        await fetchPostsCount(user.id);
-
+        await fetchPostsCount(user1.id);
       } catch (err) {
         console.error(err);
       } finally {
@@ -85,7 +77,7 @@ const ProfileContainer = ({ user1, onEditClick }) => {
       fetchPostsCount(user.id).finally(() => setIsReady(true));
     }
   }, [user1?.id]);
-  console.log("main:", user);
+  console.log("mainnnnnnn:", user1);
   //   const fetchUser = async () => {
   //   try {
   //     const res = await authService.getUserById(user.id);
@@ -109,11 +101,14 @@ const ProfileContainer = ({ user1, onEditClick }) => {
   }
 
   return (
+    <div className="w-full max-w-120 mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] border-gray-200 shadow-lg border rounded-2xl flex flex-col gap-4 mb-7">
+      <PorfileCard user={userInfoNew} />
 
-  <div className="w-full max-w-120 mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] border-gray-200 shadow-lg border rounded-2xl flex flex-col gap-4 mb-7">
-      <PorfileCard user={user1} />
-
-      <PorfileStats followings={following} followers={followers} posts={3} />
+      <PorfileStats
+        followings={following}
+        followers={followers}
+        posts={postsCount}
+      />
 
       {!mainUser && <EditButton label="Follow" />}
       {mainUser && <EditButton label="Edit Profile" onClick={onEditClick} />}
@@ -121,7 +116,7 @@ const ProfileContainer = ({ user1, onEditClick }) => {
       {/* <UserInfo user={user} /> */}
       <UserInfo user1={user1} />
 
-    {/* <div className="w-full max-w-120 mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] border-gray-200 shadow-lg border rounded-2xl flex flex-col gap-4 mb-7">
+      {/* <div className="w-full max-w-120 mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] border-gray-200 shadow-lg border rounded-2xl flex flex-col gap-4 mb-7">
       <PorfileCard user={user} />
       <PorfileStats
         followings={following}
@@ -131,7 +126,6 @@ const ProfileContainer = ({ user1, onEditClick }) => {
       {!mainUser && <EditButton label="Follow" />}
       {mainUser && <EditButton label="Edit Profile" />}
       <UserInfo user={user} /> */}
-
     </div>
   );
 };

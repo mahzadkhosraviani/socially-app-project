@@ -7,8 +7,8 @@ import setAvatarColors from "../utils/setAvatarColors";
  const PorfileCard = ({user}) => {
 
 
-  const username = user.email.split("@")[0];
-  const avatar = user.name.split("")[0]
+  const username = user?.email.split("@")[0];
+  const avatar = user?.name.split("")[0]
   const [userInfo,setUserInfo] = useState(null)
   
   useEffect(() => {
@@ -22,7 +22,7 @@ import setAvatarColors from "../utils/setAvatarColors";
       };
        fetchData();
     }, );
-  console.log("userrrrrrrr:",user)
+   console.log("userrrrrrrr:",user)
 
   return (
     <div className="flex flex-col items-center gap-4 mt-1.5">

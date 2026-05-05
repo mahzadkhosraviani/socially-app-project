@@ -28,11 +28,23 @@ function DashboardProfile() {
   const [userInfoNew, setUserInfoNew] = useState(null);
   const userId = location.state?.id;
 
+
   console.log("EditProfile =", EditProfile);
 
   // console.log("user",userId)
 
   const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const refreshUser = async () => {
+    try {
+      const res = await authService.getUserById(userId);
+      setUserInfoNew(res.data.data);
+    } catch (err) {
+      console.error("Failed to refresh user", err);
+    }
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,21 +58,28 @@ function DashboardProfile() {
 
     fetchData();
   }, []);
-  //    useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUser(userId);
-  //       console.log("Fetched user by ID:", res.data.data);
-  //       setUserInfoNew(res.data.data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch user", err);
-  //     }
-  //   };
+     useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await authService.getUser(userId);
+        console.log("Fetched user by ID:", res.data.data);
+        setUserInfoNew(res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch user", err);
+      }
+    };
 
-  //   if (userId) fetchData();
-  // }, [userId]);
+    if (userId) fetchData();
+  }, [userId]);
+
+  useEffect(() => {
+    const handler = () => refreshUser();
+    window.addEventListener("follow-updated", handler);
+    return () => window.removeEventListener("follow-updated", handler);
+  }, []);
 
   return (
+
   
   
       <LayoutProfile>
@@ -121,6 +140,13 @@ function DashboardProfile() {
   // }, [userId]);
 
     )
+
+  //   <LayoutProfile>
+  //     <ProfileContainer user={userInfoNew ?? user} />
+  //     <MainProfile user={userInfoNew ?? user} />
+  //   </LayoutProfile>
+  // );
+
 }
 
 export default DashboardProfile;

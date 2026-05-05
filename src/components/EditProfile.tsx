@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
 function EditProfile({ user, onClose }) {
-  console.log("EditProfile rendered");
-  console.log("userrrr:", user);
+  // console.log("EditProfile rendered");
+  // console.log("userrrr:", user);
   const [userInfo, setUserInfo] = useState(null);
   const username = user.email.split("@")[0];
   const [errors, setErrors] = useState({});
@@ -19,7 +19,7 @@ function EditProfile({ user, onClose }) {
       try {
         const res = await authService.getUser(username);
         setUserInfo(res.data.data);
-        console.log("goshti:", res.data.data);
+        // console.log("goshti:", res.data.data);
       } catch (err) {
         console.error(err);
       }
