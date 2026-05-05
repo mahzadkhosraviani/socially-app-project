@@ -74,6 +74,9 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
       return { previous };
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profileContent"] });
+    },
     onError: (_err, _postId, context) => {
       if (context?.previous) {
         queryClient.setQueryData(["posts"], context.previous);
@@ -130,6 +133,10 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
       );
 
       return { previous };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profileContent"] });
+      queryClient.invalidateQueries({ queryKey: ["userPosts"] });
     },
     onError: (_err, _postId, context) => {
       if (context?.previous) {
