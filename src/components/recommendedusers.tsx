@@ -20,15 +20,13 @@ const RecommendedUsers = ({ onFollowChange }: RecommendedUsersProps) => {
     try {
       await recommendService.toggleFollow(id);
 
-      setUsers((prev) =>
-        prev.map((u) =>
-          u.id === id ? { ...u, isFollowing: !u.isFollowing } : u,
-        ),
-      );
+      setUsers((prev) => prev.filter((u) => u.id !== id));
 
       if (onFollowChange) onFollowChange();
 
       window.dispatchEvent(new Event("follow-updated"));
+      const res = await recommendService.getRecommended();
+      setUsers(res.data.data);
     } catch (err) {
       console.error("Follow error:", err);
     }
