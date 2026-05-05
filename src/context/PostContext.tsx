@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { postService, type Post, type Comment } from "../services/postService";
+import React, { createContext, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { postService, type Post, type Comment, type Like } from "../services/postService";
 import { useAuth } from "./authContext";
 
 type PostContextType = {
@@ -9,15 +10,13 @@ type PostContextType = {
   refetch: () => Promise<void>;
   toggleLike: (postId: string) => void;
   addComment: (postId: string, content: string) => Promise<void>;
-  deletePost: (postId: string) => Promise<void>;   
+  deletePost: (postId: string) => Promise<void>;
 };
 
 const PostContext = createContext<PostContextType | null>(null);
 
 export function PostProvider({ children }: { children: React.ReactNode }) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
   const { user } = useAuth();
 
   const currentUserId = user?.id || user?.authorId;
@@ -25,123 +24,136 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   const currentUserEmail = user?.email || "";
   const currentUserImage = user?.image || null;
 
-  const fetchPosts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
+  const {
+    data: posts = [],
+    isLoading: loading,
+    error: queryError,
+    refetch: queryRefetch,
+  } = useQuery<Post[]>({
+    queryKey: ["posts"],
+    queryFn: async () => {
       const res = await postService.getAllPosts();
-      setPosts(res.data?.data ?? []);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to load posts";
-      setError(msg);
-    } finally {
-      setLoading(false);
-    }
+      return res.data?.data ?? [];
+    },
+  });
+
+  const error = queryError
+    ? queryError instanceof Error
+      ? queryError.message
+      : "Failed to load posts"
+    : null;
+
+  const refetch = async () => {
+    await queryRefetch();
   };
 
-  const toggleLike = (postId: string) => {
-    const postIndex = posts.findIndex(p => p.id === postId);
-    if (postIndex === -1) return;
+  const likeMutation = useMutation({
+    mutationFn: (postId: string) => postService.likePost(postId),
+    onMutate: async (postId: string) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      const previous = queryClient.getQueryData<Post[]>(["posts"]);
 
-    const post = posts[postIndex];
-    const isLiked = post.likes.some(
-      like => like.authorId === currentUserId || like.userId === currentUserId
-    );
-
-    const updatedPosts = [...posts];
-    let newLikesArray = [...post.likes];
-    let newLikeCount = post._count.likes;
-
-    if (isLiked) {
-      newLikesArray = newLikesArray.filter(
-        like => like.authorId !== currentUserId && like.userId !== currentUserId
+      queryClient.setQueryData<Post[]>(["posts"], (old = []) =>
+        old.map((post) => {
+          if (post.id !== postId) return post;
+          const isLiked = post.likes.some(
+            (like) => like.authorId === currentUserId || like.userId === currentUserId
+          );
+          const newLikes: Like[] = isLiked
+            ? post.likes.filter(
+                (like) => like.authorId !== currentUserId && like.userId !== currentUserId
+              )
+            : [{ authorId: currentUserId, userId: currentUserId }, ...post.likes];
+          return {
+            ...post,
+            likes: newLikes,
+            _count: { ...post._count, likes: post._count.likes + (isLiked ? -1 : 1) },
+          };
+        })
       );
-      newLikeCount = post._count.likes - 1;
-    } else {
-      const optimisticLike = { authorId: currentUserId, userId: currentUserId };
-      newLikesArray = [optimisticLike, ...newLikesArray];
-      newLikeCount = post._count.likes + 1;
-    }
 
-    updatedPosts[postIndex] = {
-      ...post,
-      likes: newLikesArray,
-      _count: { ...post._count, likes: newLikeCount },
-    };
-    setPosts(updatedPosts);
+      return { previous };
+    },
+    onError: (_err, _postId, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["posts"], context.previous);
+      }
+    },
+  });
 
-    postService.likePost(postId).catch(() => {
-      setPosts(posts);
-      console.error("Like/unlike failed");
-    });
+  const commentMutation = useMutation({
+    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
+      postService.addComment(postId, content),
+    onMutate: async ({ postId, content }) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      const previous = queryClient.getQueryData<Post[]>(["posts"]);
+
+      const optimisticComment: Comment = {
+        id: `temp-${Date.now()}`,
+        content,
+        createdAt: new Date().toISOString(),
+        author: {
+          name: currentUserName,
+          email: currentUserEmail,
+          image: currentUserImage,
+        },
+      };
+
+      queryClient.setQueryData<Post[]>(["posts"], (old = []) =>
+        old.map((post) => {
+          if (post.id !== postId) return post;
+          return {
+            ...post,
+            comments: [optimisticComment, ...post.comments],
+            _count: { ...post._count, comments: post._count.comments + 1 },
+          };
+        })
+      );
+
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["posts"], context.previous);
+      }
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (postId: string) => postService.deletePost(postId),
+    onMutate: async (postId: string) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      const previous = queryClient.getQueryData<Post[]>(["posts"]);
+
+      queryClient.setQueryData<Post[]>(["posts"], (old = []) =>
+        old.filter((p) => p.id !== postId)
+      );
+
+      return { previous };
+    },
+    onError: (_err, _postId, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["posts"], context.previous);
+      }
+    },
+  });
+
+  const toggleLike = (postId: string) => {
+    likeMutation.mutate(postId);
   };
 
   const addComment = async (postId: string, content: string) => {
     if (!content.trim()) return;
-
-    const postIndex = posts.findIndex(p => p.id === postId);
-    if (postIndex === -1) return;
-
-    const optimisticComment: Comment = {
-      id: `temp-${Date.now()}`,
-      content: content,
-      createdAt: new Date().toISOString(),
-      author: {
-        name: currentUserName,
-        email: currentUserEmail,
-        image: currentUserImage,
-      },
-    };
-
-    const originalPosts = [...posts];
-    const currentPost = posts[postIndex];
-    const updatedComments = [optimisticComment, ...(currentPost.comments || [])];
-
-    const updatedPosts = [...posts];
-    updatedPosts[postIndex] = {
-      ...currentPost,
-      comments: updatedComments,
-      _count: {
-        ...currentPost._count,
-        comments: currentPost._count.comments + 1,
-      },
-    };
-    setPosts(updatedPosts);
-
-    try {
-      await postService.addComment(postId, content);
-    } catch (err) {
-      setPosts(originalPosts);
-      console.error("Failed to add comment", err);
-    }
+    await commentMutation.mutateAsync({ postId, content });
   };
 
-  // 👇 New deletePost function
   const deletePost = async (postId: string) => {
-    const postIndex = posts.findIndex(p => p.id === postId);
-    if (postIndex === -1) return;
-
-    const originalPosts = [...posts];
-    const updatedPosts = posts.filter(p => p.id !== postId);
-    setPosts(updatedPosts);
-
-    try {
-      await postService.deletePost(postId);
-      // Success – do nothing else
-    } catch (err) {
-      setPosts(originalPosts);
-      console.error("Failed to delete post", err);
-      throw err; // re-throw for toast handling in component
-    }
+    await deleteMutation.mutateAsync(postId);
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   return (
     <PostContext.Provider
-      value={{ posts, loading, error, refetch: fetchPosts, toggleLike, addComment, deletePost }}
+      value={{ posts, loading, error, refetch, toggleLike, addComment, deletePost }}
     >
       {children}
     </PostContext.Provider>

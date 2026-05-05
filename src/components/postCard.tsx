@@ -27,12 +27,12 @@ export default function PostCard({ post }: { post: Post }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const currentUserId = user?.id || user?.authorId;
-  const isAuthor = post.authorId === currentUserId;
+  const isAuthor = !!currentUserId && post.authorId === currentUserId;
   const isLoggedIn = !!user;
 
-  const isLiked = post.likes.some(
-    (like) => like.authorId === currentUserId || like.userId === currentUserId,
-  );
+  const isLiked = !!currentUserId && post.likes.some(
+  (like) => like.authorId === currentUserId || like.userId === currentUserId,
+);
 
   const handleLike = async () => {
     if (!isLoggedIn) {
