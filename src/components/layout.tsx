@@ -20,7 +20,7 @@ function LayoutHome({ children }) {
           </div>
         </main>
 
-        <div className="hidden sticky md:block overflow-hidden ml-4 md:pt-8">
+        <div className="hidden sticky md:block overflow-hidden ml-4 mr-20 md:pt-8">
           <RecommendedUsers />
         </div>
       </div>

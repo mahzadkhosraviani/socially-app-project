@@ -234,7 +234,7 @@ export default function PostCard({ post }: { post: Post }) {
           {isLiking ? (
             <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
           ) : (
->>>>>>> dev
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-4 h-4"
@@ -246,7 +246,7 @@ export default function PostCard({ post }: { post: Post }) {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           )} */}
-          
+
         </button>
 
         <button
