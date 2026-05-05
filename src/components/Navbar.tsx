@@ -42,7 +42,7 @@ function Navbar() {
   };
   return (
     <>
-      <div className=" flex justify-between items-center py-5 px-4  bg-white/60 dark:bg-black/20 md:pr-13 md:pl-20  border-b-[#e3e3e3] border dark:border-b-[#1c1c1c]  ">
+      <div className=" flex justify-between items-center py-5 px-4  bg-white/60 dark:bg-black/20 md:pr-13 md:pl-20  border-[#e3e3e3] border dark:border-[#1c1c1c]  ">
         <span className="dark:text-white text-xl md:text-xl tracking-wide font-semibold font-mono ">
           Socially
         </span>
