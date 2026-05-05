@@ -2,6 +2,11 @@ import { useState } from "react";
 import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
+
+// import Toast from "./Toast";
+// import { useToastQueue } from "../hooks/usetoastQueue";
+import { Link } from "react-router-dom";
+
 import setAvatarColors from "../utils/setAvatarColors";
 
 import toast from "react-hot-toast";
@@ -16,6 +21,10 @@ const timeAgo = (dateString: string) => {
   return `${Math.floor(diff / 86400)} days ago`;
 };
 
+// <<<<<<< HEAD
+// export default function PostCard({ post, onShowToast }: Props) {
+
+// =======
 export default function PostCard({ post }: { post: Post }) {
   const { toggleLike, addComment, deletePost } = usePost();
   const { user } = useAuth();
@@ -88,6 +97,8 @@ export default function PostCard({ post }: { post: Post }) {
   const { author, content, createdAt, _count, comments } = post;
   const username = getUsernameFromEmail(author.email);
 
+  // console.log("posttttt", post.id);
+  // console.log("vvvvv", currentUserId);
   return (
     <div className="bg-white border border-gray-200 shadow-lg dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-235  mt-7 relative">
       {isAuthor && (
@@ -112,6 +123,7 @@ export default function PostCard({ post }: { post: Post }) {
         </button>
       )}
 
+      {/* Header */}
       <div className="flex items-center gap-3 mb-3">
         {author.image ? (
           <img
@@ -120,28 +132,63 @@ export default function PostCard({ post }: { post: Post }) {
             className="w-11 h-11 rounded-full object-cover shrink-0"
           />
         ) : (
-          <div className={`w-11 h-11 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(author.name)}`}>
+          <div
+            className={`w-11 h-11 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(author.name)}`}
+          >
             {author.name[0].toUpperCase()}
           </div>
         )}
         <div className="flex flex-wrap items-center gap-x-2">
-          <span className="text-gray-900 dark:text-white font-semibold text-sm">
-            {author.name}
-          </span>
-          <span className="text-gray-400 dark:text-gray-500 text-xs">
-            @{username}
-          </span>
+          <Link
+            to={`/dashboard-profile/${username}`}
+            state={{ id: username }}
+            className="flex items-center gap-x-2"
+          >
+            <span className="text-gray-900 dark:text-white font-semibold text-sm">
+              {author.name}
+            </span>
+            <span className="text-gray-400 dark:text-gray-500 text-xs">
+              @{username}
+            </span>
+          </Link>
           <span className="text-gray-300 dark:text-gray-600 text-xs">•</span>
           <span className="text-gray-400 dark:text-gray-500 text-xs">
             {timeAgo(createdAt)}
           </span>
         </div>
+        {/* <div className="flex items-center gap-3 mb-3">
+          {author.image ? (
+            <img
+              src={author.image}
+              alt={author.name}
+              className="w-11 h-11 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <div
+              className={`w-11 h-11 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(author.name)}`}
+            >
+              {author.name[0].toUpperCase()}
+            </div>
+          )}
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-gray-900 dark:text-white font-semibold text-sm">
+              {author.name}
+            </span>
+            <span className="text-gray-400 dark:text-gray-500 text-xs">
+              @{username}
+            </span>
+            <span className="text-gray-300 dark:text-gray-600 text-xs">•</span>
+            <span className="text-gray-400 dark:text-gray-500 text-xs">
+              {timeAgo(createdAt)}
+            </span>
+          </div>
+        </div> */}
       </div>
-
+      {/* Content */}
       <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
         {content}
       </p>
-
+      {/* Action buttons */}
       <div className="flex items-center gap-5 pb-3">
         <button
           onClick={handleLike}
@@ -165,6 +212,41 @@ export default function PostCard({ post }: { post: Post }) {
             </svg>
           )}
           <span>{_count.likes}</span>
+        </button>
+
+        <button
+          onClick={toggleComments}
+          className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 text-sm hover:text-emerald-500 transition-colors cursor-pointer"
+        >
+          {/* =======
+      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4">
+        {content}
+      </p>
+
+      <div className="flex items-center gap-5 pb-3">
+        <button
+          onClick={handleLike}
+          disabled={isLiking}
+          className={`flex items-center gap-1.5 text-sm transition-colors cursor-pointer ${
+            isLiked ? "text-red-500" : "text-gray-400 dark:text-gray-500"
+          } hover:text-red-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+        >
+          {isLiking ? (
+            <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+          ) : (
+>>>>>>> dev
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill={isLiked ? "currentColor" : "none"}
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          )} */}
+          
         </button>
 
         <button
@@ -202,7 +284,9 @@ export default function PostCard({ post }: { post: Post }) {
                       className="w-7 h-7 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className={`w-7 h-7 rounded-full ${setAvatarColors(comment.author.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}>
+                    <div
+                      className={`w-7 h-7 rounded-full ${setAvatarColors(comment.author.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}
+                    >
                       {comment.author.name[0].toUpperCase()}
                     </div>
                   )}
@@ -239,7 +323,9 @@ export default function PostCard({ post }: { post: Post }) {
                   className="w-7 h-7 rounded-full object-cover shrink-0"
                 />
               ) : (
-                <div className={`w-7 h-7 rounded-full ${setAvatarColors(user.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}>
+                <div
+                  className={`w-7 h-7 rounded-full ${setAvatarColors(user.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}
+                >
                   {user?.name?.[0]?.toUpperCase() || "U"}
                 </div>
               )}
