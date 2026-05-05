@@ -7,7 +7,12 @@ import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
 import PostFeed from "../components/PostFeed";
 import { useAuth } from "../context/authContext";
+
 import { authService } from "../services/authService";
+
+import Layout from "../components/layout";
+import LayoutHome from "../components/layout";
+
 function DashboardHome() {
 const {user} = useAuth()
 const username = user.email.split("@")[0];
@@ -27,16 +32,10 @@ const username = user.email.split("@")[0];
   return (
     <>
 
-      <Navbar />
-      <div className="flex flex-row pt-5 gap-7.5 dark:bg-[#0A0A0A]">
-        <Profile />
-        <div className="flex flex-col gap-4 w-full max-w-2xl mx-auto">
-          <CreatePost />
-          <PostFeed />
-        </div>
-
-        <RecommendedUsers />
-      </div>
+     <LayoutHome>
+      <CreatePost />
+      <PostFeed />
+    </LayoutHome>
     </>
   );
 }

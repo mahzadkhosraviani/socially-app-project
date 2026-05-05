@@ -1,7 +1,8 @@
+
 import { useEffect, useState } from "react";
 import porfilephoto from "../assets/profile photo.svg";
 import { authService } from "../services/authService";
-
+import setAvatarColors from "../utils/setAvatarColors";
 
  const PorfileCard = ({user}) => {
 
@@ -22,14 +23,14 @@ import { authService } from "../services/authService";
        fetchData();
     }, );
   console.log("userrrrrrrr:",user)
+
   return (
     <div className="flex flex-col items-center gap-4 mt-1.5">
-      <img
-        src={porfilephoto}
-        alt="profile"
-        className="w-16 h-16 rounded-full object-cover"
-      />
-
+      <div
+        className={`w-16 h-16 flex items-center justify-center text-white font-bold ${setAvatarColors(user.name)} rounded-full`}
+      >
+        {avatar}
+      </div>
       <div className="flex flex-col text-center">
         <span className="text-lg dark:text-white font-bold">{userInfo?.name}</span>
         <span className="text-gray-500 dark:text-white">{username}</span>

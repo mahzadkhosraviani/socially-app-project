@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
 import LocationIcon from "../assets/SVG.png";
 import WebsiteIcon from "../assets/SVG (1).png";
+import setAvatarColors from "../utils/setAvatarColors";
 
 export type User = {
   id: string;
@@ -31,29 +32,33 @@ function Profile() {
       }
     };
 
-    if (user?.id) fetchData();
-  }, [user?.id]);
-  
+    fetchData();
+  }, );
   console.log("balaye:", user);
   const username = user.email.split("@")[0];
   const avatar = user.name.split("")[0];
   return (
-    <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A] ">
-      <div className="w-100 h-auto bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+// <<<<<<< HEAD
+//     <div className="min-h-screen bg-white pl-3 dark:bg-[#0A0A0A] ">
+//       <div className="w-100 h-auto bg-white dark:bg-[#0A0A0A] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+// =======
+    <div className="min-h-screen bg-white pl-30 dark:bg-[#0A0A0A]">
+      <div className="w-73 h-auto bg-white dark:bg-[#171717] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+
         {/* Avatar */}
-        <div className="w-20 h-20 mx-auto rounded-full bg-green-600 flex items-center justify-center text-white text-3xl font-bold">
+        <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${setAvatarColors(user.name)} text-white text-3xl font-bold`}>
           {avatar}
         </div>
 
         {/* Name */}
         <h2 className="mt-4 text-xl font-semibold text-[#171717] dark:text-white">
-          {user?.name}
+          {userInfoNew?.name}
         </h2>
 
         {/* Username */}
         <p className="text-[#737373] dark:text-[#A3A3A3]">{username}</p>
         <p className="mt-2 text-sm text-[#737373] dark:text-[#A3A3A3]">
-         {user?.bio}
+         {userInfoNew?.bio}
         </p>
         {/* Stats */}
         <div className="flex justify-between mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#262626]">

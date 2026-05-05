@@ -1,11 +1,9 @@
 import { usePost } from "../context/PostContext";
 import PostCard from "./postCard";
-import Toast from "./Toast";
-import { useToastQueue } from "../hooks/usetoastQueue";
 
 function PostSkeleton() {
   return (
-    <div className="bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] rounded-2xl p-4 w-full animate-pulse">
+    <div className=" bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#2a2a2a] rounded-2xl p-4 w-full animate-pulse">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-11 h-11 rounded-full bg-gray-200 dark:bg-[#2a2a2a]" />
         <div className="flex flex-col gap-2">
@@ -22,7 +20,6 @@ function PostSkeleton() {
 
 export default function PostFeed() {
   const { posts, loading, error, refetch } = usePost();
-  const { currentToast, closeToast, showToast } = useToastQueue();
 
   if (loading) {
     return (
@@ -59,20 +56,10 @@ export default function PostFeed() {
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4 w-full">
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} onShowToast={showToast} />
-        ))}
-      </div>
-
-      {currentToast && (
-        <Toast
-          message={currentToast.message}
-          type={currentToast.type}
-          onClose={closeToast}
-        />
-      )}
-    </>
+    <div className="flex flex-col">
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
   );
 }
