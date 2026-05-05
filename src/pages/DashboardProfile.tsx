@@ -20,6 +20,15 @@ function DashboardProfile() {
   const [userInfoNew, setUserInfoNew] = useState(null);
   const userId = location.state?.id;
 
+  const refreshUser = async () => {
+    try {
+      const res = await authService.getUserById(userId);
+      setUserInfoNew(res.data.data);
+    } catch (err) {
+      console.error("Failed to refresh user", err);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,12 +43,17 @@ function DashboardProfile() {
     if (userId) fetchData();
   }, [userId]);
 
+  useEffect(() => {
+    const handler = () => refreshUser();
+    window.addEventListener("follow-updated", handler);
+    return () => window.removeEventListener("follow-updated", handler);
+  }, []);
+
   return (
-  
-      <LayoutProfile>
+    <LayoutProfile>
       <ProfileContainer user={userInfoNew ?? user} />
-          <MainProfile user={userInfoNew ?? user} />
-      </LayoutProfile>
+      <MainProfile user={userInfoNew ?? user} />
+    </LayoutProfile>
   );
 }
 
