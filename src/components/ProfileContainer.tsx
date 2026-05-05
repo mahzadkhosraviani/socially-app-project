@@ -102,7 +102,7 @@ const ProfileContainer = ({ user1, onEditClick }) => {
 
   return (
     <div className="w-full max-w-120 mx-auto h-auto  p-4 bg-white dark:bg-[#171717] dark:border-[#262626] border-gray-200 shadow-lg border rounded-2xl flex flex-col gap-4 mb-7">
-      <PorfileCard user={userInfoNew} />
+      <PorfileCard user={user1} />
 
       <PorfileStats
         followings={following}
