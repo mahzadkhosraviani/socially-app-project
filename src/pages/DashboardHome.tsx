@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Profile from "../components/profile";
 import CreatePost from "../components/createPost";
 import PostCard from "../components/postCard";
@@ -7,10 +7,27 @@ import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
 import PostFeed from "../components/PostFeed";
 import { useAuth } from "../context/authContext";
+
+import { authService } from "../services/authService";
+
 import Layout from "../components/layout";
 import LayoutHome from "../components/layout";
+
 function DashboardHome() {
 const {user} = useAuth()
+const username = user.email.split("@")[0];
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+       const res = await authService.getUser(username);
+       console.log(res.data.data)
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+     fetchData();
+  }, []);
 
   return (
     <>

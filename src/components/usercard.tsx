@@ -2,6 +2,8 @@ import setAvatarColors from "../utils/setAvatarColors";
 import FollowButton from "./followbutton";
 
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { authService } from "../services/authService";
 
 interface usercardprops {
   id: string;
@@ -14,11 +16,29 @@ interface usercardprops {
 }
 
 const Usercard = (props: usercardprops) => {
+
+ 
+    const [userInfo,SetUserInfo] = useState(null)
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await authService.getUserById(props.id);
+          SetUserInfo(res.data.data)
+        } catch (err) {
+          console.error(err);
+        }
+      };
+  
+       fetchData();
+    }, []);
+     const username = userInfo?.email.split("@")[0]
+
   const avatar = props.name.split("")[0];
   console.log(props._count.followers);
+
   return (
     <div className="flex items-center justify-between p-3 rounded-lg">
-      <Link to={`/dashboard-profile/${props.name}`} state={{ id: props.id }}>
+      <Link to={`/dashboard-profile/${username}`} state={{ id:username }}>
         <div className="flex items-center gap-3">
           <div
             className={`w-10 h-10 flex items-center justify-center text-white font-bold ${setAvatarColors(props.name)} rounded-full`}
