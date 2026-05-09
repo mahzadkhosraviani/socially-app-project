@@ -10,7 +10,6 @@ function Navbar() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
- 
     if (savedTheme === "dark") {
       setDarkMode(true);
       document.documentElement.classList.add("dark");

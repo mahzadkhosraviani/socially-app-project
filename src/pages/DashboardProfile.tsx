@@ -1,4 +1,109 @@
-import Navbar from "../components/Navbar";
+// import { useState, useEffect } from "react";
+// import { useParams, useLocation } from "react-router-dom";
+// import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+// import Navbar from "../components/Navbar";
+// import ProfileContainer from "../components/ProfileContainer";
+// import Profile from "../components/profile";
+// import RecommendedUsers from "../components/recommendedusers";
+// import Likes_Posts_Profile from "../components/Likes&PostsProfile";
+// import MainProfile from "../components/MainProfile";
+// import EditProfile from "../components/EditProfile";
+// import LayoutProfile from "../components/layoutProfile";
+
+// import { useAuth } from "../context/authContext";
+// import { authService } from "../services/authService";
+
+// function DashboardProfile() {
+//   const { user } = useAuth();
+//   const { username } = useParams();
+//   const location = useLocation();
+//   const userId = location.state?.id;
+
+//   const [isEditOpen, setIsEditOpen] = useState(false);
+
+//   const queryClient = useQueryClient();
+
+//   // fetch by username
+//   const { data: userByUsername } = useQuery({
+//     queryKey: ["user-profile", username],
+//     queryFn: async () => {
+//       const res = await authService.getUser(username);
+//       return res.data.data;
+//     },
+//     enabled: !!username,
+   
+//   });
+
+//   // fetch by id (وقتی از navigate با state بیاییم)
+//   const { data: userById } = useQuery({
+//     queryKey: ["user-by-id", userId],
+//     queryFn: async () => {
+//       const res = await authService.getUserById(userId);
+//       return res.data.data;
+//     },
+//     enabled: !!userId,
+      
+//   });
+
+//   // همان userInfoNew قبلی
+//   const userInfoNew = userById ?? userByUsername;
+
+//   // همان refreshUser قبلی
+//   const refreshUser = () => {
+//     if (userId) {
+//       queryClient.invalidateQueries({
+//         queryKey: ["user-by-id", userId],
+//       });
+//     }
+
+//     if (username) {
+//       queryClient.invalidateQueries({
+//         queryKey: ["user-profile", username],
+//       });
+//     }
+//   };
+
+//   // همان event listener قبلی
+//   useEffect(() => {
+//     const handler = () => refreshUser();
+
+//     window.addEventListener("follow-updated", handler);
+
+//     return () => {
+//       window.removeEventListener("follow-updated", handler);
+//     };
+//   }, [userId, username]);
+
+//   return (
+//     <LayoutProfile>
+//       <ProfileContainer
+//         user1={userInfoNew ?? user}
+//         onEditClick={() => {
+//           setIsEditOpen(true);
+//           console.log("OPEN EDIT MODAL");
+//         }}
+//       />
+
+//       <MainProfile user={userInfoNew ?? user} />
+
+//       {isEditOpen && (
+//         <>
+//           {console.log("isEditOpen TRUE")}
+//           <EditProfile
+//             user={user}
+//             onClose={() => setIsEditOpen(false)}
+//           />
+//         </>
+//       )}
+//     </LayoutProfile>
+//   );
+// }
+
+// export default DashboardProfile;
+
+
+// import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
 import Profile from "../components/profile";
 import RecommendedUsers from "../components/recommendedusers";
@@ -150,3 +255,4 @@ function DashboardProfile() {
 }
 
 export default DashboardProfile;
+

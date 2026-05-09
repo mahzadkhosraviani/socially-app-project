@@ -15,6 +15,7 @@ const timeAgo = (dateString: string) => {
 };
 export default function NotificationComment({ data }: Props) {
   const isUnread = !data.read;
+  const username = data?.creator.email.split("@")[0];
   const navigate = useNavigate();
   return (
     <div
@@ -42,13 +43,14 @@ export default function NotificationComment({ data }: Props) {
           </svg>
           <span
             onClick={() => {
-              navigate(`/dashboard-profile/${data.creator.name}`, {
-                state: { id: data.creator.id },
-              });
+              navigate(`/dashboard-profile/${username}`)
+              ;
+              console.log(data)
             }}
             className="text-sm text-gray-800 dark:text-gray-200"
           >
             <span className="font-bold text-base">{data.creator.name}</span>
+          
             <span className="text-[#838282]"> commented on your post.</span>
           </span>
         </div>

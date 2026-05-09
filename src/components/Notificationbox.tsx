@@ -4,6 +4,7 @@ import NotificationLike from "./NotificationLike";
 import NotificationFollow from "./NotificationFollow";
 
 import { authService } from "../services/authService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Notification = {
   id: number;
@@ -12,33 +13,43 @@ type Notification = {
   creatorId: string;
   read: boolean;
 };
-
+async function fetchNotifications(): Promise<Notification[]> {
+  const res = await authService.getNotifications();
+  return res.data.data;
+}
 export default function NotificationBox() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  // const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { data: notifications = [] } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: fetchNotifications,
+  });
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getNotifications();
-        console.log(res.data);
-        setNotifications(res.data.data);
-      } catch (error) {
-        console.error("failed to load notification:", error);
-      }
-    };
-    fetchData();
-  }, []);
-  const markAllRead = async () => {
-    try {
-      const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
+  async function patchNotifications(unreadIds: number[]) {
+    return await authService.markAllNotificationsAsRead(unreadIds);
+  }
+  const MarkAllRead = useMutation({
+    mutationFn: patchNotifications,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    },
+  });
+  const handleMarkAllRead = () => {
+    const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
 
-      await authService.markAllNotificationsAsRead(unreadIds);
-
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    } catch (error) {
-      console.error(error);
-    }
+    MarkAllRead.mutate(unreadIds);
   };
+  // const markAllRead = async () => {
+  //   try {
+  //     const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
+
+  //     await authService.markAllNotificationsAsRead(unreadIds);
+
+  //     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -56,7 +67,7 @@ export default function NotificationBox() {
           {unreadCount > 0 && (
             <>
               <button
-                onClick={markAllRead}
+                onClick={handleMarkAllRead}
                 className="text-xs px-3 py-1 text-black  dark:text-white hover:bg-[#262626] hover:rounded-lg hover:transition-colors"
               >
                 Mark as read
