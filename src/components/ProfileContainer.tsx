@@ -23,10 +23,12 @@ import { useState , useEffect} from "react";
 // }
 interface ProfileContainerProps {
   user: any;
-  onEditClick: () => void; // ✅ این اضافه شد
+  onEditClick: () => void; 
 }
 
+
 const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
+
   const { user } = useAuth();
   const [userInfoNew, setUserInfoNew] = useState(null);
   const [postsCount, setPostsCount] = useState<number>(0);

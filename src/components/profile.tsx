@@ -21,12 +21,15 @@ export type User = {
 function Profile() {
 
   // const { user } = useAuth();
-const [userInfoNew,setUserInfoNew] = useState(null)
+
 
   const { user } = useAuth();
+  const [userInfoNew,setUserInfoNew] = useState(null)
+
 
 
   const { data} = useQuery({
+
     queryKey: ["userInfo", user?.id],
     queryFn: async () => {
       const res = await authService.getUserById(user!.id);
@@ -61,9 +64,9 @@ const [userInfoNew,setUserInfoNew] = useState(null)
 }, );
 
 
-  // console.log("balaye:", user);
+  // // console.log("balaye:", user);
   const username = user.email.split("@")[0];
-  const avatar = user.name.split("")[0];
+  const avatar = userInfoNew?.name.split("")[0];
 
   useEffect(() => {
     if (user?.id) fetchUser();
