@@ -23,7 +23,7 @@ import { useState , useEffect} from "react";
 // }
 interface ProfileContainerProps {
   user: any;
-  onEditClick: () => void; // ✅ این اضافه شد
+  onEditClick: () => void; 
 }
 
 

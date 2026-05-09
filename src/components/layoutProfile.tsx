@@ -30,7 +30,7 @@ const LayoutProfile = ({ children }) => {
       <div className="flex flex-1 overflow-hidden flex-row gap-6 ">
         <aside className="hidden md:block ">
           <div className="sticky md:pt-8 overflow-hidden ">
-            <Profile />
+            <Profile/>
           </div>
         </aside>
        
