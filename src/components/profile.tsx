@@ -21,7 +21,7 @@ export type User = {
 function Profile() {
 
   // const { user } = useAuth();
-const [userInfoNew,setUserInfoNew] = useState(null)
+
 
   const { user } = useAuth();
   const [userInfoNew,setUserInfoNew] = useState(null)
