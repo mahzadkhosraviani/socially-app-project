@@ -21,12 +21,15 @@ export type User = {
 function Profile() {
 
   // const { user } = useAuth();
-
+const [userInfoNew,setUserInfoNew] = useState(null)
 
   const { user } = useAuth();
   const [userInfoNew,setUserInfoNew] = useState(null)
 
-  const { data } = useQuery({
+
+
+  const { data} = useQuery({
+
     queryKey: ["userInfo", user?.id],
     queryFn: async () => {
       const res = await authService.getUserById(user!.id);
