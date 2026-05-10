@@ -8,7 +8,6 @@ import setAvatarColors from "../utils/setAvatarColors";
 
 
   const username = user?.email.split("@")[0];
-  const avatar = user?.name.split("")[0]
   const [userInfo,setUserInfo] = useState(null)
   
   useEffect(() => {
@@ -22,8 +21,7 @@ import setAvatarColors from "../utils/setAvatarColors";
       };
        fetchData();
     }, );
-   console.log("userrrrrrrr:",user)
-
+  const avatar = userInfo?.name.split("")[0]
   return (
     <div className="flex flex-col items-center gap-4 mt-1.5">
       <div
