@@ -2,11 +2,10 @@ import PorfileCard from "./PorfileCard";
 import PorfileStats from "./PorfileState";
 import EditButton from "./EditButton";
 import UserInfo from "./UserInfo";
-import { useQuery } from "@tanstack/react-query";
 import { authService } from "../services/authService";
 import { useAuth } from "../context/authContext";
 import { useState , useEffect} from "react";
-
+import { useUserPostsCount } from "../hooks/use-userPostsCount";  // <-- new import
 
 
 
@@ -31,7 +30,7 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
 
   const { user } = useAuth();
   const [userInfoNew, setUserInfoNew] = useState(null);
-  const [postsCount, setPostsCount] = useState<number>(0);
+  // const [postsCount, setPostsCount] = useState<number>(0);   // <-- removed, now from hook
   
   
   // const ProfileContainer = ({ user }: { user: any }) => {
@@ -43,6 +42,9 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
   const [isReady, setIsReady] = useState(false);
 
   const hasCountsFromProps = !!(user?._count?.followings || user?._count?.followers);
+
+  // Use the custom hook to fetch posts count
+  const { data: postsCount, isLoading: postsLoading } = useUserPostsCount(user1?.id);
 
   // const { data } = useQuery({
   //   queryKey: ["userInfo", user?.id],
@@ -63,17 +65,17 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
   // });
 
   // Fetch posts count using the existing authService method
-  const fetchPostsCount = async (userId: string) => {
-    try {
-      const response = await authService.getUserPosts(userId);
-      // The response structure: { data: { data: Post[] } }
-      const postsArray = response.data.data;
-      setPostsCount(postsArray.length);
-    } catch (err) {
-      console.error("Failed to fetch posts count:", err);
-      setPostsCount(0);
-    }
-  };
+  // const fetchPostsCount = async (userId: string) => {
+  //   try {
+  //     const response = await authService.getUserPosts(userId);
+  //     // The response structure: { data: { data: Post[] } }
+  //     const postsArray = response.data.data;
+  //     setPostsCount(postsArray.length);
+  //   } catch (err) {
+  //     console.error("Failed to fetch posts count:", err);
+  //     setPostsCount(0);
+  //   }
+  // };
 
   
 
@@ -89,7 +91,7 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
         //   setUserInfoNew(res.data.data);
         // }
         // Always fetch the post count
-        await fetchPostsCount(user1.id);
+        // await fetchPostsCount(user1.id);   // <-- removed
       } catch (err) {
         console.error(err);
       } finally {
@@ -103,9 +105,17 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
     } else {
       fetchData();
       setMainUser(false);
-      fetchPostsCount(user.id).finally(() => setIsReady(true));
+      // fetchPostsCount(user.id).finally(() => setIsReady(true));   // <-- removed
     }
   }, [user1?.id]);
+
+  // Combine readiness: user info loaded AND posts count loaded
+  useEffect(() => {
+    if (userInfoNew !== null && !postsLoading) {
+      setIsReady(true);
+    }
+  }, [userInfoNew, postsLoading]);
+
   console.log("mainnnnnnn:", user1);
   //   const fetchUser = async () => {
   //   try {
