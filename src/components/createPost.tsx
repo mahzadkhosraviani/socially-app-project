@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
-import { postService } from "../services/postService";
 import setAvatarColors from "../utils/setAvatarColors";
 import toast from "react-hot-toast";
+import { useCreatePost } from "../hooks/use-createPost";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
-  const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { refetch } = usePost();
   const { user } = useAuth();
 
   const showToast = (message: string, type: "success" | "error") => {
@@ -44,30 +41,28 @@ export default function CreatePost() {
       { duration: 3000 },
     );
   };
+
+  const createPostMutation = useCreatePost();
+
   const handlePost = async () => {
     if (!content.trim()) return;
     if (content.length < 5) {
       setError("Post must be at least 5 characters");
       return;
     }
-    setIsPosting(true);
     setError(null);
 
     try {
-      await postService.createPost(content);
+      await createPostMutation.mutateAsync(content);
       setContent("");
-      await refetch();
       showToast("Post created successfully!", "success");
     } catch (err: any) {
       const message =
         err?.response?.data?.message || err?.message || "Failed to create post";
       setError(message);
       showToast(message, "error");
-    } finally {
-      setIsPosting(false);
     }
   };
-
   return (
     <div className="bg-white border border-gray-200 shadow-lg dark:bg-[#171717] dark:border-[#262626] rounded-2xl p-4 w-full max-w-200">
       <div className="flex items-start gap-3">
@@ -100,10 +95,14 @@ export default function CreatePost() {
       <div className="flex justify-end">
         <button
           onClick={handlePost}
-          disabled={isPosting || !content.trim() || content.length < 5}
+          disabled={
+            createPostMutation.isPending ||
+            !content.trim() ||
+            content.length < 5
+          }
           className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-black/80 dark:hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isPosting ? (
+          {createPostMutation.isPending ? (
             "Posting..."
           ) : (
             <>

@@ -158,12 +158,12 @@ const showToast = (message: string, type: "success" | "error") => {
           <button onClick={onClose}>
             <img
               src={closeDark}
-              className="hidden w-[16px] h-[16px] mb-6 mt-6 dark:block"
+              className="hidden w-[16px] h-[16px] mb-6 mt-6 dark:block cursor-pointer"
               alt="close_btn"
             />
             <img
               src={closeLight}
-              className="block w-[16px] h-[16px] mb-6 mt-6 dark:hidden"
+              className="block w-[16px] h-[16px] mb-6 mt-6 dark:hidden cursor-pointer"
               alt="close_btn"
             />
           </button>
@@ -229,12 +229,12 @@ const showToast = (message: string, type: "success" | "error") => {
         <div className="flex flex-row gap-3 justify-end mt-2 mb-4">
           <button
             onClick={onClose}
-            className=" bg-[#FFFFFF] dark:text-[#FAFAFA] dark:bg-[#0A0A0A] border border-[#E5E5E5] dark:border-[#262626] rounded-[6px] py-[8px] px-[16px] text-[14px] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A]"
+            className=" bg-[#FFFFFF] dark:text-[#FAFAFA] dark:bg-[#0A0A0A] border border-[#E5E5E5] dark:border-[#262626] rounded-[6px] py-[8px] px-[16px] text-[14px] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A] cursor-pointer"
           >
             Cancel
           </button>
           <button onClick={handleSave}
-          className=" bg-[#0A0A0A] text-[#FAFAFA] dark:bg-[#FAFAFA] py-[8px] px-[16px] dark:text-[#171717] rounded-[6px] text-[14px]">
+          className=" bg-[#0A0A0A] text-[#FAFAFA] dark:bg-[#FAFAFA] py-[8px] px-[16px] dark:text-[#171717] rounded-[6px] text-[14px] cursor-pointer">
             Save Changes
           </button>
         </div>

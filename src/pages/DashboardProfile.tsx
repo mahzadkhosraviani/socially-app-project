@@ -56,20 +56,20 @@ function DashboardProfile() {
     };
 
     fetchData();
-  }, []);
-     useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getUser(userId);
-        console.log("Fetched user by ID:", res.data.data);
-        setUserInfoNew(res.data.data);
-      } catch (err) {
-        console.error("Failed to fetch user", err);
-      }
-    };
-
-    if (userId) fetchData();
   }, [userId]);
+    //  useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await authService.getUser(userId);
+  //       console.log("Fetched user by ID:", res.data.data);
+  //       setUserInfoNew(res.data.data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch user", err);
+  //     }
+  //   };
+
+  //   if (userId) fetchData();
+  // }, [userId]);
 
   useEffect(() => {
     const handler = () => refreshUser();
@@ -78,7 +78,6 @@ function DashboardProfile() {
   }, []);
 
   return (
-
 
   
       <LayoutProfile>

@@ -17,22 +17,22 @@ interface usercardprops {
 }
 
 const Usercard = (props: usercardprops) => {
-const { data: userInfo, isLoading, error } = useUserById(props.id);
+// const { data: userInfo, isLoading, error } = useUserById(props.id);
 
  
-    // const [userInfo,SetUserInfo] = useState(null)
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       const res = await authService.getUserById(props.id);
-    //       SetUserInfo(res.data.data)
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //   };
+    const [userInfo,SetUserInfo] = useState(null)
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await authService.getUserById(props.id);
+          SetUserInfo(res.data.data)
+        } catch (err) {
+          console.error(err);
+        }
+      };
   
-    //    fetchData();
-    // }, []);
+       fetchData();
+    }, []);
 
   const username = userInfo?.email.split("@")[0]
 
