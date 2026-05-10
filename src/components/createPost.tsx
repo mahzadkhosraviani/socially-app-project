@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
-import { postService } from "../services/postService";
 import setAvatarColors from "../utils/setAvatarColors";
 import toast from "react-hot-toast";
+import { useCreatePost } from "../hooks/use-createPost";  
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
-  const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { refetch } = usePost();
   const { user } = useAuth();
+
+  const createPostMutation = useCreatePost();
 
   const handlePost = async () => {
     if (!content.trim()) return;
@@ -18,21 +17,17 @@ export default function CreatePost() {
       setError("Post must be at least 5 characters");
       return;
     }
-    setIsPosting(true);
     setError(null);
 
     try {
-      await postService.createPost(content);
+      await createPostMutation.mutateAsync(content);
       setContent("");
-      await refetch();
       toast.success("Post created successfully!");
     } catch (err: any) {
       const message =
         err?.response?.data?.message || err?.message || "Failed to create post";
       setError(message);
       toast.error(message);
-    } finally {
-      setIsPosting(false);
     }
   };
 
@@ -66,10 +61,10 @@ export default function CreatePost() {
       <div className="flex justify-end">
         <button
           onClick={handlePost}
-          disabled={isPosting || !content.trim() || content.length < 5}
+          disabled={createPostMutation.isPending || !content.trim() || content.length < 5}
           className="flex items-center gap-2 border bg-[#0A0A0A] border-gray-300 dark:border-[#3a3a3a] dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-xl cursor-pointer hover:bg-black/80 dark:hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isPosting ? (
+          {createPostMutation.isPending ? (
             "Posting..."
           ) : (
             <>
