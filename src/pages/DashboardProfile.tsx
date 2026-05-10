@@ -24,7 +24,7 @@
 
 //   const queryClient = useQueryClient();
 
-//   // fetch by username
+
 //   const { data: userByUsername } = useQuery({
 //     queryKey: ["user-profile", username],
 //     queryFn: async () => {
@@ -32,10 +32,9 @@
 //       return res.data.data;
 //     },
 //     enabled: !!username,
-   
+
 //   });
 
-//   // fetch by id (وقتی از navigate با state بیاییم)
 //   const { data: userById } = useQuery({
 //     queryKey: ["user-by-id", userId],
 //     queryFn: async () => {
@@ -43,13 +42,11 @@
 //       return res.data.data;
 //     },
 //     enabled: !!userId,
-      
+
 //   });
 
-//   // همان userInfoNew قبلی
 //   const userInfoNew = userById ?? userByUsername;
 
-//   // همان refreshUser قبلی
 //   const refreshUser = () => {
 //     if (userId) {
 //       queryClient.invalidateQueries({
@@ -64,7 +61,7 @@
 //     }
 //   };
 
-//   // همان event listener قبلی
+
 //   useEffect(() => {
 //     const handler = () => refreshUser();
 
@@ -101,7 +98,6 @@
 // }
 // export default DashboardProfile;
 
-
 import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
 import Profile from "../components/profile";
@@ -109,7 +105,6 @@ import RecommendedUsers from "../components/recommendedusers";
 import Likes_Posts_Profile from "../components/Likes&PostsProfile";
 
 import { useAuth } from "../context/authContext";
-
 
 import layoutProfile from "../components/layoutProfile";
 
@@ -122,16 +117,12 @@ import { authService } from "../services/authService";
 import EditProfile from "../components/EditProfile";
 import LayoutProfile from "../components/layoutProfile";
 
-
-
-
 function DashboardProfile() {
   const { user } = useAuth();
   const { username } = useParams();
   const location = useLocation();
   const [userInfoNew, setUserInfoNew] = useState(null);
   const userId = location.state?.id;
-
 
   console.log("EditProfile =", EditProfile);
 
@@ -148,7 +139,6 @@ function DashboardProfile() {
     }
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -162,7 +152,7 @@ function DashboardProfile() {
 
     fetchData();
   }, []);
-     useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await authService.getUser(userId);
@@ -183,26 +173,22 @@ function DashboardProfile() {
   }, []);
 
   return (
-
-  
-  
-      <LayoutProfile>
+    <LayoutProfile>
       <ProfileContainer
-            user1={userInfoNew ?? user}
-             onEditClick={() => {
-              setIsEditOpen(true);
-              console.log("OPEN EDIT MODAL");
-            }}
-           />
-          <MainProfile user={userInfoNew ?? user} />
-          {isEditOpen && (
-         <>
+        user1={userInfoNew ?? user}
+        onEditClick={() => {
+          setIsEditOpen(true);
+          console.log("OPEN EDIT MODAL");
+        }}
+      />
+      <MainProfile user={userInfoNew ?? user} />
+      {isEditOpen && (
+        <>
           {console.log("isEditOpen TRUE")}
-           <EditProfile user={user} onClose={() => setIsEditOpen(false)} />
+          <EditProfile user={user} onClose={() => setIsEditOpen(false)} />
         </>
-       )}
-      </LayoutProfile>
-
+      )}
+    </LayoutProfile>
 
     // <div>
     //   <Navbar />
@@ -228,30 +214,26 @@ function DashboardProfile() {
     //   )}
     // </div>
 
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     try {
+    //       const res = await authService.getUserById(userId);
+    //       console.log("Fetched user by ID:", res.data.data);
+    //       setUserInfoNew(res.data.data);
+    //     } catch (err) {
+    //       console.error("Failed to fetch user", err);
+    //     }
+    //   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUserById(userId);
-  //       console.log("Fetched user by ID:", res.data.data);
-  //       setUserInfoNew(res.data.data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch user", err);
-  //     }
-  //   };
-
-  //   if (userId) fetchData();
-  // }, [userId]);
-
-    )
+    //   if (userId) fetchData();
+    // }, [userId]);
+  );
 
   //   <LayoutProfile>
   //     <ProfileContainer user={userInfoNew ?? user} />
   //     <MainProfile user={userInfoNew ?? user} />
   //   </LayoutProfile>
   // );
-
 }
 
 export default DashboardProfile;
-
