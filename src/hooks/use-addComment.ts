@@ -9,6 +9,7 @@ export const useAddComment = () => {
       postService.addComment(postId, content),
     onSuccess: (_, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["profileContent"] });
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });
