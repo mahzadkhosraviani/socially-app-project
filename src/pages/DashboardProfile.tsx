@@ -99,11 +99,10 @@
 //     </LayoutProfile>
 //   );
 // }
-
 // export default DashboardProfile;
 
 
-// import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
 import Profile from "../components/profile";
 import RecommendedUsers from "../components/recommendedusers";

@@ -43,14 +43,12 @@ export default function NotificationComment({ data }: Props) {
           </svg>
           <span
             onClick={() => {
-              navigate(`/dashboard-profile/${username}`)
-              ;
-              console.log(data)
+              navigate(`/dashboard-profile/${username}`);
             }}
             className="text-sm text-gray-800 dark:text-gray-200"
           >
             <span className="font-bold text-base">{data.creator.name}</span>
-          
+
             <span className="text-[#838282]"> commented on your post.</span>
           </span>
         </div>

@@ -10,7 +10,7 @@ import { useAuth } from "../context/authContext";
 
 import { authService } from "../services/authService";
 
-import LayoutHome from "../components/layout";
+import LayoutHome from "../components/layoutHome";
 import { useQuery } from "@tanstack/react-query";
 
 function DashboardHome() {
