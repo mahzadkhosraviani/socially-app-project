@@ -1,50 +1,23 @@
-import { useEffect, useState } from "react";
 import NotificationComment from "./NotificationComment";
 import NotificationLike from "./NotificationLike";
 import NotificationFollow from "./NotificationFollow";
 
-import { authService } from "../services/authService";
-
-type Notification = {
-  id: number;
-  type: "COMMENT" | "LIKE" | "FOLLOW";
-  postId: string;
-  creatorId: string;
-  read: boolean;
-};
+import { useNotifications } from "../hooks/fetch-notifications";
+import { useMarkReadNotifications } from "../hooks/mark-notifications";
 
 export default function NotificationBox() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { data: notifications = [] } = useNotifications();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getNotifications();
-        console.log(res.data);
-        setNotifications(res.data.data);
-      } catch (error) {
-        console.error("failed to load notification:", error);
-      }
-    };
-    fetchData();
-  }, []);
-  const markAllRead = async () => {
-    try {
-      const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
-
-      await authService.markAllNotificationsAsRead(unreadIds);
-
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    } catch (error) {
-      console.error(error);
-    }
+  const { mutate: MarkAllRead, isPending } = useMarkReadNotifications();
+  const handleMarkAllRead = () => {
+    const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
+    MarkAllRead(unreadIds);
   };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
-  
 
   return (
-    <div className=" flex-col w-full max-w-4xl mx-auto mb-4 rounded-2xl  bg-white dark:bg-[#171717] border border-gray-200 shadow-lg dark:border-[#2a2a2a] max-h-100 md:max-h-120 overflow-y-auto">
+    <div>
       <div className=" sticky top-0 z-10 bg-white dark:bg-[#171717] flex items-center justify-between px-4 py-5  ">
         <h2 className="text-base font-semibold text-gray-900 dark:text-white">
           Notifications
@@ -57,8 +30,9 @@ export default function NotificationBox() {
           {unreadCount > 0 && (
             <>
               <button
-                onClick={markAllRead}
-                className="text-xs px-3 py-1 text-black  dark:text-white hover:bg-[#262626] hover:rounded-lg hover:transition-colors"
+                onClick={handleMarkAllRead}
+                disabled={isPending}
+                className={`cursor-pointer text-xs px-3 py-1 text-black  dark:text-white hover:bg-[#262626] hover:rounded-lg hover:transition-colors ${isPending ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 Mark as read
               </button>

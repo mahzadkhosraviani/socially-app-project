@@ -9,7 +9,7 @@ function LayoutHome({ children }) {
 
       <div className="flex flex-1 overflow-hidden md:justify-center lg:justify-center xl:justify-center 2xl:justify-center">
         <aside className="hidden md:block">
-          <div className="sticky md:flex flex-1 flex-row gap-7.5 p-3 mr-2 overflow-hidden md:pt-8">
+          <div className="sticky md:flex flex-1 flex-row gap-7.5 p-3 mr-9 overflow-hidden md:pt-8">
             <Profile />
           </div>
         </aside>
@@ -21,7 +21,7 @@ function LayoutHome({ children }) {
         </main>
 
 
-        <div className="hidden sticky md:block overflow-hidden ml-4 mr-20 md:pt-8">
+        <div className="hidden sticky md:block overflow-hidden ml-4 mr-21  md:pt-8">
 
           <RecommendedUsers />
         </div>

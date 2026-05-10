@@ -18,6 +18,7 @@ const timeAgo = (dateString: string) => {
 
 export default function NotificationLike({ data }: Props) {
   const isUnread = !data.read;
+  const username = data?.creator.email.split("@")[0];
   const navigate = useNavigate();
   const [khar , setKhar] = useState(null)
 
@@ -55,9 +56,7 @@ export default function NotificationLike({ data }: Props) {
           <span
 
             onClick={() => {
-              navigate(`/dashboard-profile/${data.creator.name}`, {
-                state: { id: data.creator.id },
-              });
+              navigate(`/dashboard-profile/${username}`);
             }}
             className="text-sm text-gray-800 dark:text-gray-200"
           >
