@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { usePost } from "../context/PostContext";
 import { useAuth } from "../context/authContext";
 import type { Post, Comment } from "../services/postService";
-
-// import Toast from "./Toast";
-// import { useToastQueue } from "../hooks/usetoastQueue";
 import { Link } from "react-router-dom";
-
 import setAvatarColors from "../utils/setAvatarColors";
-
 import toast from "react-hot-toast";
+import { useToggleLike } from "../hooks/use-toggleLike";
+import { useAddComment } from "../hooks/use-addComment";
+import { useDeletePost } from "../hooks/use-deletePost";
 
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
 
@@ -21,13 +18,13 @@ const timeAgo = (dateString: string) => {
   return `${Math.floor(diff / 86400)} days ago`;
 };
 
-// <<<<<<< HEAD
-// export default function PostCard({ post, onShowToast }: Props) {
-
-// =======
 export default function PostCard({ post }: { post: Post }) {
-  const { toggleLike, addComment, deletePost } = usePost();
   const { user } = useAuth();
+
+  // Mutation hooks
+  const toggleLikeMutation = useToggleLike();
+  const addCommentMutation = useAddComment();
+  const deletePostMutation = useDeletePost();
 
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState("");
@@ -39,9 +36,12 @@ export default function PostCard({ post }: { post: Post }) {
   const isAuthor = !!currentUserId && post.authorId === currentUserId;
   const isLoggedIn = !!user;
 
-  const isLiked = !!currentUserId && post.likes.some(
-  (like) => like.authorId === currentUserId || like.userId === currentUserId,
-);
+  const isLiked =
+    !!currentUserId &&
+    post.likes.some(
+      (like) =>
+        like.authorId === currentUserId || like.userId === currentUserId,
+    );
 
   const handleLike = async () => {
     if (!isLoggedIn) {
@@ -55,7 +55,7 @@ export default function PostCard({ post }: { post: Post }) {
     if (isLiking) return;
     setIsLiking(true);
     try {
-      await toggleLike(post.id);
+      await toggleLikeMutation.mutateAsync(post.id);
       const action = isLiked ? "Unliked" : "Liked";
       toast.success(`${action} post`);
     } catch (err) {
@@ -71,7 +71,10 @@ export default function PostCard({ post }: { post: Post }) {
     if (!commentContent.trim() || isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await addComment(post.id, commentContent);
+      await addCommentMutation.mutateAsync({
+        postId: post.id,
+        content: commentContent,
+      });
       setCommentContent("");
       toast.success("Comment posted successfully");
     } catch (err) {
@@ -85,7 +88,7 @@ export default function PostCard({ post }: { post: Post }) {
     if (isDeleting) return;
     setIsDeleting(true);
     try {
-      await deletePost(post.id);
+      await deletePostMutation.mutateAsync(post.id);
       toast.success("Post deleted successfully");
     } catch (err) {
       toast.error("Failed to delete post");
@@ -97,8 +100,6 @@ export default function PostCard({ post }: { post: Post }) {
   const { author, content, createdAt, _count, comments } = post;
   const username = getUsernameFromEmail(author.email);
 
-  // console.log("posttttt", post.id);
-  // console.log("vvvvv", currentUserId);
   return (
     <div className="bg-white border border-gray-200 shadow-lg dark:bg-[#171717] dark:border-[#262626] rounded-2xl px-6 pt-5 md:w-full md:max-w-235  mt-7 relative">
       {isAuthor && (
@@ -246,7 +247,6 @@ export default function PostCard({ post }: { post: Post }) {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           )} */}
-
         </button>
 
         <button
