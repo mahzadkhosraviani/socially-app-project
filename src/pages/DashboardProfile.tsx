@@ -20,7 +20,6 @@ import LayoutProfile from "../components/layoutProfile";
 
 
 
-
 function DashboardProfile() {
   const { user } = useAuth();
   const { username } = useParams();
@@ -29,7 +28,7 @@ function DashboardProfile() {
   const userId = location.state?.id;
 
 
-  console.log("EditProfile =", EditProfile);
+  console.log("EditProfile", EditProfile);
 
   // console.log("user",userId)
 
@@ -80,7 +79,7 @@ function DashboardProfile() {
 
   return (
 
-  
+
   
       <LayoutProfile>
       <ProfileContainer

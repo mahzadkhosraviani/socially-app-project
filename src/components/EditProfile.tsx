@@ -6,27 +6,30 @@ import { editProfileService } from "../services/editProfileService";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-username";
 
 function EditProfile({ user, onClose }) {
   // console.log("EditProfile rendered");
   // console.log("userrrr:", user);
-  const [userInfo, setUserInfo] = useState(null);
+  // const [userInfo, setUserInfo] = useState(null);
   const username = user.email.split("@")[0];
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getUser(username);
-        setUserInfo(res.data.data);
-        // console.log("goshti:", res.data.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const { data: userInfo, isLoading } = useUser(username);
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await authService.getUser(username);
+  //       setUserInfo(res.data.data);
+  //       // console.log("goshti:", res.data.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
   if (userInfo) {
@@ -38,6 +41,7 @@ function EditProfile({ user, onClose }) {
     });
   }
 }, [userInfo]);
+
 const [formData, setFormData] = useState({
   name: "",
   bio: "",
@@ -56,7 +60,12 @@ const [formData, setFormData] = useState({
       [e.target.name]: e.target.value,
     });
   };
-  const showToast = (message: string) => {
+const showToast = (message: string, type: "success" | "error") => {
+  const icon =
+    type === "success"
+      ? "/src/assets/tick.png"
+      : "/src/assets/closebtn-removebg-preview.png";
+    
     toast.custom(
       (t) => (
         <div
@@ -73,10 +82,11 @@ const [formData, setFormData] = useState({
                 aria-label="Close"
               >
                 <img
-                  src="/src/assets/closebtn-removebg-preview.png"
+                  src= {icon}
                   alt="close btn"
                   className="w-4 h-4"
                 />
+               
               </button>
 
               <span>{message}</span>
@@ -101,12 +111,12 @@ const [formData, setFormData] = useState({
     const res = await editProfileService.editProfile(user.id, formData);
 
     
-    showToast(res?.data?.message || "Profile updated successfully");
+    showToast(res?.data?.message || "Profile updated successfully","success");
 
     onClose();
   } catch (err: any) {
        
-    showToast(err?.response?.data?.error || "Something went wrong");
+    showToast(err?.response?.data?.error || "Something went wrong","error");
   }
 };
 

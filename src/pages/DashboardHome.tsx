@@ -12,22 +12,31 @@ import { authService } from "../services/authService";
 
 import Layout from "../components/layout";
 import LayoutHome from "../components/layout";
+import { useUserByUsername } from "../hooks/use-username";
 
 function DashboardHome() {
-const {user} = useAuth()
+const { user, loading } = useAuth();
 const username = user.email.split("@")[0];
- useEffect(() => {
-    const fetchData = async () => {
-      try {
-       const res = await authService.getUser(username);
-       console.log(res.data.data)
-      } catch (err) {
-        console.error(err);
-      }
-    };
+//  useEffect(() => {
 
-     fetchData();
-  }, []);
+//     const fetchData = async () => {
+//       try {
+//        const res = await authService.getUser(username);
+       
+//        console.log(res.data.data)
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     };
+
+//      fetchData();
+//   }, [username]);
+
+const { data: userInfo, isLoading, error } = useUserByUsername(username);
+
+if (userInfo) {
+  console.log(userInfo);
+}
 
   return (
     <>

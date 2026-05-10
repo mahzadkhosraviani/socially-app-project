@@ -37,7 +37,12 @@ function SignIn() {
     resolver: zodResolver(loginSchema),
   });
 
-  const showToast = (message: string) => {
+const showToast = (message: string, type: "success" | "error") => {
+    const icon =
+      type === "success"
+        ? "/src/assets/tick.png"
+        : "/src/assets/closebtn-removebg-preview.png";
+
     toast.custom(
       (t) => (
         <div
@@ -45,7 +50,7 @@ function SignIn() {
             t.visible ? "animate-custom-enter" : "animate-custom-leave"
           } transition ease-in-out`}
         >
-          <div className="rounded-lg pr-60 py-4 bg-[#191919] border border-[#383838] font-bold text-xs text-[#FAFAFA] text-left">
+          <div className="rounded-lg pr-30 py-4  bg-[#191919] border border-[#383838] font-bold text-xs text-[#FAFAFA] text-left">
             <div className="flex flex-row items-center">
               <button
                 type="button"
@@ -53,18 +58,15 @@ function SignIn() {
                 className="ml-2 mr-2"
                 aria-label="Close"
               >
-                <img
-                  src="/src/assets/closebtn-removebg-preview.png"
-                  alt="close btn"
-                  className="w-4 h-4"
-                />
+                <img src={icon} alt="close btn" className="w-4 h-4" />
               </button>
+
               <span>{message}</span>
             </div>
           </div>
         </div>
       ),
-      { duration: 3000 }
+      { duration: 3000 },
     );
   };
 
@@ -76,7 +78,7 @@ function SignIn() {
       console.log("Error object:", e);
       console.log("e.response:", e.response);
       console.log("e.response?.data:", e.response?.data);
-      showToast(e?.response?.data?.error || "Something went wrong");
+      showToast(e?.response?.data?.error || "Something went wrong","error");
     }
   };
 

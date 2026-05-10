@@ -106,7 +106,7 @@ const ProfileContainer = ({ user1, onEditClick } : ProfileContainerProps) => {
       fetchPostsCount(user.id).finally(() => setIsReady(true));
     }
   }, [user1?.id]);
-  console.log("mainnnnnnn:", user1);
+
   //   const fetchUser = async () => {
   //   try {
   //     const res = await authService.getUserById(user.id);

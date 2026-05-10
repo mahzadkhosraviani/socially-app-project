@@ -12,6 +12,38 @@ export default function CreatePost() {
   const { refetch } = usePost();
   const { user } = useAuth();
 
+  const showToast = (message: string, type: "success" | "error") => {
+    const icon =
+      type === "success"
+        ? "/src/assets/tick.png"
+        : "/src/assets/closebtn-removebg-preview.png";
+
+    toast.custom(
+      (t) => (
+        <div
+          className={`${
+            t.visible ? "animate-custom-enter" : "animate-custom-leave"
+          } transition ease-in-out`}
+        >
+          <div className="rounded-lg pr-30 py-4  bg-[#191919] border border-[#383838] font-bold text-xs text-[#FAFAFA] text-left">
+            <div className="flex flex-row items-center">
+              <button
+                type="button"
+                onClick={() => toast.dismiss(t.id)}
+                className="ml-2 mr-2"
+                aria-label="Close"
+              >
+                <img src={icon} alt="close btn" className="w-4 h-4" />
+              </button>
+
+              <span>{message}</span>
+            </div>
+          </div>
+        </div>
+      ),
+      { duration: 3000 },
+    );
+  };
   const handlePost = async () => {
     if (!content.trim()) return;
     if (content.length < 5) {
@@ -25,12 +57,12 @@ export default function CreatePost() {
       await postService.createPost(content);
       setContent("");
       await refetch();
-      toast.success("Post created successfully!");
+      showToast("Post created successfully!", "success");
     } catch (err: any) {
       const message =
         err?.response?.data?.message || err?.message || "Failed to create post";
       setError(message);
-      toast.error(message);
+      showToast(message, "error");
     } finally {
       setIsPosting(false);
     }
@@ -46,7 +78,9 @@ export default function CreatePost() {
             className="w-10 h-10 rounded-full object-cover shrink-0"
           />
         ) : (
-          <div className={`w-10 h-10 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(user.name)}`}>
+          <div
+            className={`w-10 h-10 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(user.name)}`}
+          >
             {user?.name?.[0]?.toUpperCase() || "U"}
           </div>
         )}

@@ -41,6 +41,7 @@ export default function NotificationBox() {
   };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+  
 
   return (
     <div className=" flex-col w-full max-w-4xl mx-auto mb-4 rounded-2xl  bg-white dark:bg-[#171717] border border-gray-200 shadow-lg dark:border-[#2a2a2a] max-h-100 md:max-h-120 overflow-y-auto">

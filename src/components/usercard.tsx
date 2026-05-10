@@ -4,6 +4,7 @@ import FollowButton from "./followbutton";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
+import { useUserById } from "../hooks/use-useId";
 
 interface usercardprops {
   id: string;
@@ -16,22 +17,24 @@ interface usercardprops {
 }
 
 const Usercard = (props: usercardprops) => {
+const { data: userInfo, isLoading, error } = useUserById(props.id);
 
  
-    const [userInfo,SetUserInfo] = useState(null)
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const res = await authService.getUserById(props.id);
-          SetUserInfo(res.data.data)
-        } catch (err) {
-          console.error(err);
-        }
-      };
+    // const [userInfo,SetUserInfo] = useState(null)
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     try {
+    //       const res = await authService.getUserById(props.id);
+    //       SetUserInfo(res.data.data)
+    //     } catch (err) {
+    //       console.error(err);
+    //     }
+    //   };
   
-       fetchData();
-    }, []);
-     const username = userInfo?.email.split("@")[0]
+    //    fetchData();
+    // }, []);
+
+  const username = userInfo?.email.split("@")[0]
 
   const avatar = props.name.split("")[0];
   console.log(props._count.followers);
