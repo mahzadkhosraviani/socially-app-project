@@ -90,7 +90,7 @@ function Profile() {
     <div className="min-h-screen bg-white md:pl-28 dark:bg-[#0A0A0A]">
 
 
-      <div className="w-73 h-auto bg-white dark:bg-[#171717] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
+      <div className="w-73  h-auto bg-white dark:bg-[#171717] rounded-2xl shadow-lg p-6 text-center border border-gray-200 dark:border-[#262626]">
 
         {/* Avatar */}
 

@@ -1,4 +1,4 @@
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 function Navbar() {
@@ -10,7 +10,6 @@ function Navbar() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
- 
     if (savedTheme === "dark") {
       setDarkMode(true);
       document.documentElement.classList.add("dark");
