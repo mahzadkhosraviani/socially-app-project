@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useToggleLike } from "../hooks/use-toggleLike";
 import { useAddComment } from "../hooks/use-addComment";
 import { useDeletePost } from "../hooks/use-deletePost";
-import Delete from "./delete";   
+import Delete from "./delete";
 
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
 
@@ -31,7 +31,7 @@ export default function PostCard({ post }: { post: Post }) {
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  
+
   // Delete modal state
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -39,9 +39,12 @@ export default function PostCard({ post }: { post: Post }) {
   const isAuthor = !!currentUserId && post.authorId === currentUserId;
   const isLoggedIn = !!user;
 
-  const isLiked = !!currentUserId && post.likes.some(
-    (like) => like.authorId === currentUserId || like.userId === currentUserId,
-  );
+  const isLiked =
+    !!currentUserId &&
+    post.likes.some(
+      (like) =>
+        like.authorId === currentUserId || like.userId === currentUserId,
+    );
 
   const handleLike = async () => {
     if (!isLoggedIn) {
@@ -71,7 +74,10 @@ export default function PostCard({ post }: { post: Post }) {
     if (!commentContent.trim() || isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await addCommentMutation.mutateAsync({ postId: post.id, content: commentContent });
+      await addCommentMutation.mutateAsync({
+        postId: post.id,
+        content: commentContent,
+      });
       setCommentContent("");
       toast.success("Comment posted successfully");
     } catch (err) {
@@ -208,47 +214,68 @@ export default function PostCard({ post }: { post: Post }) {
                   No comments yet. Be the first!
                 </p>
               ) : (
-                comments.map((comment: Comment) => (
-                  <div key={comment.id} className="flex gap-3">
-                    {comment.author.image ? (
-                      <img
-                        src={comment.author.image}
-                        alt={comment.author.name}
-                        className="w-7 h-7 rounded-full object-cover shrink-0"
-                      />
-                    ) : (
-                      <div
-                        className={`w-7 h-7 rounded-full ${setAvatarColors(comment.author.name)} flex items-center justify-center text-white font-bold text-xs shrink-0`}
+                comments.map((comment: Comment) => {
+                  const commentUsername = getUsernameFromEmail(
+                    comment.author.email,
+                  );
+                  return (
+                    <div key={comment.id} className="flex gap-3">
+                      {/* Clickable avatar */}
+                      <Link
+                        to={`/dashboard-profile/${commentUsername}`}
+                        state={{ id: commentUsername }}
+                        className="shrink-0"
                       >
-                        {comment.author.name[0].toUpperCase()}
+                        {comment.author.image ? (
+                          <img
+                            src={comment.author.image}
+                            alt={comment.author.name}
+                            className="w-7 h-7 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div
+                            className={`w-7 h-7 rounded-full ${setAvatarColors(comment.author.name)} flex items-center justify-center text-white font-bold text-xs`}
+                          >
+                            {comment.author.name[0].toUpperCase()}
+                          </div>
+                        )}
+                      </Link>
+
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {/* Clickable name + username */}
+                          <Link
+                            to={`/dashboard-profile/${commentUsername}`}
+                            state={{ id: commentUsername }}
+                            className="flex items-center gap-2 flex-wrap"
+                          >
+                            <span className="font-semibold text-xs dark:text-white hover:underline">
+                              {comment.author.name}
+                            </span>
+                            <span className="text-gray-400 dark:text-gray-500 text-xs">
+                              @{commentUsername}
+                            </span>
+                          </Link>
+                          <span className="text-gray-300 dark:text-gray-600 text-xs">
+                            •
+                          </span>
+                          <span className="text-gray-400 dark:text-gray-500 text-xs">
+                            {timeAgo(comment.createdAt)}
+                          </span>
+                        </div>
+                        <p className="text-gray-700 dark:text-gray-300 text-xs mt-1">
+                          {comment.content}
+                        </p>
                       </div>
-                    )}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-semibold text-xs dark:text-white">
-                          {comment.author.name}
-                        </span>
-                        <span className="text-gray-400 dark:text-gray-500 text-xs">
-                          @{getUsernameFromEmail(comment.author.email)}
-                        </span>
-                        <span className="text-gray-300 dark:text-gray-600 text-xs">
-                          •
-                        </span>
-                        <span className="text-gray-400 dark:text-gray-500 text-xs">
-                          {timeAgo(comment.createdAt)}
-                        </span>
-                      </div>
-                      <p className="text-gray-700 dark:text-gray-300 text-xs mt-1">
-                        {comment.content}
-                      </p>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
 
             {isLoggedIn && (
               <div className="flex items-start gap-2 pt-6">
+                {/* Current user avatar – optionally make it clickable to own profile? Not needed here, but can be added similarly */}
                 {user?.image ? (
                   <img
                     src={user.image}
@@ -273,7 +300,9 @@ export default function PostCard({ post }: { post: Post }) {
                   <div className="flex justify-end mt-2 mb-4">
                     <button
                       onClick={handleAddComment}
-                      disabled={addCommentMutation.isPending || !commentContent.trim()}
+                      disabled={
+                        addCommentMutation.isPending || !commentContent.trim()
+                      }
                       className="px-4 py-2 bg-black text-white dark:bg-white dark:text-black border border-gray-200 dark:border-[#262626] text-xs font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                       {addCommentMutation.isPending ? "Posting..." : "Comment"}
@@ -288,7 +317,10 @@ export default function PostCard({ post }: { post: Post }) {
 
       {/* Delete confirmation modal */}
       {showDeleteModal && (
-        <Delete onCancel={() => setShowDeleteModal(false)} onConfirm={handleDeleteConfirm} />
+        <Delete
+          onCancel={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteConfirm}
+        />
       )}
     </>
   );
