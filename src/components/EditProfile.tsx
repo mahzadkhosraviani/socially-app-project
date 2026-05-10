@@ -6,27 +6,30 @@ import { editProfileService } from "../services/editProfileService";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-username";
 
 function EditProfile({ user, onClose }) {
   // console.log("EditProfile rendered");
   // console.log("userrrr:", user);
-  const [userInfo, setUserInfo] = useState(null);
+  // const [userInfo, setUserInfo] = useState(null);
   const username = user.email.split("@")[0];
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getUser(username);
-        setUserInfo(res.data.data);
-        // console.log("goshti:", res.data.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const { data: userInfo, isLoading } = useUser(username);
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await authService.getUser(username);
+  //       setUserInfo(res.data.data);
+  //       // console.log("goshti:", res.data.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
   if (userInfo) {
@@ -38,6 +41,7 @@ function EditProfile({ user, onClose }) {
     });
   }
 }, [userInfo]);
+
 const [formData, setFormData] = useState({
   name: "",
   bio: "",
@@ -56,7 +60,12 @@ const [formData, setFormData] = useState({
       [e.target.name]: e.target.value,
     });
   };
-  const showToast = (message: string) => {
+const showToast = (message: string, type: "success" | "error") => {
+  const icon =
+    type === "success"
+      ? "/src/assets/tick.png"
+      : "/src/assets/closebtn-removebg-preview.png";
+    
     toast.custom(
       (t) => (
         <div
@@ -73,10 +82,11 @@ const [formData, setFormData] = useState({
                 aria-label="Close"
               >
                 <img
-                  src="/src/assets/closebtn-removebg-preview.png"
+                  src= {icon}
                   alt="close btn"
                   className="w-4 h-4"
                 />
+               
               </button>
 
               <span>{message}</span>
@@ -101,12 +111,12 @@ const [formData, setFormData] = useState({
     const res = await editProfileService.editProfile(user.id, formData);
 
     
-    showToast(res?.data?.message || "Profile updated successfully");
+    showToast(res?.data?.message || "Profile updated successfully","success");
 
     onClose();
   } catch (err: any) {
        
-    showToast(err?.response?.data?.error || "Something went wrong");
+    showToast(err?.response?.data?.error || "Something went wrong","error");
   }
 };
 
@@ -148,12 +158,12 @@ const [formData, setFormData] = useState({
           <button onClick={onClose}>
             <img
               src={closeDark}
-              className="hidden w-[16px] h-[16px] mb-6 mt-6 dark:block"
+              className="hidden w-[16px] h-[16px] mb-6 mt-6 dark:block cursor-pointer"
               alt="close_btn"
             />
             <img
               src={closeLight}
-              className="block w-[16px] h-[16px] mb-6 mt-6 dark:hidden"
+              className="block w-[16px] h-[16px] mb-6 mt-6 dark:hidden cursor-pointer"
               alt="close_btn"
             />
           </button>
@@ -219,12 +229,12 @@ const [formData, setFormData] = useState({
         <div className="flex flex-row gap-3 justify-end mt-2 mb-4">
           <button
             onClick={onClose}
-            className=" bg-[#FFFFFF] dark:text-[#FAFAFA] dark:bg-[#0A0A0A] border border-[#E5E5E5] dark:border-[#262626] rounded-[6px] py-[8px] px-[16px] text-[14px] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A]"
+            className=" bg-[#FFFFFF] dark:text-[#FAFAFA] dark:bg-[#0A0A0A] border border-[#E5E5E5] dark:border-[#262626] rounded-[6px] py-[8px] px-[16px] text-[14px] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A] cursor-pointer"
           >
             Cancel
           </button>
           <button onClick={handleSave}
-          className=" bg-[#0A0A0A] text-[#FAFAFA] dark:bg-[#FAFAFA] py-[8px] px-[16px] dark:text-[#171717] rounded-[6px] text-[14px]">
+          className=" bg-[#0A0A0A] text-[#FAFAFA] dark:bg-[#FAFAFA] py-[8px] px-[16px] dark:text-[#171717] rounded-[6px] text-[14px] cursor-pointer">
             Save Changes
           </button>
         </div>

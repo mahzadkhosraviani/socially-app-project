@@ -117,6 +117,7 @@ import { authService } from "../services/authService";
 import EditProfile from "../components/EditProfile";
 import LayoutProfile from "../components/layoutProfile";
 
+
 function DashboardProfile() {
   const { user } = useAuth();
   const { username } = useParams();
@@ -124,7 +125,7 @@ function DashboardProfile() {
   const [userInfoNew, setUserInfoNew] = useState(null);
   const userId = location.state?.id;
 
-  console.log("EditProfile =", EditProfile);
+
 
   // console.log("user",userId)
 
@@ -151,6 +152,7 @@ function DashboardProfile() {
     };
 
     fetchData();
+
   }, []);
   useEffect(() => {
     const fetchData = async () => {
@@ -164,7 +166,21 @@ function DashboardProfile() {
     };
 
     if (userId) fetchData();
+
   }, [userId]);
+    //  useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await authService.getUser(userId);
+  //       console.log("Fetched user by ID:", res.data.data);
+  //       setUserInfoNew(res.data.data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch user", err);
+  //     }
+  //   };
+
+  //   if (userId) fetchData();
+  // }, [userId]);
 
   useEffect(() => {
     const handler = () => refreshUser();
@@ -173,7 +189,9 @@ function DashboardProfile() {
   }, []);
 
   return (
+
     <LayoutProfile>
+
       <ProfileContainer
         user1={userInfoNew ?? user}
         onEditClick={() => {

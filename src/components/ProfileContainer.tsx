@@ -108,6 +108,7 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
     }
   }, [user1?.id]);
 
+
   // Combine readiness: user info loaded AND posts count loaded
   useEffect(() => {
     if (userInfoNew !== null && !postsLoading) {
@@ -116,6 +117,16 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
   }, [userInfoNew, postsLoading]);
 
   console.log("mainnnnnnn:", user1);
+
+
+  //   const fetchUser = async () => {
+  //   try {
+  //     const res = await authService.getUserById(user.id);
+  //     setUserInfoNew(res.data.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+
   // const fetchUser = async () => {
   // try {
   // const res = await authService.getUserById(user.id);
@@ -123,6 +134,7 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
   // } catch (err) {
   // console.error(err);
   // }
+
   // };
 
   // useEffect(() => {

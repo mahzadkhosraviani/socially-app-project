@@ -15,6 +15,7 @@ export default function NotificationBox() {
   };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+
   return (
     <div>
       <div className=" sticky top-0 z-10 bg-white dark:bg-[#171717] flex items-center justify-between px-4 py-5  ">

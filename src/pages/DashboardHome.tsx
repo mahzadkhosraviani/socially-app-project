@@ -10,24 +10,54 @@ import { useAuth } from "../context/authContext";
 
 import { authService } from "../services/authService";
 
+
+
+
+import { useUserByUsername } from "../hooks/use-username";
 import LayoutHome from "../components/layoutHome";
-import { useQuery } from "@tanstack/react-query";
 
 function DashboardHome() {
-  const { user } = useAuth();
-  const username = user.email.split("@")[0];
-   useEffect(() => {
-      const fetchData = async () => {
-        try {
-         const res = await authService.getUser(username);
-         console.log(res.data.data)
-        } catch (err) {
-          console.error(err);
-        }
-      };
+const { user, loading } = useAuth();
+const username = user.email.split("@")[0];
+//  useEffect(() => {
 
-       fetchData();
-    }, []);
+//     const fetchData = async () => {
+//       try {
+//        const res = await authService.getUser(username);
+       
+//        console.log(res.data.data)
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     };
+
+//      fetchData();
+//   }, [username]);
+
+const { data: userInfo, isLoading, error } = useUserByUsername(username);
+
+// if (userInfo) {
+//   console.log(userInfo);
+// }
+// import LayoutHome from "../components/layoutHome";
+// import { useQuery } from "@tanstack/react-query";
+
+// function DashboardHome() {
+//   const { user } = useAuth();
+//   const username = user.email.split("@")[0];
+//    useEffect(() => {
+//       const fetchData = async () => {
+//         try {
+//          const res = await authService.getUser(username);
+//          console.log(res.data.data)
+//         } catch (err) {
+//           console.error(err);
+//         }
+//       };
+
+//        fetchData();
+//     }, []);
+
 
   return (
     <>

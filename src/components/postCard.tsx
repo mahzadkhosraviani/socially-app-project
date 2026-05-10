@@ -45,14 +45,53 @@ export default function PostCard({ post }: { post: Post }) {
       (like) =>
         like.authorId === currentUserId || like.userId === currentUserId,
     );
+  const showToast = (message: string, type: "success" | "error") => {
+    const icon =
+      type === "success"
+        ? "/src/assets/tick.png"
+        : "/src/assets/closebtn-removebg-preview.png";
+
+    toast.custom(
+      (t) => (
+        <div
+          className={`${
+            t.visible ? "animate-custom-enter" : "animate-custom-leave"
+          } transition ease-in-out`}
+        >
+          <div className="rounded-lg pr-30 py-4  bg-[#191919] border border-[#383838] font-bold text-xs text-[#FAFAFA] text-left">
+            <div className="flex flex-row items-center">
+              <button
+                type="button"
+                onClick={() => toast.dismiss(t.id)}
+                className="ml-2 mr-2"
+                aria-label="Close"
+              >
+                <img src={icon} alt="close btn" className="w-4 h-4" />
+              </button>
+
+              <span>{message}</span>
+            </div>
+          </div>
+        </div>
+      ),
+      { duration: 3000 },
+    );
+  };
+
+  // const isLiked =
+  //   !!currentUserId &&
+  //   post.likes.some(
+  //     (like) =>
+  //       like.authorId === currentUserId || like.userId === currentUserId,
+  //   );
 
   const handleLike = async () => {
     if (!isLoggedIn) {
-      toast.error("You must be logged in to like");
+      showToast("You must be logged in to like", "error");
       return;
     }
     if (isAuthor) {
-      toast.error("You can't like your own post!");
+      showToast("You can't like your own post!", "error");
       return;
     }
     if (isLiking) return;
@@ -60,9 +99,9 @@ export default function PostCard({ post }: { post: Post }) {
     try {
       await toggleLikeMutation.mutateAsync(post.id);
       const action = isLiked ? "Unliked" : "Liked";
-      toast.success(`${action} post`);
+      showToast(`${action} post`, "success");
     } catch (err) {
-      toast.error("Failed to update like");
+      showToast("Failed to update like", "error");
     } finally {
       setIsLiking(false);
     }
@@ -79,26 +118,24 @@ export default function PostCard({ post }: { post: Post }) {
         content: commentContent,
       });
       setCommentContent("");
-      toast.success("Comment posted successfully");
+      showToast("Comment posted successfully", "success");
     } catch (err) {
-      toast.error("Failed to post comment");
+      showToast("Failed to post comment", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
-
+  const { author, content, createdAt, _count, comments } = post;
+  const username = getUsernameFromEmail(author.email);
   const handleDeleteConfirm = async () => {
     setShowDeleteModal(false);
     try {
       await deletePostMutation.mutateAsync(post.id);
-      toast.success("Post deleted successfully");
+      showToast("Post deleted successfully", "success");
     } catch (err) {
-      toast.error("Failed to delete post");
+      showToast("Failed to delete post", "error");
     }
   };
-
-  const { author, content, createdAt, _count, comments } = post;
-  const username = getUsernameFromEmail(author.email);
 
   return (
     <>
