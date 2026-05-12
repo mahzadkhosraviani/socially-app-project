@@ -229,7 +229,7 @@ function DashboardProfile() {
 
     <LayoutProfile>
       <ProfileContainer
-        user1={userInfoNew || user}
+        user1={userInfoNew ?? user}
 
         onEditClick={() => {
           setIsEditOpen(true);
