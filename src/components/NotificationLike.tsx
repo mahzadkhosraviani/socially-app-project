@@ -20,8 +20,7 @@ export default function NotificationLike({ data }: Props) {
   const isUnread = !data.read;
   const username = data?.creator.email.split("@")[0];
   const navigate = useNavigate();
-  const [khar , setKhar] = useState(null)
-
+ 
   useEffect (()=>{
   console.log("data:", data);
 

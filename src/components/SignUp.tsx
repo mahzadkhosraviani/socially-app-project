@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import toast from "react-hot-toast";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
@@ -36,7 +36,7 @@ function SignUp() {
     formState: { errors, isSubmitting },
     setError,
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-const showToast = (message: string, type: "success" | "error") => {
+  const showToast = (message: string, type: "success" | "error") => {
     const icon =
       type === "success"
         ? "/src/assets/tick.png"
@@ -74,7 +74,7 @@ const showToast = (message: string, type: "success" | "error") => {
       await registerUser(data.name, data.email, data.password);
       navigate("/dashboard-home");
     } catch (e: any) {
-      showToast(e?.response?.data?.error,"error");
+      showToast(e?.response?.data?.error, "error");
       console.log(e.response);
     }
   };

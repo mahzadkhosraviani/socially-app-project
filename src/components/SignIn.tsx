@@ -2,7 +2,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { authService } from "../services/authService";
@@ -37,7 +37,7 @@ function SignIn() {
     resolver: zodResolver(loginSchema),
   });
 
-const showToast = (message: string, type: "success" | "error") => {
+  const showToast = (message: string, type: "success" | "error") => {
     const icon =
       type === "success"
         ? "/src/assets/tick.png"
@@ -78,7 +78,7 @@ const showToast = (message: string, type: "success" | "error") => {
       console.log("Error object:", e);
       console.log("e.response:", e.response);
       console.log("e.response?.data:", e.response?.data);
-      showToast(e?.response?.data?.error || "Something went wrong","error");
+      showToast(e?.response?.data?.error || "Something went wrong", "error");
     }
   };
 
@@ -175,7 +175,6 @@ const showToast = (message: string, type: "success" | "error") => {
     </div>
   );
 }
-
 
 {
   /* return (

@@ -1,4 +1,4 @@
-import UserList from "./userlist";
+import UserList from "./UserList";
 import { useRecommendedUsers } from "../hooks/use-RecommendedUsers";
 
 const RecommendedUsers = () => {

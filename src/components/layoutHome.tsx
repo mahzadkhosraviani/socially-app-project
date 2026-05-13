@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
-import Profile from "./profile";
-import RecommendedUsers from "./recommendedusers";
+import Profile from "./Profile";
+import RecommendedUsers from "./RecommendedUsers";
 
 function LayoutHome({ children }) {
   return (
@@ -20,9 +20,7 @@ function LayoutHome({ children }) {
           </div>
         </main>
 
-
         <div className="hidden sticky md:block overflow-hidden ml-4 mr-21  md:pt-8">
-
           <RecommendedUsers />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import setAvatarColors from "../utils/setAvatarColors";
-import FollowButton from "./followbutton";
+import FollowButton from "./FollowButton";
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -36,12 +36,12 @@ const Usercard = (props: usercardprops) => {
 
   const username = userInfo?.email.split("@")[0]
 
-  const avatar = props.name.split("")[0];
+  const avatar = props.name.split("")[0].toUpperCase();
   console.log(props._count.followers);
 
   return (
     <div className="flex items-center justify-between p-3 rounded-lg">
-      <Link to={`/dashboard-profile/${username}`} state={{ id:username }}>
+      <Link to={`/dashboard-profile/${username}`} >
         <div className="flex items-center gap-3">
           <div
             className={`w-10 h-10 flex items-center justify-center text-white font-bold ${setAvatarColors(props.name)} rounded-full`}

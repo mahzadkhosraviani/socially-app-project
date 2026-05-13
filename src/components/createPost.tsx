@@ -1,13 +1,33 @@
-import { useState } from "react";
-import { useAuth } from "../context/authContext";
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import setAvatarColors from "../utils/setAvatarColors";
 import toast from "react-hot-toast";
 import { useCreatePost } from "../hooks/use-createPost";
+import { authService } from "../services/authService";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+
+
+ const [userInfo, setUserInfo] = useState(null);
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await authService.getUserById(user.id);
+
+      setUserInfo(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+    fetchUser();
+
+}, []);
 
   const showToast = (message: string, type: "success" | "error") => {
     const icon =
@@ -76,7 +96,7 @@ export default function CreatePost() {
           <div
             className={`w-10 h-10 rounded-full  flex items-center justify-center text-white font-bold text-sm shrink-0 ${setAvatarColors(user.name)}`}
           >
-            {user?.name?.[0]?.toUpperCase() || "U"}
+            {userInfo?.name?.[0]?.toUpperCase() || "U"}
           </div>
         )}
         <input

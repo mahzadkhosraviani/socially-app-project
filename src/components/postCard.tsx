@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import type { Post, Comment } from "../services/postService";
 import { Link } from "react-router-dom";
 import setAvatarColors from "../utils/setAvatarColors";
@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useToggleLike } from "../hooks/use-toggleLike";
 import { useAddComment } from "../hooks/use-addComment";
 import { useDeletePost } from "../hooks/use-deletePost";
-import Delete from "./delete";
+import Delete from "./Delete";
 
 const getUsernameFromEmail = (email: string) => email.split("@")[0];
 
