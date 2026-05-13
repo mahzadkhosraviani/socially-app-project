@@ -13,11 +13,6 @@ const UserInfo = ({ user1 }) => {
   const [userInfoNew, setUserInfoNew] = useState(null);
 
   const [userInfo, setUserInfo] = useState(null);
-  // const location = user1?._count?.location ?? userInfoNew?.location;
-  // const website = user1?._count?.website ?? userInfoNew?.website;
-
-  // const location = user1?._count?.followings ?? userInfoNew?.location;
-  // const website = user1?._count?.followers ?? userInfoNew?.website;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,34 +24,12 @@ const UserInfo = ({ user1 }) => {
       }
     };
     fetchData();
-    // if (user.id === user1.id) {
-    //   fetchData();
-    // }
   });
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUserById(user1.id);
-  //       setUserInfo(res.data.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  //   fetchData();
-  // });
-
-  // console.log("userInfo::::", user);
-
-  //   if (!location || !website) fetchData();
-  // }, [user1?.id]);
-
-  // console.log("userInfo", userInfoNew);
 
   const timeAgo = userInfoNew
     ? formatDistanceToNow(new Date(userInfoNew.createdAt), { addSuffix: true })
     : "";
-  // console.log("timeeee :",timeAgo)
+
   return (
     <div className="flex flex-col gap-2 text-sm  text-gray-600 dark:text-white mt-4.5">
       <div className="flex items-center gap-2">
@@ -74,8 +47,6 @@ const UserInfo = ({ user1 }) => {
           {" "}
           {!userInfoNew?.website && "no location"}
           {userInfoNew?.website}
-          {/* {!userInfoNew?.location && "no location"}
-          {userInfoNew?.location} */}
         </span>
       </div>
 

@@ -1,5 +1,5 @@
 import UserList from "./UserList";
-import { useRecommendedUsers } from "../hooks/use-RecommendedUsers";
+import { useRecommendedUsers } from "../hooks/use-recommendedUsers";
 
 const RecommendedUsers = () => {
   const { users, isLoading, toggleFollow } = useRecommendedUsers();

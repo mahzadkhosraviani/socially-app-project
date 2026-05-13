@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+
 import Likes_Posts_Profile from "./Likes&PostsProfile";
 import ProfileContent from "./ProfileContent";
 

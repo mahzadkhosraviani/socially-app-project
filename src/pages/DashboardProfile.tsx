@@ -140,48 +140,7 @@ function DashboardProfile() {
       console.error("Failed to refresh user", err);
     }
   };
-  // useEffect(() => {
-  //   console.log("HEY I AM RUNNING!!!");
 
-  //   // const fetchData = async () => {
-  //   //   const res = await authService.getUserById(userId);
-  //   //   setUserInfoNew(res.data.data);
-  //   // }
-
-  //   // fetchData();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUser(username);
-  //       setUserInfoNew(res.data.data);
-  //       console.log("goshti:", res.data.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-  //    useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUser(userId);
-  //       console.log("Fetched user by ID:", res.data.data);
-  //       setUserInfoNew(res.data.data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch user", err);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [userId]);
-  // if(loading)return null
-
-
-
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -197,56 +156,7 @@ function DashboardProfile() {
       }
     };
     fetchData();
-  }, );
-
-
-
-
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUserById(userId);
-  //       console.log("Fetched user by ID:", res.data.data);
-  //       setUserInfoNew(res.data.data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch user", err);
-  //     }
-  //   };
-
-  //   if (userId) fetchData();
-  // }, [userId]);
-  //   useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       let res;
-  //       if (username) {
-  //         res = await authService.getUser(username);;
-  //       } else if (userId) {
-  //         res = await authService.getUserById(userId);
-  //       }
-  //       setUserInfoNew(res?.data.data);
-  //     } catch (err) {
-  //       console.error("FETCH ERROR:", err);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [userId, username]);
-
-  //    useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUser(userId);
-  //       console.log("Fetched user by ID:", res.data.data);
-  //       setUserInfoNew(res.data.data);
-  //     } catch (err) {
-  //       console.error("Failed to fetch user", err);
-  //     }
-  //   };
-
-  //   if (userId) fetchData();
-  // }, [userId]);
+  });
 
   useEffect(() => {
     const handler = () => refreshUser();
@@ -281,51 +191,7 @@ function DashboardProfile() {
         </>
       )}
     </LayoutProfile>
-
-    // <div>
-    //   <Navbar />
-
-    //   <div className="flex flex-row gap-6 pt-5 dark:bg-[#0A0A0A]">
-    //     <Profile />
-    //     <div className="flex flex-col">
-    //       <ProfileContainer
-    //         user1={userInfoNew ?? user}
-    //         onEditClick={() => {
-    //           setIsEditOpen(true);
-    //           console.log("OPEN EDIT MODAL");
-    //         }}
-    //       />
-    //       <MainProfile user={userInfoNew ?? user} />
-    //     </div>
-    //   </div>
-    //   {isEditOpen && (
-    //     <>
-    //       {console.log("isEditOpen TRUE")}
-    //       <EditProfile user={user} onClose={() => setIsEditOpen(false)} />
-    //     </>
-    //   )}
-    // </div>
-
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       const res = await authService.getUserById(userId);
-    //       console.log("Fetched user by ID:", res.data.data);
-    //       setUserInfoNew(res.data.data);
-    //     } catch (err) {
-    //       console.error("Failed to fetch user", err);
-    //     }
-    //   };
-
-    //   if (userId) fetchData();
-    // }, [userId]);
   );
-
-  //   <LayoutProfile>
-  //     <ProfileContainer user={userInfoNew ?? user} />
-  //     <MainProfile user={userInfoNew ?? user} />
-  //   </LayoutProfile>
-  // );
 }
 
 export default DashboardProfile;

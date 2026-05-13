@@ -32,7 +32,7 @@ export default function NotificationBox() {
               <button
                 onClick={handleMarkAllRead}
                 disabled={isPending}
-                className={`cursor-pointer text-xs px-3 py-1 text-black  dark:text-white hover:bg-[#262626] hover:rounded-lg hover:transition-colors ${isPending ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`cursor-pointer text-xs px-3 py-1 text-black  dark:text-white dark:hover:bg-[#262626] hover:bg-[#dadada] hover:rounded-lg hover:transition-colors ${isPending ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 Mark as read
               </button>

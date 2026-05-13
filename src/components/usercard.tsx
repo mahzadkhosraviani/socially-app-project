@@ -4,7 +4,6 @@ import FollowButton from "./FollowButton";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
-import { useUserById } from "../hooks/use-useId";
 
 interface usercardprops {
   id: string;
@@ -17,31 +16,28 @@ interface usercardprops {
 }
 
 const Usercard = (props: usercardprops) => {
-// const { data: userInfo, isLoading, error } = useUserById(props.id);
+  const [userInfo, SetUserInfo] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await authService.getUserById(props.id);
+        SetUserInfo(res.data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
- 
-    const [userInfo,SetUserInfo] = useState(null)
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const res = await authService.getUserById(props.id);
-          SetUserInfo(res.data.data)
-        } catch (err) {
-          console.error(err);
-        }
-      };
-  
-       fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-  const username = userInfo?.email.split("@")[0]
+  const username = userInfo?.email.split("@")[0];
 
   const avatar = props.name.split("")[0].toUpperCase();
   console.log(props._count.followers);
 
   return (
     <div className="flex items-center justify-between p-3 rounded-lg">
-      <Link to={`/dashboard-profile/${username}`} >
+      <Link to={`/dashboard-profile/${username}`}>
         <div className="flex items-center gap-3">
           <div
             className={`w-10 h-10 flex items-center justify-center text-white font-bold ${setAvatarColors(props.name)} rounded-full`}

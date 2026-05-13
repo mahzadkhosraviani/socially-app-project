@@ -19,29 +19,6 @@ import DashboardProfile from "./pages/DashboardProfile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen";
 
-// import Profile from "./components/profile";
-
-// <Routes>
-// <Route path="/" element={<Profile />} />
-// </Routes>
-
-// import Delete from "./components/delete";
-// function App() {
-//   return (
-
-// <Routes>
-// <Route path="/" element={<Profile />} />
-// </Routes>
-
-//     <Routes>
-//     <Route path="/delete" element={<Delete />} />
-//   </Routes>
-// );
-
-// <Routes>
-// <Route path="/" element={<Profile />} />
-// </Routes>
-
 function App() {
   const { loading } = useAuth();
 
@@ -50,8 +27,6 @@ function App() {
   }
   return (
     <>
-      
-
       <Toaster
         position="top-center"
         gutter={12}
@@ -82,26 +57,6 @@ function App() {
           <Route path="/dashboard-profile" element={<DashboardProfile />} />
         </Route>
       </Routes>
-      {/* <CreatePost />
-        <PostCard />
-        <RecommendedUsers /> */}
-      {/* </div> */}
-
-      {/* </Routes>{" "}
-        <div className="min-h-screen bg-gray-100 dark:bg-black p-6">
-          <RecommendedUsers />
-        </div> */}
-      {/* <ProfileContainer
-          name="amirali"
-          username="amirali"
-          avatar="/profilephoto.svg"
-          followings={3}
-          followers={3}
-          posts={0}
-          location="No location"
-          website=""
-          createdAt="7 days ago"
-        /> */}
     </>
   );
 }

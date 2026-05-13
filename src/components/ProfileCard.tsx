@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import porfilephoto from "../assets/profile photo.svg";
+
 import { authService } from "../services/authService";
 import setAvatarColors from "../utils/setAvatarColors";
 

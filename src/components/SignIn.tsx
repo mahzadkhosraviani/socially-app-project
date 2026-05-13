@@ -3,10 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
-import { authService } from "../services/authService";
-import { getErrorMessage } from "../utils/getErrorMessage";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -174,106 +172,6 @@ function SignIn() {
       </p>
     </div>
   );
-}
-
-{
-  /* return (
-    <div className="min-h-screen w-full bg-[#262626] flex flex-col items-center justify-center px-4 py-10">
-      {toast && (
-        <div className=" mt-4 mb-2 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300 flex items-center justify-between">
-          <span>{toast}</span>
-          <button
-            type="button"
-            onClick={() => setToast(null)}
-            className="ml-4 text-red-300 hover:text-red-200"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-      <div className="w-full max-w-[420px] md:max-w-[900px] grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden border border-[#383838]">
-        <div className="bg-[#191919] text-white">
-          <div className="text-center flex flex-col gap-1.5 mt-7">
-            <p className="text-[#FAFAFA] text-2xl font-bold">Welcome back</p>
-            <p className="text-[#A3A3A3] max-w-[700px]">
-              Login to your Socially account
-            </p>
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mx-8">
-              <div className="flex flex-col gap-2 mt-7">
-                <label
-                  htmlFor="email"
-                  className="text-left text-[14px] font-medium"
-                >
-                  Email
-                </label>
-                <input
-                  className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] placeholder:text-[14px] w-full"
-                  type="email"
-                  placeholder="m@example.com"
-                  {...register("email")}
-                />
-              </div>
-              {errors.email && (
-                <p className="mt-2 text-red-500 text-xs">
-                  {errors.email.message}
-                </p>
-              )}
-              <div className="flex flex-col gap-2 mt-6">
-                <label
-                  htmlFor="password"
-                  className="text-left text-[14px] font-medium"
-                >
-                  Password
-                </label>
-                <input
-                  className="h-9 px-3 rounded-lg border border-[#383838] bg-[#232323] w-full"
-                  type="password"
-                  {...register("password")}
-                />
-              </div>
-              {errors.password && (
-                <p className="mt-2 text-red-500 text-xs">
-                  {errors.password.message}
-                </p>
-              )}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-7 bg-white text-black w-full h-9 rounded-lg"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Spinner />
-                    <span>Logging in...</span>
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </button>
-
-            </div>
-          </div>
-
-          <div className="hidden md:block bg-[#232323]" />
-        </div>
-
-        <p className="mt-7 text-[#A3A3A3] text-[14px] text-center max-w-[700px]">
-          By clicking continue, you agree to our{" "}
-          <a className="underline underline-offset-2" href="">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a className="underline underline-offset-2" href="">
-            Privacy Policy
-          </a>
-          .
-        </p>
-      </div>
-    </>
-  ); */
 }
 
 export default SignIn;

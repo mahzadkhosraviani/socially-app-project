@@ -1,39 +1,18 @@
 import { useEffect, useState } from "react";
-import { authService } from "../services/authService";
+
 import closeDark from "../assets/Component 2.png";
 import closeLight from "../assets/Component 1.png";
 import { editProfileService } from "../services/editProfileService";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import toast from "react-hot-toast";
 import { useUser } from "../hooks/use-username";
-import setAvatarColors from "../utils/setAvatarColors";
 
 function EditProfile({ user, onClose }) {
-  
-
-  // console.log("EditProfile rendered");
-  // console.log("userrrr:", user);
-  // const [userInfo, setUserInfo] = useState(null);
   const username = user.email.split("@")[0];
   const [errors, setErrors] = useState({});
 
   const { data: userInfo, isLoading } = useUser(username);
-  // const avatar = data?.name?.split("")[0];
-  // setAvatarColors(data?.name || "")
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await authService.getUser(username);
-  //       setUserInfo(res.data.data);
-  //       // console.log("goshti:", res.data.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     if (userInfo) {
@@ -115,42 +94,13 @@ function EditProfile({ user, onClose }) {
 
       onClose();
       if (isNameChanged) {
-      window.location.reload();
-    }
+        window.location.reload();
+      }
     } catch (err: any) {
       showToast(err?.response?.data?.error || "Something went wrong", "error");
     }
   };
 
-  // const handleSave = async () => {
-  //   console.log("saving...", formData);
-  //   // try {
-  //   //   await editProfileService.editProfile(user.id, formData);
-  //   //   onClose();
-  //   // } catch (err) {
-  //   //   console.error(err);
-  //   // }
-  //   try {
-  //     // ۱. اعتبارسنجی Zod
-  //     const validated = schema.safeParse(formData);
-
-  //     if (!validated.success) {
-  //       const fieldErrors = validated.error.flatten().fieldErrors;
-  //       setErrors(fieldErrors);  // ریختن خطا در استیت برای نمایش
-  //       return; // تا خطا هست، سیو نکن
-  //     }
-
-  //     // اگر خطا نبود → خطاها ریست شوند
-  //     setErrors({});
-
-  //     // ۲. ارسال به API
-  //     await editProfileService.editProfile(user.id, formData);
-
-  //     onClose();
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
   return (
     <div className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center">
       <div className=" flex flex-col gap-3  bg-[#FFFFFF] dark:bg-[#0A0A0A] max-w-[500px] w-full px-5  text-[#171717] dark:text-[#FAFAFA] h-auto shadow-[0px_4px_6px_-4px_#0000001A] shadow-[0px_10px_15px_-3px_#0000001A] border border-[#E5E5E5] dark:border-[#262626] rounded-[8px]">

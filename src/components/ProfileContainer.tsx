@@ -7,7 +7,7 @@ import { useUserPostsCount } from "../hooks/use-userPostsCount";
 import { useUserProfile } from "../hooks/use-userProfile";
 import { useToggleFollow } from "../hooks/use-toggleFollow";
 import { useEffect, useState } from "react";
-import { ko } from "zod/v4/locales";
+
 
 interface ProfileContainerProps {
   user1: any;
@@ -18,12 +18,6 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
   const { user } = useAuth();
 
   console.log("user1.isFollowing:", user1?.isFollowing);
-
-  //   useEffect(() => {
-  //   if (user1) {
-  //     console.log("user1 updated:", user1);
-  //   }
-  // }, [user1]);
 
   const { data: profile, isLoading } = useUserProfile(user1.id);
 
@@ -38,30 +32,13 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
     toggleFollow(finalUser.id);
   };
 
-  // useEffect(()=>{
-  // setExist(user1?.followers.some(f => f.followerId === user.id));
-  // },)
-
-  //   // بررسی اینکه آیا آیدی من در لیست فالورهای این کاربر هست یا نه
   const exists = user1?.followers?.some((f: any) => f.followerId === user?.id);
   const [isFollowing, setIsFollowing] = useState(exists);
   useEffect(() => {
     setIsFollowing(exists);
   }, [exists]);
 
-  // مقدار را در استیت ذخیره کن
-
-  // const finalUser = profile ?? user1;
-
-  // const exists =
-  // Array.isArray(finalUser?.followers) &&
-  // finalUser.followers.some((f: any) => f.followerId === user.id);
-
   const { data: postsCount } = useUserPostsCount(finalUser.id);
-  //   useEffect(() => {
-  //   console.log("FINAL USER =>", finalUser);
-  //   console.log("IS FOLLOWING =>", finalUser?.isFollowing);
-  // }, [finalUser]);
 
   if (isLoading) {
     return (
@@ -86,7 +63,6 @@ const ProfileContainer = ({ user1, onEditClick }: ProfileContainerProps) => {
       {!mainUser && (
         <EditButton
           label={isFollowing ? "UnFollow" : "Follow"}
-          // onClick={() => toggleFollow(finalUser.id)}
           onClick={handleFollow}
           disabled={isPending}
         />
