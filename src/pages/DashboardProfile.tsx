@@ -24,7 +24,6 @@
 
 //   const queryClient = useQueryClient();
 
-
 //   const { data: userByUsername } = useQuery({
 //     queryKey: ["user-profile", username],
 //     queryFn: async () => {
@@ -60,7 +59,6 @@
 //       });
 //     }
 //   };
-
 
 //   useEffect(() => {
 //     const handler = () => refreshUser();
@@ -100,13 +98,13 @@
 
 import Navbar from "../components/Navbar";
 import ProfileContainer from "../components/ProfileContainer";
-import Profile from "../components/profile";
-import RecommendedUsers from "../components/recommendedusers";
+import Profile from "../components/Profile";
+import RecommendedUsers from "../components/RecommendedUsers";
 import Likes_Posts_Profile from "../components/Likes&PostsProfile";
 
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
-import layoutProfile from "../components/layoutProfile";
+import layoutProfile from "../components/LayoutProfile";
 
 import MainProfile from "../components/MainProfile";
 import { useParams } from "react-router-dom";
@@ -115,24 +113,20 @@ import { useEffect, useState } from "react";
 import { authService } from "../services/authService";
 
 import EditProfile from "../components/EditProfile";
-import LayoutProfile from "../components/layoutProfile";
-
-
-
-
+import LayoutProfile from "../components/LayoutProfile";
 
 function DashboardProfile() {
   const { user } = useAuth();
   const { username } = useParams();
   const location = useLocation();
   const [userInfoNew, setUserInfoNew] = useState(null);
+  const [loading, setLoading] = useState(true);
   const userId = location.state?.id;
+  console.log("ProfileContainer rendered!");
+  console.log("pedarsaggggggg");
+  console.log("user1.isFollowing:");
 
-
-  console.log("EditProfile =", EditProfile);
-
-
-
+  console.log(userInfoNew);
 
   // console.log("user",userId)
 
@@ -146,7 +140,16 @@ function DashboardProfile() {
       console.error("Failed to refresh user", err);
     }
   };
+  // useEffect(() => {
+  //   console.log("HEY I AM RUNNING!!!");
 
+  //   // const fetchData = async () => {
+  //   //   const res = await authService.getUserById(userId);
+  //   //   setUserInfoNew(res.data.data);
+  //   // }
+
+  //   // fetchData();
+  // }, []);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -174,38 +177,64 @@ function DashboardProfile() {
 
   //   fetchData();
   // }, [userId]);
+  // if(loading)return null
 
+
+
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await authService.getUser(username);
+
         setUserInfoNew(res.data.data);
+
         console.log("goshti:", res.data.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchData();
+  }, );
 
 
-  }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await authService.getUser(userId);
-        console.log("Fetched user by ID:", res.data.data);
-        setUserInfoNew(res.data.data);
-      } catch (err) {
-        console.error("Failed to fetch user", err);
-      }
-    };
-
-    if (userId) fetchData();
 
 
-  }, [userId]);
-    //  useEffect(() => {
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await authService.getUserById(userId);
+  //       console.log("Fetched user by ID:", res.data.data);
+  //       setUserInfoNew(res.data.data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch user", err);
+  //     }
+  //   };
+
+  //   if (userId) fetchData();
+  // }, [userId]);
+  //   useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       let res;
+  //       if (username) {
+  //         res = await authService.getUser(username);;
+  //       } else if (userId) {
+  //         res = await authService.getUserById(userId);
+  //       }
+  //       setUserInfoNew(res?.data.data);
+  //     } catch (err) {
+  //       console.error("FETCH ERROR:", err);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [userId, username]);
+
+  //    useEffect(() => {
   //   const fetchData = async () => {
   //     try {
   //       const res = await authService.getUser(userId);
@@ -225,12 +254,20 @@ function DashboardProfile() {
     return () => window.removeEventListener("follow-updated", handler);
   }, []);
 
-  return (
+  if (loading) {
+    return (
+      <LayoutProfile>
+        <div className="flex justify-center items-center h-screen">
+          <p className="text-gray-500 text-lg">Loading profile...</p>
+        </div>
+      </LayoutProfile>
+    );
+  }
 
+  return (
     <LayoutProfile>
       <ProfileContainer
         user1={userInfoNew ?? user}
-
         onEditClick={() => {
           setIsEditOpen(true);
           console.log("OPEN EDIT MODAL");

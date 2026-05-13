@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 function Navbar() {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { user, logout,loading } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -315,8 +315,6 @@ function Navbar() {
           )}
         </div>
       </>
-
-     
     </>
   );
 }

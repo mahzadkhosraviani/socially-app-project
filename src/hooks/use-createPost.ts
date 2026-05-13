@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postService } from "../services/postService";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
@@ -12,7 +12,9 @@ export const useCreatePost = () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["profileContent"] });
       if (user?.id) {
-        queryClient.invalidateQueries({ queryKey: ["userPostsCount", user.id] });
+        queryClient.invalidateQueries({
+          queryKey: ["userPostsCount", user.id],
+        });
       }
     },
   });

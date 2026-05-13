@@ -1,7 +1,12 @@
 import React, { createContext, useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { postService, type Post, type Comment, type Like } from "../services/postService";
-import { useAuth } from "./authContext";
+import {
+  postService,
+  type Post,
+  type Comment,
+  type Like,
+} from "../services/postService";
+import { useAuth } from "./AuthContext";
 
 type PostContextType = {
   posts: Post[];
@@ -57,19 +62,28 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
         old.map((post) => {
           if (post.id !== postId) return post;
           const isLiked = post.likes.some(
-            (like) => like.authorId === currentUserId || like.userId === currentUserId
+            (like) =>
+              like.authorId === currentUserId || like.userId === currentUserId,
           );
           const newLikes: Like[] = isLiked
             ? post.likes.filter(
-                (like) => like.authorId !== currentUserId && like.userId !== currentUserId
+                (like) =>
+                  like.authorId !== currentUserId &&
+                  like.userId !== currentUserId,
               )
-            : [{ authorId: currentUserId, userId: currentUserId }, ...post.likes];
+            : [
+                { authorId: currentUserId, userId: currentUserId },
+                ...post.likes,
+              ];
           return {
             ...post,
             likes: newLikes,
-            _count: { ...post._count, likes: post._count.likes + (isLiked ? -1 : 1) },
+            _count: {
+              ...post._count,
+              likes: post._count.likes + (isLiked ? -1 : 1),
+            },
           };
-        })
+        }),
       );
 
       return { previous };
@@ -110,7 +124,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
             comments: [optimisticComment, ...post.comments],
             _count: { ...post._count, comments: post._count.comments + 1 },
           };
-        })
+        }),
       );
 
       return { previous };
@@ -129,7 +143,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
       const previous = queryClient.getQueryData<Post[]>(["posts"]);
 
       queryClient.setQueryData<Post[]>(["posts"], (old = []) =>
-        old.filter((p) => p.id !== postId)
+        old.filter((p) => p.id !== postId),
       );
 
       return { previous };
@@ -160,7 +174,15 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PostContext.Provider
-      value={{ posts, loading, error, refetch, toggleLike, addComment, deletePost }}
+      value={{
+        posts,
+        loading,
+        error,
+        refetch,
+        toggleLike,
+        addComment,
+        deletePost,
+      }}
     >
       {children}
     </PostContext.Provider>

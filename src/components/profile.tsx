@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { authService } from "../services/authService";
 import LocationIcon from "../assets/SVG.png";
@@ -23,34 +23,36 @@ function Profile() {
   const { user } = useAuth();
   const [userInfoNew, setUserInfoNew] = useState(null);
 
-  const { data } = useQuery({
-    queryKey: ["userInfo", user?.id],
-    queryFn: async () => {
-      const res = await authService.getUserById(user!.id);
-      return res.data.data;
-    },
-    enabled: !!user?.id,
-  });
 
-  if (!user) return null;
+  // const { data } = useQuery({
+  //   queryKey: ["userInfo", user?.id],
+  //   queryFn: async () => {
+  //     const res = await authService.getUserById(user!.id);
+  //     return res.data.data;
+  //   },
+  //   enabled: !!user?.id,
+  // });
 
-  const fetchUser = async () => {
-    try {
-      const res = await authService.getUserById(user.id);
-      setUserInfoNew(res.data.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // if (!user) return null;
+
+  // const fetchUser = async () => {
+  //   try {
+  //     const res = await authService.getUserById(user.id);
+  //     setUserInfoNew(res.data.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+       
         const res = await authService.getUserById(user.id);
         setUserInfoNew(res.data.data);
       } catch (err) {
         console.error(err);
-      }
+      } 
     };
 
     fetchUser();
@@ -58,7 +60,7 @@ function Profile() {
 
   // // console.log("balaye:", user);
   const username = user.email.split("@")[0];
-  const avatar = userInfoNew?.name.split("")[0];
+  const avatar = userInfoNew?.name.split("")[0].toUpperCase();
 
   return (
     // <<<<<<< HEAD

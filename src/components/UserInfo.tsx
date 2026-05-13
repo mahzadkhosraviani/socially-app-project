@@ -4,13 +4,11 @@ import calender from "../assets/calender.svg";
 import { useState, useEffect } from "react";
 import { authService } from "../services/authService";
 
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { formatDistanceToNow } from "date-fns";
 
 const UserInfo = ({ user1 }) => {
   const { user } = useAuth();
-
-
 
   const [userInfoNew, setUserInfoNew] = useState(null);
 
@@ -21,7 +19,6 @@ const UserInfo = ({ user1 }) => {
   // const location = user1?._count?.followings ?? userInfoNew?.location;
   // const website = user1?._count?.followers ?? userInfoNew?.website;
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,13 +28,11 @@ const UserInfo = ({ user1 }) => {
         console.error(err);
       }
     };
-fetchData();
+    fetchData();
     // if (user.id === user1.id) {
     //   fetchData();
     // }
-   
-  },);
-
+  });
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -57,7 +52,7 @@ fetchData();
   // }, [user1?.id]);
 
   // console.log("userInfo", userInfoNew);
-  
+
   const timeAgo = userInfoNew
     ? formatDistanceToNow(new Date(userInfoNew.createdAt), { addSuffix: true })
     : "";
@@ -67,10 +62,7 @@ fetchData();
       <div className="flex items-center gap-2">
         <img src={location_image} className="w-4 h-4" />
         <span>
-
           {" "}
-
-
           {!userInfoNew?.location && "no location"}
           {userInfoNew?.location}
         </span>
@@ -79,14 +71,11 @@ fetchData();
       <div className="flex items-center gap-2">
         <img src={link} className="w-4 h-4" />
         <span>
-
           {" "}
           {!userInfoNew?.website && "no location"}
           {userInfoNew?.website}
-
           {/* {!userInfoNew?.location && "no location"}
           {userInfoNew?.location} */}
-
         </span>
       </div>
 

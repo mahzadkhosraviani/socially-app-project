@@ -1,20 +1,19 @@
 import WelcomeBack from "../components/WelcomeBack";
 import Navbar from "../components/Navbar";
 import PostFeed from "../components/PostFeed";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 function MainPage() {
-   const { user, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) return null;
 
   if (user) {
     return <Navigate to="/dashboard-home" replace />;
   }
-  
-  return (
 
+  return (
     <div className="h-screen flex flex-col bg-white dark:bg-[#0A0A0A]">
       <div className="sticky top-0 z-50">
         <Navbar />

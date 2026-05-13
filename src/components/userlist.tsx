@@ -1,4 +1,4 @@
-import Usercard from "./usercard";
+import Usercard from "./UserCard";
 import type { RecommendedUser } from "../services/recommendService";
 import { Link } from "react-router-dom";
 
